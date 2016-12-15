@@ -1,0 +1,34 @@
+<div class="init_loading"><div><img src="__IMG__/loading_simple.gif"/></div></div>
+<div class="topbar">
+    <div class="content">
+            <div class="top_left">
+                    <a href="./" class="title"><i class="icon-cloud"></i>BACKUP MANAGER</a>
+	<!--a class='this' href='./index.php?desktop' tartet='_self'><i class='icon-desktop'></i>桌面</a-->
+            </div>
+            <div class="top_right">
+            <div>
+                    <a id='topbar_language' data-toggle="dropdown" href="#"><i class='icon-flag'></i>&nbsp;<b class="caret"></b></a>
+                    <ul class="dropdown-menu topbar_language fadein" role="menu" aria-labelledby="topbar_language">
+                            <empty name="langs">
+                                <li><a href='javascript:core.language("zh_CN");' class='this'>{$Think.lang.ZH-CN}</a></li>
+                            <else /> 
+                                <volist name="langs" id="data">
+                                    <li><a href='javascript:core.language("{$data.enname}");' class='<if condition="$userconfig['language'] eq $data['enname'] ">this</if>'>{$data.name}</a></li>
+                                </volist>
+                            </empty>
+                    </ul>
+            </div>
+            <div>
+                    <a href="#" id='topbar_user' data-toggle="dropdown"><i class="icon-user"></i>{$userinfo['nickname']}<b class="caret"></b></a>
+                    <ul class="dropdown-menu menu-topbar_user fadein" role="menu" aria-labelledby="topbar_user">
+                            <li><a href="javascript:core.setting('{:U('user/info')}');"><i class="font-icon icon-user"></i>{$Think.lang.SETTING_USER}</a></li>
+                            <li><a href="javascript:core.setting('{:U('user/member')}');"><i class="font-icon icon-group"></i>{$Think.lang.SETTING_MEMBER}</a></li>
+                            <li><a href="javascript:;"><i class="font-icon icon-question"></i>{$Think.lang.SETTING_HELP}</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li><a href="{:U('public/loginout')}"><i class="font-icon icon-off"></i>{$Think.lang.LOGIN_OUT}</a></li>
+                    </ul>
+            </div>
+            </div>
+            <div style="clear:both"></div>
+    </div>
+</div>

@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+        </style>
+    </head>
+    <body>
+        <div class="bodys">
+            <div class="menu_left">
+                <include file="Common:enterprise" />
+            </div>
+            <div class="main">
+                <form action="{:U('Enterprise/addPool')}" method="post" id="J_ajaxForm">
+                    <div class='h1'><i class="font-icon  icon-qrcode"></i><notempty name="data['id']">{$Think.lang.ep_pool_upd}<else />{$Think.lang.ep_pool_add}</notempty ></div>
+                    <div class="section">
+                        <div class='box'>
+                                <input value="{$data['id']}" type="hidden" name="id"/>
+                                <span >{$Think.lang.name}</span>
+                                <input type="text" id="name" name="name" value="{$data['name']}"<notempty name="data.id">readonly="true" style="color:#a2a0a0;"</notempty> required/>
+                                <div class='line'></div>
+                                <span >{$Think.lang.device}</span>
+                                <div class="tm20"><input type="radio" value="1" name="types" <empty name="data['id']">checked<else />disabled <empty name="data['types']"><else />checked</empty></empty>  /><label>磁盘</label><input type="radio" value="0" name="types" <empty name="data['id']"><else />disabled <empty name="data['types']">checked<else /></empty></empty> /><label>磁带</label></div>
+                                <div class='line'></div>
+                                <span >{$Think.lang.eq_storageid}</span>
+                                <select name="atorageId" id="atorageId">
+                                    <volist name="storage" id="s">
+                                        <option value="{$s.id}" <if condition="$data['atorageId'] eq $s.id ">selected</if>>{$s.name}</option>
+                                    </volist>
+                                </select>
+                                <div class='line'></div>
+                                <!--span >{$Think.lang.ep_devicetype}</span>
+                                <select name="poolType"> 
+                                    <option value="poolType" <if condition="$data['poolType'] eq 'poolType'">selected</if>>Archive</option>
+                                    <option value="Cloned" <if condition="$data['poolType'] eq 'Cloned'">selected</if>>Cloned</option>
+                                    <option value="Migration" <if condition="$data['poolType'] eq 'Migration'">selected</if>>Migration</option>
+                                    <option value="Copy" <if condition="$data['poolType'] eq 'Copy'">selected</if>>Copy</option>
+                                    <option value="Save" <if condition="$data['poolType'] eq 'Save'">selected</if>>Save</option>
+                                </select>
+                                <div class='line'></div-->
+                                <div class="curt1" <empty name="data['id']">style="display:block;"<else /><empty name="data['types']">style="display:none;"<else />style="display:block;"</empty></empty>>
+                                    <span >{$Think.lang.eq_volumes}</span>
+                                    <input type="text" id="maxVolumes" name="maxVolumes" value="{$data['maxVolumes']}" class="wd50" required/>
+                                    <div class='line'></div>
+                                    <span >{$Think.lang.eq_volumebytes}</span>
+                                    <input type="text" id="maxVolumeBytes" name="maxVolumeBytes" value="<notempty name='data.maxVolumeBytes'>{$data['maxVolumeBytes']}<else/>100</notempty>" class="wd50" <notempty name="data.id">style="color:#a2a0a0;" readonly="true"</notempty> required/><label>(/GB)</label>
+                                    <div class='line'></div>
+                                </div>
+                                <span >{$Think.lang.eq_volumeretention}</span>
+                                <input type="text" id="volumeRetention" name="volumeRetention" value="<notempty name='data.volumeRetention'>{$data['volumeRetention']}<else/>35</notempty>" class="wd50" required/><label>(/{$Think.lang.day})</label>
+                                <div class='line'></div>
+                                <span >任务保留周期</span>
+                                <input type="text" id="fileRetention" name="fileRetention" value="<notempty name='data.fileRetention'>{$data['fileRetention']}<else/>30</notempty>" class="wd50" required/><label>(/{$Think.lang.day})</label>
+                                <div class='line'></div>
+                                <span >回收最旧卷</span>
+                                <div class="tm20"><input type="radio" value="yes" name="recycleOldestVolume" <if condition="$data['recycleOldestVolume'] eq 'yes'">checked</if>/><label>开启</label><input type="radio" value="no" name="recycleOldestVolume" <if condition="$data['recycleOldestVolume'] neq 'yes'">checked</if> /><label>关闭</label></div>
+                                <div class='line'></div>
+                                <span >{$Think.lang.app_desc}</span>
+                                <textarea id="description" name='description' style="resize:none;width: 400px;height: 120px;"  placeholder="" required>{$data['description']}</textarea>
+                                <div class="clear"></div>
+                                <a href="javascript:void(0);" id="upd" data-url="{:U('Enterprise/addPool')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var curt=$(":radio[name='types']").filter(":checked").val();
+                if(curt == 0){
+                    onloadGroup('tapes');
+                }else{
+                    onloadGroup('file');
+                }
+            });
+            $(".tm20 input").click(function(){
+              var curt=$(":radio[name='types']").filter(":checked").val();
+              if(curt == 0){
+                  $(".curt1").hide();
+                  onloadGroup('tapes');
+              }else{ //磁盘
+                  $(".curt1").show();
+                  onloadGroup('file');
+              }
+            });
+            function onloadGroup(type){
+                var gid = "{$data['atorageId']}";
+                $.post("{:U('Enterprise/getAjaxStorage')}",{type:type},function(json){
+                    var html = "";
+                    $.each(json,function(idx,item){     
+                        if(typeof(item.id) != 'undefined'){
+                            html +='<option value="'+item.id +'"';
+                            if(item.id == gid){
+                                html +=' selected ';
+                            }
+                            html +='>'+item.name+'</option>';
+                        }
+                     })
+                     $("#atorageId").html("").append(html);
+                },"json")
+            }
+            var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm");
+            btn.on("click",function(){
+                var curt=$(":radio[name='types']").filter(":checked").val();
+                if(curt == 1){
+                    if($("#maxVolumes").val() =="" || $("#maxVolumeBytes").val() ==""){
+                         core.tips.tips(LNG.not_null,'info');
+                         return false;
+                    }
+                }
+                if($("#name").val() =="" || $("#volumeRetention").val() ==""  || $("#labelFormat").val() =="" || $("#app_desc").val() =="" || $("#atorageId").val() ==null ){
+                    core.tips.tips(LNG.not_null,'info');
+                }else if(isNaN($("#maxVolumes").val()) || isNaN($("#maxVolumeBytes").val()) || isNaN($("#volumeRetention").val())){
+                    core.tips.tips(LNG.eq_volumes + "  " + LNG.eq_volumebytes + LNG.be_number,'info');
+                }else if(!checkName($("#name").val())){
+                    core.tips.tips(LNG.verify_name_cross,'info');
+                }else if(!checkName($("#labelFormat").val())){
+                    core.tips.tips(LNG.verify_labellormat_cross,'info');
+                }else{
+                    form.ajaxSubmit({
+                    url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                    dataType: 'json',
+                    type:'post',
+                    beforeSubmit: function (arr, $form, options) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.removeClass('disabled').text(text.replace('中...', ''));
+                        if (data.state === 'success') {
+                            core.tips.tips(data.info,'success');
+                             if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                        } else if (data.state === 'fail') {
+                            core.tips.tips(data.info,'error');
+                            btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

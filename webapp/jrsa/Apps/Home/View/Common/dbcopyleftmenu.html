@@ -1,0 +1,36 @@
+<h1></h1>
+<div class="content">
+    <ul class="menu-one">
+        <li <if condition="($menuid eq 'index') or ($menuid eq 'info') or ($menuid eq 'parameter') or ($menuid eq 'user')   or ($menuid eq 'contact')">class="menu-show"</if>>
+            <div class="header">
+                <span class="txt">配置</span>
+                <span class="arrow"></span>
+            </div>
+            <ul class="menu-two" <if condition="($menuid eq 'index') or ($menuid eq 'info') or ($menuid eq 'parameter') or ($menuid eq 'user')  or ($menuid eq 'contact')">style="display: block;"</if>>
+                <li class="firstChild <if condition="$menuid eq 'index'">current</if>"><a href="{:U('Dbcopy/index')}">首页</a></li>
+                <li class="<if condition="$menuid eq 'info'">current</if>"><a href="{:U('Dbcopy/info')}">连接信息</a></li>
+                <li class="<if condition="$menuid eq 'parameter'">current</if>"><a href="{:U('Dbcopy/parameter')}">参数</a></li>
+                <!--li class="<if condition="$menuid eq 'user'">current</if>"><a href="{:U('Dbcopy/user')}">用户</a></li-->
+                <li class="firstChild <if condition="$menuid eq 'contact'">current</if>"><a href="{:U('Dbcopy/contact')}">告警</a></li>
+            </ul>
+        </li>
+        <li <if condition="($menuid eq 'status')  or ($menuid eq 'logs')">class="menu-show"</if>>
+            <div class="header">
+                <span class="txt">监控</span>
+                <span class="arrow"></span>
+            </div>
+            <ul class="menu-two" <if condition="($menuid eq 'status') or ($menuid eq 'logs')">style="display: block;"</if>>
+                <li class="firstChild <if condition="$menuid eq 'status'">current</if>"><a href="{:U('Dbcopy/status')}">状态</a></li>
+                <li class="firstChild <if condition="$menuid eq 'logs'">current</if>"><a href="{:U('Dbcopy/logs')}">日志</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<script src="__JS__/seajs/sea.js"></script>
+<script type="text/javascript">
+    seajs.config({
+        base: "__JS__",
+        preload: ["jquery"]
+    });
+    seajs.use('menu/main');
+</script>

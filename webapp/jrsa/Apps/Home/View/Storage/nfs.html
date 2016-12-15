@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+          .pages{padding:10px;}
+            .pages a,.pages span {
+                display:inline-block;
+                padding:0px 8px;
+                margin:0 4px;
+                border:1px solid #f0f0f0;
+                -webkit-border-radius:3px;
+                -moz-border-radius:3px;
+                border-radius:3px;
+            }
+            .pages a,.pages li {
+                display:inline-block;
+                list-style: none;
+                text-decoration:none; color:#4265A4;
+            }
+            .pages a.first,.pages a.prev,.pages a.next,.pages a.end{
+                margin:0;
+            }
+            .pages a:hover{
+                border-color:#4265A4;
+            }
+            .pages span.current{
+                background:#4265A4;
+                color:#FFF;
+                font-weight:700;
+                border-color:#4265A4;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class="menu_left">
+                <include file="Common:storage" />
+            </div>
+            <div class="main">
+                <div class='h1'><i class="font-icon icon-check-minus"></i>NFS - 客户端列表<a href="{:U('Storage/addnfs')}" class="adds">添加客户端</a></div>
+                <table>
+                    <tr class="title">
+                        <td width="20%">共享目录</td>
+                        <td width="20%">Ip地址</td>
+                        <td width="15%">共享权限</td>
+                        <td width="15%">用户映射</td>
+                        <td width="15%">读写模式</td>
+                        <td>{$Think.lang.action}</td>
+                    </tr>
+                    <volist name="data" id="item">
+                        <tr>
+                        <td>{$item.output}</td>
+                        <td><if condition="$item['ip'] eq '*' ">所有<else/>{$item.ip}</if></td>
+                        <td><if condition="$item['access'] eq 'ro' ">只读<else/>读写</if></td>
+                        <td>{$item.maps}<notempty name='item.mapsid'> = {$item.mapsid}</notempty></td>
+                        <td>{$item.others}</td>
+                        <td>
+                            <input type="hidden" id="scheduleId" class="wd250" name="scheduleId" value="{$data['scheduleId']}"/>
+                            <input type="hidden" id="scheduleName" class="wd250" name="scheduleName" value="{$data['poolId']}" />
+                            <a href="{:U('Storage/addnfs',array('id'=>$item['id']))}">{$Think.lang.edit}</a> | 
+                            <a href="javascript:;" data-bind="{$item.id}" class="deldata">{$Think.lang.button_del}</a>
+                        </td>
+                    </tr>
+                    </volist>
+                    <tr align="center">
+                        <td colspan="5" style="line-height:25px;"><div class="pages">{$page}</div></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+          $(document).ready(function($) {
+                $(".deldata").on("click",function(){
+                    var id = $(this).attr('data-bind');
+                    art.dialog({
+                    content: '删除后不可恢复，是否确认删除？',
+                    ok: function () {
+                        this.close();
+                        $.post("{:U('Storage/delNfs')}",{id:id},function(data){
+                            if (data.state === 'success') {
+                                core.tips.tips(data.info,'success');
+                               if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                            } else if (data.state === 'fail') {
+                                core.tips.tips(data.info,'error');
+                                btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        },"json")
+                        return false;
+                    },
+                    okVal:LNG.if_remove,
+                    cancelVal: LNG.close,
+                    cancel: true 
+                });
+                });
+              });
+        </script>
+    </body>
+</html>

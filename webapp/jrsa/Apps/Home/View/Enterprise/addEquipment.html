@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+        </style>
+    </head>
+    <body>
+        <div class="bodys">
+            <div class="menu_left">
+                <include file="Common:enterprise" />
+            </div>
+            <div class="main">
+                <form action="{:U('Enterprise/addEquipment')}" method="post" id="J_ajaxForm">
+                    <div class='h1'><i class="font-icon icon-wrench"></i><notempty name="data['id']">{$Think.lang.ep_equipment_upd}<else />{$Think.lang.ep_equipment_add}</notempty ></div>
+                    <div class="section">
+                        <div class='box'>
+                                <input type="hidden" id="id" class="wd250" name="id" value="{$data['id']}"/>
+                                <span >{$Think.lang.name}</span>
+                                <input type="text" id="name" class="wd250" name="name" value="{$data['name']}" <notempty name="data.id">disabled="disabled" style="color:#a2a0a0;"</notempty> required/>
+                                <div class='line'></div>
+                                <span >{$Think.lang.ep_devicetype}</span>
+                                <div class="tm20">
+                                    <input type="radio" value="file" name="deviceType" <if condition="$data['deviceType'] eq 'file' ">checked</if> <notempty name="data['deviceType']">disabled</notempty> /><label>{$Think.lang.e_file}</label>
+                                    <notempty name="tape"><input type="radio" value="tapes" name="deviceType" <notempty name="data['deviceType']">disabled</notempty> <if condition="$data['deviceType'] eq 'tapes' ">checked</if> /><label>磁带库</label></notempty>
+                                    <!-- <notempty name="tape"><input type="radio" value="tape" name="deviceType" <notempty name="data['deviceType']">disabled</notempty> <if condition="$data['deviceType'] eq 'tape' ">checked</if> /><label>磁带机</label></notempty>-->
+                                </div>
+                                <div class='line'></div>
+                                <div class="curtabfile">
+                                    <span >{$Think.lang.eq_archivedevice}</span>
+                                    <input type="text" id="filepath" class="wd250" name="archiveDevicef" value="{$data['archiveDevice']}" readonly required/>
+                                    <div class='line'></div>
+                                </div>
+                                <div class="curtabtapes" style="display:none;">
+                                    <span >{$Think.lang.ep_devicetype}</span>
+                                    <select name="archiveDevices" <notempty name="data['archiveDevice']">disabled</notempty>>
+                                        <volist name="tapeList" id="item">
+                                            <notempty name="tapesdata">
+                                                <volist name="tapesdata" id="titem">
+                                                <option value="{$item[5]}@{$item[6]}"  <if condition="$titem['archiveDevice'] eq $item[5] ">disabled</if><if condition="$data['archiveDevice'] eq $item[5] ">selected</if>>{$item[1]} - {$item[2]} -{$item[5]}</option>
+                                                </volist>
+                                            <else />
+                                                <option value="{$item[5]}@{$item[6]}"  <if condition="$data['archiveDevice'] eq $item[5] ">selected</if>>{$item[1]} - {$item[2]} -{$item[5]}</option>
+                                            </notempty>
+                                        </volist>
+                                    </select>
+                                    <label>不可选表示该磁带库已被使用，请删除后重新添加</label>
+                                    <div class='line'></div>
+                                </div>
+                                <!--div class="curtabtape" style="display:none;">
+                                    <span >{$Think.lang.ep_devicetype}</span>
+                                    <select name="archiveDevice" <notempty name="data['archiveDevice']">disabled</notempty>>
+                                        <volist name="tapes" id="item">
+                                            <notempty name="tapedata">
+                                                <volist name="tapedata" id="titem">
+                                                <option value="{$item[5]}@{$item[3]}"  <if condition="$titem['archiveDevice'] eq $item[5] ">disabled</if><if condition="$data['archiveDevice'] eq $item[5] ">selected</if>>{$item[1]} - {$item[2]} -{$item[5]}</option>
+                                                </volist>
+                                            <else />
+                                                <option value="{$item[5]}@{$item[3]}"  <if condition="$data['archiveDevice'] eq $item[5] ">selected</if>>{$item[1]} - {$item[2]} -{$item[5]}</option>
+                                            </notempty>
+                                        </volist>
+                                    </select>
+                                    <label>不可选表示该磁带机已被使用，请删除后重新添加</label>
+                                    <div class='line'></div>
+                                </div-->
+                                <span >{$Think.lang.app_desc}</span>
+                                <textarea id="description" name='description' style="resize:none;width: 400px;height: 180px;"  placeholder="" required>{$data['description']}</textarea>
+                                <div class="clear"></div>
+                                <a href="javascript:void(0);" id="upd" data-url="{:U('Enterprise/addEquipment')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function($) {
+                var curtab=$(":radio[name='deviceType']").filter(":checked").val();
+                $(".curtabfile,.curtabtape,.curtabtapes").hide().filter(".curtab"+curtab).show(); 
+                $(".tm20 input").click(function(){
+                  curtab=$(":radio[name='deviceType']").filter(":checked").val();
+                  $(".curtabfile,.curtabtape,.curtabtapes").hide().filter(".curtab"+curtab).show(); 
+                });
+                $("#filepath").on("click",function(){
+                    <empty name="data['deviceType']">
+                    $.dialog.open("{:U('Tools/folder')}", {
+                        title: '选择备份目录',
+                        fixed: true,
+                        width: 570,
+                        height: 500
+                    });
+                    </empty>
+                });
+              });
+            var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm");
+            btn.on("click",function(){
+                if($("#name").val() =="" || $("#description").val() ==""){
+                    core.tips.tips(LNG.not_null,'info');
+                }else if($(":radio[name='deviceType']").filter(":checked").val()==0 && $("#archiveDevice").val()==""){
+                    core.tips.tips(LNG.not_null,'info');
+                }else if(!checkName($("#name").val())){
+                    core.tips.tips(LNG.verify_name_cross,'info');
+                }else{
+                    form.ajaxSubmit({
+                    url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                    dataType: 'json',
+                    type:'post',
+                    beforeSubmit: function (arr, $form, options) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.removeClass('disabled').text(text.replace('中...', ''));
+                        if (data.state === 'success') {
+                            //core.tips.tips(data.info,'success');
+                             if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                        } else if (data.state === 'fail') {
+                            core.tips.tips(data.info,'error');
+                            btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

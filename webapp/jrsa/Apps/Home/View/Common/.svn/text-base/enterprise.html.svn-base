@@ -1,0 +1,72 @@
+<h1></h1>
+<div class="content">
+    <ul class="menu-one">
+        <li class="firstChild <if condition="$menuid eq 'ep_server' or $menuid eq 'ep_equipment' or $menuid eq 'ep_medium' or $menuid eq 'ep_pool' or ($menuid eq 'ep_client_add') or ($menuid eq 'ep_client_list') or ($menuid eq 'ep_job_add') or ($menuid eq 'ep_job_list') or ($menuid eq 'ep_index') or ($menuid eq 'contact')">menu-show</if>">
+            <div class="header">
+                <span class="txt">{$Think.lang.ep_setting}</span>
+                <span class="arrow"></span>
+            </div>
+            <ul class="menu-two" <if condition="$menuid eq 'ep_server' or $menuid eq 'ep_equipment' or $menuid eq 'ep_medium' or $menuid eq 'ep_pool' or ($menuid eq 'ep_client_add') or ($menuid eq 'ep_client_list') or ($menuid eq 'ep_job_add') or ($menuid eq 'ep_job_list')  or ($menuid eq 'ep_index') or ($menuid eq 'contact')">style="display: block;"</if>>
+                <li class="firstChild <if condition="$menuid eq 'ep_index'">current</if>"><a href="{:U('Enterprise/indexs')}">{$Think.lang.index}</a></li>
+                <li class="<if condition="$menuid eq 'ep_server'">current</if>"><a href="{:U('Enterprise/index')}">{$Think.lang.ep_server}</a></li>
+                <li class="<if condition="$menuid eq 'ep_medium'">current</if>"><a href="{:U('Enterprise/medium')}">{$Think.lang.ep_medium}</a></li>
+                <li class="<if condition="$menuid eq 'ep_pool'">current</if>"><a href="{:U('Enterprise/pool')}">{$Think.lang.ep_pool}</a></li>
+                <li class="<if condition="$menuid eq 'ep_client_list'">current</if>"><a href="{:U('Enterprise/client')}">{$Think.lang.ep_client}</a></li>
+                <li class="<if condition="$menuid eq 'ep_job_list'">current</if>"><a href="{:U('Enterprise/job')}">{$Think.lang.ep_job}</a></li>
+                <li class="<if condition="$menuid eq 'contact'">current</if>"><a href="{:U('Enterprise/contact')}">{$Think.lang.contact}</a></li>
+            </ul>
+        </li>
+        <li <if condition="($menuid eq 'vir_h3c') or ($menuid eq 'vir_vm')">class="menu-show"</if>>
+            <div class="header">
+                <span class="txt">虚拟化</span>
+                <span class="arrow"></span>
+            </div>
+            <ul class="menu-two" <if condition="($menuid eq 'vir_h3c') or ($menuid eq 'vir_vm') or ($menuid eq 'file_server')">style="display: block;"</if>>
+                <li class="firstChild <if condition="$menuid eq 'vir_vm'">current</if>"><a href="{:U('Virtual/vm')}">VMWARE</a></li>
+                <li class="firstChild <if condition="$menuid eq 'vir_h3c'">current</if>"><a href="{:U('Virtual/h3c')}">H3C虚拟化</a></li>
+                <li class="firstChild <if condition="$menuid eq 'file_server'">current</if>"><a href="{:U('FileServer/server')}">文件服务器</a></li>
+            </ul>
+        </li>
+        <li <if condition="($menuid eq 'sys_server_status') or ($menuid eq 'sys_client_status') or ($menuid eq 'sys_job_status') or ($menuid eq 'sys_storage_status') or ($menuid eq 'sys_chart')">class="menu-show"</if>>
+            <div class="header">
+                <span class="txt">{$Think.lang.system_manager}</span>
+                <span class="arrow"></span>
+            </div>
+            <ul class="menu-two" <if condition="($menuid eq 'sys_server_status') or ($menuid eq 'sys_client_status') or ($menuid eq 'sys_job_status') or ($menuid eq 'sys_storage_status') or ($menuid eq 'sys_chart')">style="display: block;"</if>>
+                <li class="firstChild <if condition="$menuid eq 'sys_server_status'">current</if>"><a href="{:U('Server/status')}">{$Think.lang.sys_server_status}</a></li>
+                <li class="<if condition="$menuid eq 'sys_storage_status'">current</if>"><a href="{:U('Server/storage')}">{$Think.lang.sys_storage_status}</a></li>
+                <li class="<if condition="$menuid eq 'sys_client_status'">current</if>"><a href="{:U('Server/client')}">{$Think.lang.sys_client_status}</a></li>
+                <li class="<if condition="$menuid eq 'sys_job_status'">current</if>"><a href="{:U('Server/job')}">{$Think.lang.sys_job_status}</a></li>
+            </ul>
+        </li>
+        <li <if condition="($menuid eq 'chart_dash') or ($menuid eq 'chart_client') or ($menuid eq 'chart_client_index') or ($menuid eq 'chart_job') or ($menuid eq 'chart_group')">class="menu-show"</if>>
+            <div class="header">
+                <span class="txt">统计管理</span>
+                <span class="arrow"></span>
+            </div>
+            <ul class="menu-two" <if condition="($menuid eq 'chart_dash') or ($menuid eq 'chart_client') or ($menuid eq 'chart_client_index')  or ($menuid eq 'chart_job')  or ($menuid eq 'chart_group')">style="display: block;"</if>>
+                <li class="firstChild <if condition="$menuid eq 'chart_dash'">current</if>"><a href="{:U('Chart/dash')}">备份仪表盘</a></li>
+                <li class="firstChild <if condition="$menuid eq 'chart_client'">current</if>"><a href="{:U('Chart/client')}">客户端统计</a></li>
+                <li class="<if condition="$menuid eq 'chart_job'">current</if>"><a href="{:U('Chart/job')}">任务统计</a></li>
+                <li class="<if condition="$menuid eq 'chart_group'">current</if>"><a href="{:U('Chart/group')}">分组统计</a></li>
+            </ul>
+        </li>
+        <!--li <if condition="($menuid eq 'ep_job_add') or ($menuid eq 'ep_job_list')">class="menu-show"</if>>
+            <div class="header">
+                <span class="txt">{$Think.lang.ep_job}</span>
+                <span class="arrow"></span>
+            </div>
+            <ul class="menu-two" <if condition="($menuid eq 'ep_job_add') or ($menuid eq 'ep_job_list')">style="display: block;"</if>>
+                <!--li class="firstChild <if condition="$menuid eq 'ep_job_add'">current</if>"><a href="{:U('Enterprise/addJob')}">{$Think.lang.ep_job_add}</a></li>
+            </ul>
+        </li-->
+    </ul>
+</div>
+<script src="__JS__/seajs/sea.js"></script>
+<script type="text/javascript">
+    seajs.config({
+        base: "__JS__",
+        preload: ["jquery"]
+    });
+    seajs.use('menu/main');
+</script>

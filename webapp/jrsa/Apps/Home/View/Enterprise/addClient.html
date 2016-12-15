@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+           #body table{margin: 10px;width: 96%;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 1px;font-weight: 400;padding: 1px 10px;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s;color: #fff;height: 25px;}
+          .cinfo{background: #4265a4;}
+          #tabbox{overflow:hidden; margin:0 auto;}
+         .bodys .main .section {border-top: 0px;padding: 10px;}
+         .tab_conbox{border: 1px solid #999;border-top: none;}
+         .tab_con{ display:none;}
+
+         .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+         .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+         .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
+         .tabs li a:hover {background: #ccc;}    
+         .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+
+         .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+         h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
+         p{font-size: 18px;padding:10px;color: green;font-weight: bold;width:800px;}
+         .info{background: #4265a4;}
+        </style>
+    </head>
+    <body>
+        <div class="bodys">
+            <div class="menu_left">
+                <include file="Common:enterprise" />
+            </div>
+            <div class="main">
+                <form action="{:U('Enterprise/addClient')}" method="post" id="J_ajaxForm">
+                    <div class='h1'><i class="font-icon icon-desktop"></i><notempty name="data['id']">{$Think.lang.ep_client_upd}<else />{$Think.lang.ep_client_add}</notempty ></div>
+                    <div id="tabbox">
+                    <ul class="tabs" id="tabs">
+                       <li><a href="javascript:;" tab="tab1">基本配置</a></li>
+                       <li><a href="javascript:;" tab="tab2">高级配置</a></li>
+                       <li><a href="javascript:;" tab="tab3">安全配置</a></li>
+                    </ul>
+                    <ul class="tab_conbox">
+                        <li id="tab1" class="tab_con">
+                            <div class="section">
+                                <div class='box'>
+                                    <input value="{$data['id']}" type="hidden" name="id"/>
+                                    <span >{$Think.lang.name}</span>
+                                    <input type="text" id="name" name="name" value="{$data['name']}" <notempty name="data.id">style="color:#a2a0a0;" disabled="disabled"</notempty> required/>
+                                    <div class='line'></div>
+                                    <span >{$Think.lang.ip_address}</span>
+                                    <input type="text" id="address" name="address" value="{$data['address']}" required/>
+                                    <div class='line'></div>
+                                    <span >{$Think.lang.ep_devicetype}</span>
+                                    <select name="class"> 
+                                        <option value="Windows" <if condition="$data['class'] eq 'Windows'">selected</if>>Windows</option>
+                                        <option value="Linux" <if condition="$data['class'] eq 'Linux'">selected</if>>Linux</option>
+                                        <option value="Unix" <if condition="$data['class'] eq 'Unix'">selected</if>>Unix</option>
+                                    </select>
+                                    <div class='line'></div>
+                                    <span >客户端分组</span>
+                                     <select name="gid" id='gid'>
+                                         <volist name="group" id="item">
+                                             <option value="{$item.id}" <if condition="$item['id'] eq $data['gid']">selected</if>>{$item.name}</option>
+                                         </volist>>
+                                    </select>
+                                    <font><b><a href='javascript:;' id="groupAction">管理分组</a></b></font>
+                                    <div class='line'></div>
+                                    <!--span >{$Think.lang.eq_fileretention}</span>
+                                    <input type="text" id="fileRetention" name="fileRetention" value="<notempty name='data.fileRetention'>{$data['fileRetention']}<else/>30</notempty>" class="wd50" required/><label>　(/{$Think.lang.day})</label>
+                                    <div class='line'></div>
+                                    <span >{$Think.lang.eq_jobretention}</span>
+                                    <input type="text" id="jobRetention" name="jobRetention" value="<notempty name='data.jobRetention'>{$data['jobRetention']}<else/>30</notempty>" class="wd50" required/><label>　(/{$Think.lang.day})</label>
+                                    <div class='line'></div-->
+                                    <span >{$Think.lang.eq_priority}</span>
+                                        <select name="priority"> 
+                                            <option value="5" <if condition="$data['priority'] eq '5'">selected</if>>中</option>
+                                            <option value="0" <if condition="$data['priority'] eq '0'">selected</if>>高</option>
+                                            <option value="10" <if condition="$data['priority'] eq '10'">selected</if>>低</option>
+                                        </select>
+                                    <div class='line'></div>
+                                    <div class='line'></div>
+                                    <span >{$Think.lang.app_desc}</span>
+                                    <textarea id="description" name='description' style="resize:none;width: 400px;height: 100px;"  placeholder="" required>{$data['description']}</textarea>
+                                    <div class='line'></div>
+                                </div>
+                            </div>
+                    </li>
+                    <li id="tab2" class="tab_con">
+                        <div class="section">
+                            <div class='box'>
+                                <span >客户端激活</span>
+                                <input value="1" type="checkbox" name="enabled" class="ckbs" <if condition="$data['enabled'] eq 'no'"><else/>checked="checked" </if>/>
+                                <div class='line'></div>
+                                <span >客户端端口</span>
+                                <input type="text" id="fdport" value="<empty name='data.fdPort'>5102<else/>{$data['fdPort']}</empty>" class="wd50" name="fdPort" required />
+                                <label>*默认端口 5102</label>
+                                <div class='line'></div>
+                                <span >最大并发</span>
+                                <input type="text" id="maxConcurrentJobs" name="maxConcurrentJobs" value="<notempty name='data.maxConcurrentJobs'>{$data['maxConcurrentJobs']}<else/>4</notempty>"  class="wd50"  required/>
+                                <div class='line'></div>
+                                <span >容量限额</span>
+                                <input type="text" id="hardQuota" name="hardQuota" value="<notempty name='data.hardQuota'>{$data['hardQuota']}<else/>0</notempty>" class="wd50" required/><label>注：单位(/G) 0为不限制</label>
+                                <div class='line'></div>
+                                <span >{$Think.lang.eq_protocol}</span>
+                                 <select name="protocol"> 
+                                    <option value="Native" <if condition="$data['protocol'] eq 'Native'">selected</if>>{$Think.lang.standard}{$Think.lang.agreement}</option>
+                                    <notempty name="ndmp"><option value="NDMP" <if condition="$data['protocol'] eq 'NDMP'">selected</if>>NDMP{$Think.lang.agreement}</option></notempty>
+                                </select>
+                                <div class='line'></div>
+                                <span >NAT支持</span>
+                                    <input value="1" type="checkbox" name="passive" class="ckbs" <if condition="$data['passive'] eq 'yes'">checked="checked" </if>/>
+                                <div class='line'></div>
+                                <span >{$Think.lang.eq_maxbandwidthperjob}</span>
+                                <div class="tm20">
+                                    <div class="frists"<empty name='data.maxBandwidthPerJob'><else/><if condition="$data['maxBandwidthPerJob'] neq '0'">style="float:left;"</if></empty>><input type="checkbox" name="maxBandwidthPerJob" id="cmaxBandwidthPerJob" value="0" class="ckbs" <notempty name='data.maxBandwidthPerJob'><if condition="$data['maxBandwidthPerJob'] eq '0'">checked</if><else/>checked</notempty>><label>不限速</label></div>
+                                    <div class="ckmpj" <notempty name='data.maxBandwidthPerJob'><if condition="$data['maxBandwidthPerJob'] eq '0'">style="display:none;"</if><else/>style="display:none;"</notempty>><input type="text" id="maxBandwidthPerJob" name="maxBandwidthPerJob" class="wd50" value="{$data['maxBandwidthPerJob']}"/><label>　单位:(/MB)</label></div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="tab3" class="tab_con">
+                        <div class="section">
+                            <div class='box'>
+                                <span >启用TLS</span>
+                                <input value="1" type="checkbox" id="TLSEnable" name="TLSEnable" class="ckbs" <if condition="$data['TLSEnable'] eq 'yes'">checked="checked" </if>/>
+                                <div class='line'></div>
+                                <div class="tlsshow" <if condition="$data['TLSEnable'] eq 'no'">style="display: none;"</if>>
+                                    <span >只接受TLS链接</span>
+                                    <input value="1" type="checkbox" id="TLSRequire" name="TLSRequire" class="ckbs" <if condition="$data['TLSRequire'] eq 'yes'">checked="checked" </if>/>
+                                    <div class='line'></div>
+                                    <span >证书有效性验证</span>
+                                    <input value="1" type="checkbox" id="TLSVerifyPeer" name="TLSVerifyPeer" class="ckbs" <if condition="$data['TLSVerifyPeer'] eq 'yes'">checked="checked" </if>/>
+                                    <div class='line'></div>
+                                    <span >TLS证书</span>
+                                    <input type="text" id="TLSCertificate" name="TLSCertificate" value="{$data['TLSCertificate']}" required class="wd250"/>
+                                    <div class='line'></div>
+                                    <span >TLS密钥</span>
+                                    <input type="text" id="TLSKey" name="TLSKey" value="{$data['TLSKey']}" required class="wd250"/>
+                                    <div class='line'></div>
+                                    <span >TLS CA证书</span>
+                                    <input type="text" id="TLSCACertificateFile" name="TLSCACertificateFile" value="{$data['TLSCACertificateFile']}" required class="wd250"/>
+                                    <div class='line'></div>
+                                    <span >加密算法</span>
+                                    <select name="algorithm"> 
+                                        <option value="aes128" <if condition="$data['algorithm'] eq 'aes128'">selected</if>>aes128</option>
+                                        <option value="aes256" <if condition="$data['algorithm'] eq 'aes256'">selected</if>>aes256</option>
+                                        <option value="camellia128" <if condition="$data['algorithm'] eq 'camellia128'">selected</if>>camellia128</option>
+                                        <option value="camellia256" <if condition="$data['algorithm'] eq 'camellia256'">selected</if>>camellia256</option>
+                                        <option value="blowfish" <if condition="$data['algorithm'] eq 'blowfish'">selected</if>>blowfish</option>
+                                    </select>
+                                    <div class='line'></div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <a href="javascript:void(0);" id="upd" data-url="{:U('Enterprise/addClient')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
+                </form>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#groupAction").on("click",function(){
+                    var id = $(this).attr('data-id');
+                    var url = "{:U('Enterprise/group')}";
+                    $.dialog.open(url, {
+                        title: "客户端分组管理",
+                        fixed: true,
+                        width: 600,
+                        height: 400,
+                        close:function(){
+                            onloadGroup();
+                        },
+                    });
+                });
+                $("#cmaxBandwidthPerJob").click(function(){
+                     if($("#cmaxBandwidthPerJob").attr("checked")=="checked"){
+                         $(".ckmpj").css("display","none");
+                         $(".frists").css("float","");
+                         $("#maxBandwidthPerJob").val(0);
+                    }else{
+                         $(".ckmpj").css("display","block");
+                         $(".frists").css("float","left");
+                    }
+                });
+                $("#TLSEnable").click(function(){
+                    if($("#TLSEnable").attr("checked")=="checked"){
+                        $(".tlsshow").css("display","block");
+                   }else{
+                        $(".tlsshow").css("display","none");
+                   }
+               });
+            });
+            var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm");
+            btn.on("click",function(){
+                if($("#name").val() =="" || $("#address").val() =="" || $("#description").val() =="" || $("#priority").val() =="" || $("#maxConcurrentJobs").val() =="" || $("#hardQuota").val() ==""){
+                    core.tips.tips(LNG.not_null,'info');
+                }else if(checkIP($("#address").val())==false){
+                    core.tips.tips(LNG.ip_address + LNG.illegal,'info');
+                }else if(isNaN($("#maxConcurrentJobs").val())){
+                    core.tips.tips("最大并发  "  +  LNG.be_number,'info');
+                }else if(isNaN($("#hardQuota").val())){
+                    core.tips.tips("容量限额  "  +  LNG.be_number,'info');
+                }else if(isNaN($("#maxBandwidthPerJob").val())){
+                    core.tips.tips(LNG.eq_maxbandwidthperjob + "  "  +  LNG.be_number,'info');
+                }else if(!checkName($("#name").val())){
+                    core.tips.tips(LNG.verify_name_cross,'info');
+                }else{
+                     if (!$('#cmaxBandwidthPerJob').attr('checked')) {
+                        if($("#maxBandwidthPerJob").val() ==""){
+                            core.tips.tips(LNG.not_null,'info');
+                            return false;
+                        }
+                    }
+                    if ($('#TLSEnable').attr('checked')) {
+                        if($("#TLSCertificate").val() ==""){
+                            core.tips.tips(LNG.not_null,'info');
+                            return false;
+                        }
+                        if($("#TLSKey").val() ==""){
+                            core.tips.tips(LNG.not_null,'info');
+                            return false;
+                        }
+                        if($("#TLSCACertificateFile").val() ==""){
+                            core.tips.tips(LNG.not_null,'info');
+                            return false;
+                        }
+                    }
+                    form.ajaxSubmit({
+                    url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                    dataType: 'json',
+                    type:'post',
+                    beforeSubmit: function (arr, $form, options) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.removeClass('disabled').text(text.replace('中...', ''));
+                        if (data.state === 'success') {
+                            core.tips.tips(data.info,'success');
+                             if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                        } else if (data.state === 'fail') {
+                            core.tips.tips(data.info,'error');
+                            btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        }
+                    });
+                }
+            });
+            function onloadGroup(){
+                $.post("{:U('Enterprise/ajaxGroup')}",function(json){
+                    var html = "";
+                    var gid = "{$data['gid']}";
+                    $.each(json,function(idx,item){     
+                        if(typeof(item.id) != 'undefined'){
+                            html +='<option value="'+item.id +'"';
+                            if(item.id == gid){
+                                html +=' selected ';
+                            }
+                            html +='>'+item.name+'</option>';
+                        }
+                     })
+                     $("#gid").html("").append(html);
+                },"json")
+            }
+        </script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            jQuery.jqtab = function(tabtit,tabcon) {
+                $(tabcon).hide();
+                $(tabtit+" li:first").addClass("thistab").show();
+                $(tabcon+":first").show();
+
+                $(tabtit+" li").click(function() {
+                    $(tabtit+" li").removeClass("thistab");
+                    $(this).addClass("thistab");
+                    $(tabcon).hide();
+                    var activeTab = $(this).find("a").attr("tab");
+                    $("#"+activeTab).fadeIn();
+                    return false;
+                });
+
+            };
+            $.jqtab("#tabs",".tab_con");
+        });
+        </script>
+    </body>
+</html>

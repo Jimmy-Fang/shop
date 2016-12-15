@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+               #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+          .h1{font-weight: 400;color: #5c7fbd;padding: 0px 0 10px 10px;font-size: 26px;padding: 10px;}
+          #body table{margin: 0 10px;width: 97%;}
+          h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
+          .bt10{border-top: 1px solid #ddd;padding: 0 0 10px 0;}
+          h2{font-size: 18px;display: block;padding: 0 10px;color: green;font-weight: bold;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 5px 10px 5px 0;font-weight: 400;padding: 0.5em 1.5em;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s; color: #fff;}
+          .info{background: #4265a4;}
+          .joblog{padding: 10px 20px;}
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class='h1'><i class="font-icon icon-desktop"></i>添加磁带</div>
+            <form action="{:U('Vtl/addVc')}" method="post" id="J_ajaxForm">
+            <table>
+                        <tr>
+                            <td width="20%"><input type="hidden" id="name" name="name" value="{$data['name']}"/></td>
+                            <td width="20%">VTL name</td>
+                            <td width="20%">{$data['name']}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>VCartridge Type</td>
+                            <td>
+                                <select name="type">
+                                    <volist  name="type" id="item">
+                                        <option value="{$item.Type}" <if condition="$item['Description'] eq $data['vtype']">selected</if>>{$item.Type} - {$item.Description}</option>
+                                    </volist>
+                                </select>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Storage Pool</td>
+                            <td>
+                                <select name="pool">
+                                    <volist  name="pool" id="item">
+                                        <option value="{$item.Name}">{$item.Name}</option>
+                                    </volist>
+                                </select>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Number of VCartridges</td>
+                            <td><input type="text" id="number" name="number" value="0" class="wd50" required/></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>WORM</td>
+                            <td><input value="1" type="checkbox" name="worm" class="ckbs"/></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>VCartridge Label/Prefix</td>
+                            <td><input type="text" id="label" name="label" value="0" class="wd150" required/></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><a href="javascript:void(0);" id="upd" data-url="{:U('Vtl/addVc')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a></td>
+                            <td></td>
+                        </tr>
+                
+                    </table>
+        </form>
+        </div>
+        <script src="__JS__/seajs/sea.js"></script>
+        <script type="text/javascript">
+            seajs.config({
+                base: "__JS__",
+                preload: ["jquery"]
+            });
+            seajs.use('menu/main');
+        </script>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+            var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm");
+            btn.on("click",function(){
+                if($("#number").val() =="" || $("#label").val() ==""){
+                    core.tips.tips(LNG.not_null,'info');
+                }else if($("#label").val().length != 6){
+                    core.tips.tips("长度只能为6位",'info');
+                }else{
+                    form.ajaxSubmit({
+                    url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                    dataType: 'json',
+                    type:'post',
+                    beforeSubmit: function (arr, $form, options) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.removeClass('disabled').text(text.replace('中...', ''));
+                         if(data.info == ""){
+                                        core.tips.tips("操作成功",'success');
+                                        if (data.referer) {
+                                            window.location.href = data.referer;
+                                        } else {
+                                             reloadPage(window);
+                                        }
+                                    }else{
+                                        art.dialog({
+                                            title:"信息",
+                                           content: data.info,
+                                           width:'550px',
+                                           zIndex:999,
+                                           okVal: '确定',
+                                           ok: function () {
+                                               this.close();
+                                           },
+                                           close:function(){
+                                                if (data.referer) {
+                                                    window.location.href = data.referer;
+                                                } else {
+                                                     reloadPage(window);
+                                                }
+                                           }
+                                       });
+                                    }
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

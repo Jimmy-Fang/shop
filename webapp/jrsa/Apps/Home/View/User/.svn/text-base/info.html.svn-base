@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class="menu_left">
+                <include file="Common:configmenu" />
+            </div>
+            <div class="main">
+                <form action="{:U('User/info')}" method="post" id="J_ajaxForm">
+                    <div class='h1'><i class="font-icon icon-user"></i>{$Think.lang.setting_password}</div>
+                    <div class="section">
+                        <div class='box'>
+                                <span >{$Think.lang.setting_password_old}</span>
+                                <input type="text" id="password_now"value="" name="password_now" required/>
+                                <div class='line'></div>
+                                <span >{$Think.lang.setting_password_new}</span>
+                                <input type="password" id="password1" value="" name="password1" required/>
+                                <div class='line'></div>
+                                <span >{$Think.lang.setting_password_re}</span>
+                                <input type="password" id="password2" value="" name="password2" required/>
+                                <a href="javascript:void(0);" id="upduser" data-url="{:U('user/updinfo')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+            var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm");
+            btn.on("click",function(){
+                if($("#password_now").val() =="" || $("#password1").val() =="" || $("#password2").val() ==""){
+                    core.tips.tips(LNG.not_null,'info');
+                }else if($("#password_now").val() ==$("#password1").val()){
+                    core.tips.tips(LNG.updata_password_yet,'info');
+                }else if($("#password1").val() != $("#password2").val()){
+                     core.tips.tips(LNG.verify_repassword,'info');
+                }else{
+                    form.ajaxSubmit({
+                    url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                    dataType: 'json',
+                    beforeSubmit: function (arr, $form, options) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.removeClass('disabled').text(text.replace('中...', ''));
+                        if (data.state === 'success') {
+                            core.tips.tips(data.info,'success');
+                             if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                        } else if (data.state === 'fail') {
+                            core.tips.tips(data.info,'error');
+                            btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

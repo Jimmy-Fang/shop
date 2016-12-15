@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;
+          }
+          .downInfo{font-size: 18px;padding:20px 10px 10px 10px;font-family: Helvetica, "Helvetica Neue", "Century Gothic", "微软雅黑", "Microsoft Yahei", "STXihei";}
+          .helpInfo{font-size: 18px;padding:20px 10px 10px 10px;font-family: "微软雅黑";}
+          ul{list-style: none;}
+          .down ul li{font-size: 16px;padding:10px;}
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class="menu_left">
+                <include file="Common:enterprise" />
+            </div>
+            <div class="main">
+                <div class='h1'>欢迎使用企业级备份软件</div>
+                <form action="{:U('Enterprise/indexs')}" method="post" id="J_ajaxForm" enctype="multipart/form-data">
+                    <div class="downInfo" style="color:#5c7fbd;"><empty name="data['id']">您已经取得相关授权<else />机器码： <font color='red'>{$data['id']}</font></empty></div>
+                    <empty name='data.info'>
+                        <notempty name='data.files'>
+                        <div class="info"><font color='red'>{$data['files']}</font></div>
+                        <div class="clear"></div>
+                        </notempty>
+                        <div class="info">上传授权文件：<input type="file" name="servers" style="width:300px;margin: 0;" /><input type="button" value="导入" class="button J_ajax_submit_btn"/></div>
+                        <else/>
+                        <div class='h2' style="padding:20px;"><font color='red'>{$data.info}</font></div>
+                    </empty>
+                    <div class="clear"></div>
+                </form>
+                <div class='down'>
+                    <div class="downInfo">客户端版本下载</div>
+                    <ul>
+                        <li style="font-size: 16px;padding:5px 20px;">windows：<a href="/webapp/client/windows_client.zip">windows_client.zip</a></li>
+                        <li style="font-size: 16px;padding:5px 20px;">linux：<a href="/webapp/client/linux_client.tar.gz">linux_client.tar.gz</a></li>
+                        <li style="font-size: 16px;padding:5px 20px;">solaris：<a href="/webapp/client/solaris_client.tar.gz">solaris_client.tar.gz</a></li>
+                        <li style="font-size: 16px;padding:5px 20px;">aix：<a href="/webapp/client/aix_client.tar.gz">aix_client.tar.gz</a></li>
+                    </ul>
+                </div>
+                <div class="helpInfo">帮助菜单</div>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+    <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+            var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm");
+            btn.on("click",function(){
+                art.dialog({
+                    content: '导入新的许可将替换老的许可，是否导入许可？',
+                    ok: function () {
+                        this.close();
+                        
+                        form.ajaxSubmit({
+                        url: btn.data('action') ? btn.data('action') : form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
+                        dataType: 'json',
+                        beforeSubmit: function (arr, $form, options) {
+                            var text = btn.text();
+                            //按钮文案、状态修改
+                            btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                        },
+                        success: function (data, statusText, xhr, $form) {
+                            var text = btn.text();
+                            //按钮文案、状态修改
+                            btn.removeClass('disabled').text(text.replace('中...', '')).parent().find('span').remove();
+                            if (data.state === 'success') {
+                            core.tips.tips(data.info,'success');
+                               if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                            } else if (data.state === 'fail') {
+                                    core.tips.tips(data.info,'error');
+                                    btn.removeProp('disabled').removeClass('disabled');
+                                    }
+                                }
+                            });
+                        
+                        return false;
+                    },
+                    okVal:'OK',
+                    cancelVal: '关闭',
+                    cancel: true 
+                });
+            });
+        </script>
+    </body>
+</html>

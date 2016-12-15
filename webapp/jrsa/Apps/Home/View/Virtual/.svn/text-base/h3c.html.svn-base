@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class="menu_left">
+                <include file="Common:enterprise" />
+            </div>
+            <div class="main">
+                <div class='h1'><i class="font-icon icon-cloud"></i>数据中心<a href="{:U('Virtual/addH3c')}" class="adds">添加数据中心</a></div>
+                <table>
+                    <tr class="title">
+                        <td width="15%">用户名</td>
+                        <td width="30%">IP地址</td>
+                        <td width="10%">端口</td>
+                        <td width="20%">用户名</td>
+                        <td>{$Think.lang.action}</td>
+                    </tr>
+                    <volist name="data" id="item">
+                    <tr>
+                        <td>{$item.name}</td>
+                        <td>{$item.ip}</td>
+                        <td>{$item.port}</td>
+                        <td>{$item.user}</td>
+                        <td>
+                            <a href="{:U('Virtual/addH3c',array('id'=>$item['id']))}">{$Think.lang.edit}</a> | 
+                            <a href="javascript:;" data-bind="{$item.id}" class="deldata">{$Think.lang.button_del}</a>
+                        </td>
+                    </tr>
+                    </volist>
+                </table>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+          $(document).ready(function($) {
+                $(".deldata").on("click",function(){
+                    var id = $(this).attr('data-bind');
+                    art.dialog({
+                    content: '确认删除？',
+                    ok: function () {
+                        this.close();
+                        $.post("{:U('Virtual/delH3c')}",{id:id},function(data){
+                            if (data.status === 1) {
+                                core.tips.tips(data.info,'success');
+                               if (data.url) {
+                                    window.location.href = data.url;
+                                } else {
+                                     reloadPage(window);
+                                }
+                            } else{
+                                core.tips.tips(data.info,'error');
+                                btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        },"json")
+                        return false;
+                    },
+                    okVal:LNG.if_remove,
+                    cancelVal: LNG.close,
+                    cancel: true 
+                });
+             });
+         });
+        </script>
+    </body>
+</html>

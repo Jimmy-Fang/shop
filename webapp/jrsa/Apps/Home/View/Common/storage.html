@@ -1,0 +1,23 @@
+<h1></h1>
+<div class="content">
+    <ul class="menu-one">
+        <li class="firstChild <if condition="$menuid eq 'vtl_index' or $menuid eq 'vtl_pool' or $menuid eq 'vtl_bd' or $menuid eq 'vtl_vt' or $menuid eq 'vtl_fc' ">menu-show</if>">
+            <div class="header">
+                <span class="txt">{$Think.lang.ep_setting}</span>
+                <span class="arrow"></span>
+            </div>
+            <ul class="menu-two" <if condition="$menuid eq 'stor_index' or $menuid eq 'stor_nfs' or $menuid eq 'vtl_bd' or $menuid eq 'vtl_vt' or $menuid eq 'vtl_fc' ">style="display: block;"</if>>
+                <li class="firstChild <if condition="$menuid eq 'stor_index'">current</if>"><a href="{:U('Storage/index')}">首页</a></li>
+                <li class="<if condition="$menuid eq 'stor_nfs'">current</if>"><a href="{:U('Storage/nfs')}">NFS</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<script src="__JS__/seajs/sea.js"></script>
+<script type="text/javascript">
+    seajs.config({
+        base: "__JS__",
+        preload: ["jquery"]
+    });
+    seajs.use('menu/main');
+</script>

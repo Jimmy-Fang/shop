@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+        </style>
+    </head>
+    <body>
+        <div class="bodys">
+            <div class="menu_left">
+                <include file="Common:vtl" />
+            </div>
+            <div class="main">
+                <form action="{:U('Vtl/addVtl')}" method="post" id="J_ajaxForm">
+                    <div class='h1'><i class="font-icon icon-desktop"></i>添加VTL</div>
+                    <div class="section">
+                        <div class='box'>
+                                <span >VTL Name</span>
+                                <input type="text" id="name" name="Name" value="" required/>
+                                <div class='line'></div>
+                                <empty name='data.Name'>
+                                <span >Library Vendor</span>
+                                <select name="libraryvendor" onchange="filllibraryforvendor()">
+                                </select>
+                                <div class='line'></div>
+                                <span >Library Type</span>
+                                <select name="librarytype" onchange="filldriveforlibrary();">
+                                </select>
+                                <div class='line'></div>
+                                </empty>
+                                <span >VDrive Type</span>
+                                <select name="drivetype0">
+                                </select>
+                                <div class='line'></div>
+                                <span >Number of VDrives</span>
+                                <select name="ndrives">
+                                    <?php for($i=1;$i<65;$i++){?>
+                                    <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                    <?php }?>
+                                </select>
+                                <div class='line'></div>
+                                <!--span>Start Address</span>
+                                <input type="text" id="dtstart" name="dtstart" value="0" class="wd50" required/>
+                                <div class='line'></div-->
+                                <span>Number of VSlots</span>
+                                <input type="text" id="slots" name="slots" value="24" class="wd50" required/>
+                                <div class='line'></div>
+                                <!--span>Slot Start Address</span>
+                                <input type="text" id="ststart" name="ststart" value="0" class="wd50" required/>
+                                <div class='line'></div-->
+                                <span>IE Ports</span>
+                                <input type="text" id="ieports" name="ieports" value="4" class="wd50" required/>
+                                <div class='line'></div>
+                                <!--span>IE Start Address</span>
+                                <input type="text" id="iestart" name="iestart" value="0" class="wd50" required/>
+                                <div class='line'></div-->
+                                <a href="javascript:void(0);" id="upd" data-url="{:U('Enterprise/addClient')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script src="__JS__/yui-min.js"></script>
+        <script src="__JS__/drivedefs.js"></script>
+        <script type="text/javascript">
+            filllibrary();
+            var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm");
+            btn.on("click",function(){
+                if($("#name").val() ==""){
+                    core.tips.tips(LNG.not_null,'info');
+                }else if(!checkName($("#name").val())){
+                    core.tips.tips(LNG.verify_name_cross,'info');
+                }else{
+                    form.ajaxSubmit({
+                    url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                    dataType: 'json',
+                    type:'post',
+                    beforeSubmit: function (arr, $form, options) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.removeClass('disabled').text(text.replace('中...', ''));
+                        
+                         if(data.info == ""){
+                                core.tips.tips("操作成功",'success');
+                                if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                            }else{
+                                art.dialog({
+                                    title:"信息",
+                                   content: data.info,
+                                   width:'550px',
+                                   zIndex:999,
+                                   okVal: '确定',
+                                   ok: function () {
+                                       this.close();
+                                   },
+                                   close:function(){
+                                        if (data.referer) {
+                                            window.location.href = data.referer;
+                                        } else {
+                                             reloadPage(window);
+                                        }
+                                   }
+                               });
+                            }
+                        
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

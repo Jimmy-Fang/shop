@@ -1,0 +1,426 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="__CSS__/jcDate.css" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+          #body table{margin: 10px;width: 96%;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 1px;font-weight: 400;padding: 1px 10px;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s;color: #fff;height: 25px;}
+          .cinfo{background: #4265a4;}
+          #tabbox{overflow:hidden; margin:0 auto;}
+        .tab_conbox{border: 1px solid #999;border-top: none;}
+        .tab_con{ display:none;}
+
+        .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+        .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+        .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
+        .tabs li a:hover {background: #ccc;}    
+        .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+
+        .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+        h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
+        p{font-size: 18px;padding:10px;color: green;font-weight: bold;width:800px;}
+        .info{background: #4265a4;}
+        .pages{padding:10px;}
+        .pages a,.pages span {
+            display:inline-block;
+            padding:0px 8px;
+            margin:0 4px;
+            border:1px solid #f0f0f0;
+            -webkit-border-radius:3px;
+            -moz-border-radius:3px;
+            border-radius:3px;
+        }
+        .pages a,.pages li {
+            display:inline-block;
+            list-style: none;
+            text-decoration:none; color:#4265A4;
+        }
+        .pages a.first,.pages a.prev,.pages a.next,.pages a.end{
+            margin:0;
+        }
+        .pages a:hover{
+            border-color:#4265A4;
+        }
+        .pages span.current{
+            background:#4265A4;
+            color:#FFF;
+            font-weight:700;
+            border-color:#4265A4;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class="menu_left">
+                <include file="Common:enterprise" />
+            </div>
+            <div class="main">
+                <div class='h1'><i class="font-icon icon-edit"></i>{$Think.lang.sys_job_status}</div>
+                <div id="tabbox">
+                    <ul class="tabs" id="tabs">
+                       <li><a href="javascript:;" tab="tab1">已完成任务</a></li>
+                       <li><a href="javascript:;" tab="tab2">计划任务</a></li>
+                       <li><a href="javascript:;" tab="tab3">进行中任务</a></li>
+                    </ul>
+                    <ul class="tab_conbox">
+                        <li id="tab1" class="tab_con">
+                        <form action="{:U('Server/job')}" method="post" id="J_ajaxForm">
+                            <h4>
+                                任务名称：<select name="client" id="jobname">
+                                    <option value="">-请选择-</option>
+                                    <volist name="tername" id="item">
+                                        <option value="{$item.Name}">{$item.Name}</option>
+                                    </volist>
+                                </select>
+                                客户端：<select name="client" id="client">
+                                    <option value="0">-请选择-</option>
+                                    <volist name="client" id="item">
+                                        <option value="{$item.ClientId}">{$item.Name}</option>
+                                    </volist>
+                                </select>
+                                备份池：<select name="pool" id="pool">
+                                    <option value="0">-请选择-</option>
+                                    <volist name="pool" id="item">
+                                        <option value="{$item.PoolId}">{$item.Name}</option>
+                                    </volist>
+                                </select>
+                                任务状态：<select name="status" id="status">
+                                    <option value="0">-请选择-</option>
+                                    <option value="T">成功</option>
+                                    <option value="1">其他</option>
+                                </select>
+                                <br/>
+                                开始时间：<input type="text" name="starttime" id="starttime" class="jcDate" readonly/>
+                                结束时间：<input type="text" name="endtime" id="endtime" class="jcDate" readonly/>
+                                <a href="javascript:;" class="buttons cinfo search J_ajax_submit_btn">搜索</a>
+                            </h4>
+                            </form>
+                            <table id="yetjob">
+                                <tr class="title">
+                                    <td width="5%">ID</td>
+                                    <td width="15%">任务名称</td>
+                                    <td width="12%">任务类型</td>
+                                    <td width="12%">任务级别</td>
+                                    <td width="12%">客户端</td>
+                                    <td width="22%">结束时间</td>
+                                    <td>操作</td>
+                                </tr>
+                                <volist name="terminatedJob" id="item">
+                                    <tr>
+                                    <td>
+                                        <font color="
+                                        <if condition="$item.JobStatus eq 'C'">green
+                                        <elseif condition="$item.JobStatus eq 'R'"/>green
+                                        <elseif condition="$item.JobStatus eq 'B'"/>red
+                                        <elseif condition="$item.JobStatus eq 'T'"/>blue
+                                        <elseif condition="$item.JobStatus eq 'E'"/>red
+                                        <elseif condition="$item.JobStatus eq 'e'"/>red
+                                        <elseif condition="$item.JobStatus eq 'f'"/>red
+                                        <elseif condition="$item.JobStatus eq 'D'"/>#FAAD03
+                                        <elseif condition="$item.JobStatus eq 'W'"/>orange
+                                        <elseif condition="$item.JobStatus eq 'A'"/>#FAAD03
+                                        <elseif condition="$item.JobStatus eq 'F'"/>#FAAD03
+                                        <elseif condition="$item.JobStatus eq 'S'"/>#FAAD03
+                                        <elseif condition="$item.JobStatus eq 'm'"/>#FAAD03
+                                        <elseif condition="$item.JobStatus eq 'M'"/>#FAAD03
+                                        <elseif condition="$item.JobStatus eq 's'"/>#FAAD03
+                                        <elseif condition="$item.JobStatus eq 'j'"/>#FAAD03
+                                        <elseif condition="$item.JobStatus eq 'c'"/>#FAAD03
+                                        <elseif condition="$item.JobStatus eq 'd'"/>#FAAD03
+                                        <elseif condition="$item.JobStatus eq 't'"/>#FAAD03
+                                        <elseif condition="$item.JobStatus eq 'p'"/>#FAAD03
+                                        <elseif condition="$item.JobStatus eq 'i'"/>green
+                                        <elseif condition="$item.JobStatus eq 'a'"/>green
+                                        <else /></if>
+                                        ">{$item.JobId}</font>
+                                    </td>
+                                    <td><a href="javascript:;" class="infos" data-id="{$item.JobId}">
+                                            <font color="
+                                            <if condition="$item.JobStatus eq 'C'">green
+                                            <elseif condition="$item.JobStatus eq 'R'"/>green
+                                            <elseif condition="$item.JobStatus eq 'B'"/>red
+                                            <elseif condition="$item.JobStatus eq 'T'"/>blue
+                                            <elseif condition="$item.JobStatus eq 'E'"/>red
+                                            <elseif condition="$item.JobStatus eq 'e'"/>red
+                                            <elseif condition="$item.JobStatus eq 'f'"/>red
+                                            <elseif condition="$item.JobStatus eq 'D'"/>#FAAD03
+                                            <elseif condition="$item.JobStatus eq 'W'"/>orange
+                                            <elseif condition="$item.JobStatus eq 'A'"/>#FAAD03
+                                            <elseif condition="$item.JobStatus eq 'F'"/>#FAAD03
+                                            <elseif condition="$item.JobStatus eq 'S'"/>#FAAD03
+                                            <elseif condition="$item.JobStatus eq 'm'"/>#FAAD03
+                                            <elseif condition="$item.JobStatus eq 'M'"/>#FAAD03
+                                            <elseif condition="$item.JobStatus eq 's'"/>#FAAD03
+                                            <elseif condition="$item.JobStatus eq 'j'"/>#FAAD03
+                                            <elseif condition="$item.JobStatus eq 'c'"/>#FAAD03
+                                            <elseif condition="$item.JobStatus eq 'd'"/>#FAAD03
+                                            <elseif condition="$item.JobStatus eq 't'"/>#FAAD03
+                                            <elseif condition="$item.JobStatus eq 'p'"/>#FAAD03
+                                            <elseif condition="$item.JobStatus eq 'i'"/>green
+                                            <elseif condition="$item.JobStatus eq 'a'"/>green
+                                            <else /></if>
+                                            ">{$item.Name}</font>
+                                            </a></td>
+                                    <td><if condition="$item.Type eq 'B'"><font color="green">备份</font><elseif condition="$item.Type eq 'c' or $item.Type eq 'C'"/><font color="green">复制</font><else /><font color="blue">恢复</font></if></td>
+                                    <td><if condition="$item.Level eq 'F'">全备份<elseif condition="$item.Level eq 'D'"/>差异备份<else />增量备份</if></td>
+                                    <td>
+                                        <volist name="client" id="t">
+                                            <if condition="$t.ClientId eq $item['ClientId']">{$t.Name}</if>
+                                        </volist>
+                                    </td>
+                                    <td>{$item.EndTime}</td>
+                                    <td><a href="javascript:;" class="buttons cinfo del" data-id="{$item.JobId}">删除</a>
+                                        <if condition="$item.Type eq 'B' or $item.Type eq 'C'"><a href="javascript:;" class="buttons cinfo restore" 
+                                            data-client="<volist name='client' id='t'><if condition="$t.ClientId eq $item['ClientId']">{$t.Name}</if></volist>" data-id="{$item.JobId}">恢复</a></if></td>
+                                </tr>
+                                </volist>
+                                <tr align="center">
+                                    <td colspan="7" style="line-height:25px;"><div class="pages">{$page}</div></td>
+                                </tr>
+                            </table>
+                        </li>
+                        <li id="tab2" class="tab_con">
+                            <table>
+                                <tr class="title">
+                                    <td width="20%">任务名称</td>
+                                    <td width="15%">任务类型</td>
+                                    <td width="12%">优先级</td>
+                                    <td width="15%">备份卷</td>
+                                    <td>计划时间</td>
+                                </tr>
+                                <volist name="scheduledJob" id="item">
+                                    <tr>
+                                    <td>{$item.name}</td>
+                                    <td><if condition="$item.type eq 'Backup'"><font color="green">备份</font><elseif condition="$item.type eq 'Copy'"/><font color="green">复制</font><else /><font color="blue">恢复</font></if></td>
+                                    <td><if condition="$item.level eq 'Full'">全备份<elseif condition="$item.level eq 'Differe'"/>差异备份<elseif condition="$item.level eq '-'"/><font color="#FAAD03">-</font><else />增量备份</if></td>
+                                    <td>{$item.volume}</td>
+                                    <td>{$item.scheduled}</td>
+                                </tr>
+                                </volist>
+                            </table>
+                        </li>
+                        <li id="tab3" class="tab_con">
+                            <p><notempty name="runingJob">进行中的任务 <else />无进行中的任务</notempty></p>
+                            <notempty name="runingJob">
+                                 <table>
+                                    <tr class="title">
+                                        <td width="12%">任务ID</td>
+                                        <td width="18%">任务名称</td>
+                                        <td width="12%">备份级别</td>
+                                        <td width="40%">状态</td>
+                                        <td>状态</td>
+                                    </tr>
+                                    <volist name="runingJob" id="item">
+                                        <tr>
+                                        <td>{$item.id}</td>
+                                        <td>{$item.name}</td>
+                                        <td><if condition="$item.level eq 'Full'">全备份<elseif condition="$item.level eq 'Differential'"/>差异备份<elseif condition="$item.level eq '-'"/><font color="#FAAD03">-</font><else />增量备份</if></td>
+                                        <td>{$item.status}</td>
+                                        <td><a href="javascript:;" class="buttons cancel info" data-id="{$item.id}">取消 </a></td>
+                                    </tr>
+                                    </volist>
+                                </table>
+                            </notempty>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script src="__JS__/jQuery-jcDate.js"></script>
+        <script type="text/javascript">
+          $(document).ready(function($) {
+               $("input.jcDate").jcDate({					       
+                    IcoClass : "jcDateIco",
+                    Event : "click",
+                    Speed : 100,
+                    Left : 0,
+                    Top : 28,
+                    format : "-",
+                    Timeout : 100
+                });
+                $(document).on('click','.infos',function(){
+                    var id = $(this).attr('data-id');
+                    var url = "{:U('Server/terminatedJob','','')}/id/"+id;
+                    $.dialog.open(url, {
+                        title: LNG.info,
+                        fixed: true,
+                        width: 900,
+                        height: 600
+                    });
+                });
+                //搜索
+                $(".search").on('click',function(){
+                    var name = $("#jobname").val();
+                    var client = $("#client").val();
+                    var pool = $("#pool").val();
+                    var starttime = $("#starttime").val();
+                    var endtime = $("#endtime").val();
+                    var status = $("#status").val();
+                    var url = "{:U('Server/job','','')}";
+                    if(name != ''){
+                        url +="/name/"+name;
+                    }
+                    if(client != ''){
+                        url +="/client/"+client;
+                    }
+                    if(pool != ''){
+                        url +="/pool/"+pool;
+                    }
+                    if(starttime != ''){
+                        url +="/starttime/"+starttime;
+                    }
+                    if(endtime != ''){
+                        url +="/endtime/"+endtime;
+                    }
+                    if(status != ''){
+                        url +="/status/"+status;
+                    }
+                    window.location.href= url;
+                });
+                //删除
+                $(document).on("click",".del",function(){
+                    var id = $(this).attr("data-id"); 
+                    var tr = $(this);
+                    art.dialog({
+                        content: LNG.member_remove_tips,
+                        ok: function () {
+                            this.close();
+                            $.post("{:U('Server/delJob')}",{id:id},function(data){
+                                if (data.state == 'success') {
+                                    core.tips.tips(data.info,'info');
+                                    tr.parent().parent().remove();
+                                }
+                            },"json")
+                            return false;
+                        },
+                        okVal:LNG.if_remove,
+                        cancelVal: LNG.close,
+                        cancel: true 
+                    });
+                });
+                //恢复
+                $(document).on("click",".restore",function(){
+                    var id = $(this).attr("data-id"); 
+                    var client = $(this).attr("data-client"); 
+                    $.dialog({
+                        content: '<font>目标客户端：</font>'
+                                +'<select name="reclient" id="reclient" style="width:150px;">'
+                                <volist name="client" id="item">
+                                    +'<option value="{$item.Name}">{$item.Name}</option>'
+                                </volist>
+                                +'</select><br/>'
+                                +'<font>　恢复方式：</font><input type="radio" value="0" name="ctype" checked onclick="document.getElementById(\'cpath\').style.display = \'\';">指定路径<input type="radio" value="/" name="ctype" onclick="document.getElementById(\'cpath\').style.display = \'none\';">原路径<br/>'
+                                +'<div id="cpath"><font>　恢复路径：</font>'
+                                +'<input id="rewhere" style="width:10em; padding:4px" /></div>',
+                        id: 'Fm7',
+                        icon: 'question',
+                        okVal: '执行',
+                        ok: function () {
+                            var reclient = document.getElementById('reclient');
+                            var rewhere = document.getElementById('rewhere');
+                            var curtab=$(":radio[name='ctype']").filter(":checked").val();
+                            var where = "";
+                            if(curtab ==='/'){
+                                where = '/';
+                            }else{
+                                if(rewhere.value == ""){
+                                    rewhere.select();
+                                    rewhere.focus();
+                                    return false;
+                                }else{
+                                    where = rewhere.value;
+                                }
+                            }
+                            $.post("{:U('Server/restoreJob')}",{reclient:reclient.value,rewhere:where,id:id,client:client},function(data){
+                                core.tips.tips(data.info,'info');
+                            },"json")
+                        },
+                        cancel: true
+                    });
+                });
+                
+                //取消任务
+                $(".cancel").on('click',function(){
+                    var id = $(this).attr('data-id');
+                    var tr = $(this);
+                    art.dialog({
+                            content: "是否取消任务？",
+                            ok: function () {
+                                this.close();
+                                $.post("{:U('Server/cancelJob')}",{id:id},function(data){
+                                    core.tips.tips(data.info,'info');
+                                    tr.parent().parent().remove();
+                                },"json")
+                                return false;
+                            },
+                            okVal:LNG.confirm,
+                            cancelVal: LNG.close,
+                            cancel: true 
+                        });
+                  });
+              });
+              function _colorFont(items,values){
+                  var result = "<font color='";
+                    if(items == "C"){
+                        result += "green";
+                    }else if(items == "R"){
+                        result += "green";
+                    }else if(items == "B"){
+                        result += "red";
+                    }else if(items == "T"){
+                        result += "blue";
+                    }else if(items == "e"){
+                        result += "red";
+                    }else if(items == "E"){
+                        result += "red";
+                    }else if(items == "f"){
+                        result += "red";
+                    }else if(items == "i"){
+                        result += "green";
+                    }else if(items == "a"){
+                        result += "green";
+                    }else{
+                        result += "#FAAD03";
+                    }
+                    result +="'>"+values+"</font>";
+                  return result;   
+              }
+        </script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            jQuery.jqtab = function(tabtit,tabcon) {
+                $(tabcon).hide();
+                $(tabtit+" li:first").addClass("thistab").show();
+                $(tabcon+":first").show();
+
+                $(tabtit+" li").click(function() {
+                    $(tabtit+" li").removeClass("thistab");
+                    $(this).addClass("thistab");
+                    $(tabcon).hide();
+                    var activeTab = $(this).find("a").attr("tab");
+                    $("#"+activeTab).fadeIn();
+                    return false;
+                });
+
+            };
+            $.jqtab("#tabs",".tab_con");
+        });
+        </script>
+    </body>
+</html>

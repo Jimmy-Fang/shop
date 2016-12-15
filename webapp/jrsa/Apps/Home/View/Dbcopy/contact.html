@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+          #tabbox{overflow:hidden; margin:0 auto;}
+          .tab_conbox{border: 1px solid #999;border-top: none;}
+          .tab_con{ display:none;}
+          .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+          .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+          .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
+          .tabs li a:hover {background: #ccc;}    
+          .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+          .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+          .box{padding:10px;}
+          .section table tr.title {background: #eee;color: #224;}
+          .section table { font-size: 13px; color: #888; width: 98%; margin: 10px;border: 1px solid #ccc;}
+          .section table tr { border-bottom: 1px solid #ddd; height: 30px;}
+          .section table tr .title { border-bottom: 1px solid #ddd;}
+          .section table tr input { display: block; width: 250px; width: 90%; color: #888;}
+          .section table tr.title { background: #eee; color: #224;}
+          .section table tr.title td { border-bottom: 1px solid #ddd; font-weight: 800;}
+          .section table tr.title span { color: #999; font-size: 13px; padding-left: 4px; font-weight: 400;}
+          .section table tr td { border-bottom: 1px solid #eee; line-height: 2.5em; height: 2.5em; padding-left: 20px;}
+          .section table tr td.name { width: 30%;}
+          .section table tr td.name,#body table tr td.path { border-right: 1px solid #ddd;}
+          .section table tr td.action { line-height: 1.3em; width: 30%;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 5px 10px 5px 0;font-weight: 400;padding: 0.5em 1.5em;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s; color: #fff;}
+          .cinfo{background: #4265a4;}
+          .bodys .main .section {padding-bottom: 10px;color: #666;padding-top: 0px;border-top:#fff;}
+           .status{width: 135px;height: 20px; float: left;margin: 5px;}
+          .info{background: #4265a4;}
+          .add{float:right;}
+          .lins{padding:10px;}
+          /**按钮开关**/
+          .lists{padding:6px 4px; border-bottom:1px dotted #d3d3d3; position:relative} 
+          .fun_title span{width:82px; height:25px; background:url(__IMG__/switch.gif) no-repeat; cursor:pointer; position:absolute; left:80px; top:22px} 
+          .fun_title span.ad_on{background-position:0 -2px} 
+          .fun_title span.ad_off{background-position:0 -38px} 
+          .fun_title h3{font-size:14px; font-family:'microsoft yahei';} 
+          .lists p{line-height:20px} 
+          .lists p span{color:#f60} 
+          .cur_select{background:#ffc} 
+        </style>
+    </head>
+    <body>
+        <div class="bodys">
+            <div class="menu_left">
+                <include file="Common:dbcopyleftmenu" />
+            </div>
+            <div class="main">
+                <div class='h1'><i class="font-icon icon-terminal"></i>告警配置</div>
+                <div id="tabbox">
+                <ul class="tabs" id="tabs">
+                   <li><a href="javascript:;" tab="tab1">手机号</a></li>
+                   <li><a href="javascript:;" tab="tab2">邮件地址</a></li>
+                </ul>
+                <ul class="tab_conbox">
+                    <li id="tab1" class="tab_con">
+                        <div class="section">
+                            <div>
+                                <div class="lists">
+                                    <div class="fun_title">
+                                        <span key="sendmsg" value="{$send.msg.value}" class="<notempty name="send.msg.value">ad_on<else/>ad_off</notempty>" title="<notempty name="send.msg.value">点击关闭<else/>点击开启</notempty>"></span>
+                                       <h3>发送短信：</h3>
+                                    </div>
+                                  </div>
+                                <a href="javascript:;" class="buttons info add addtel">添加手机号 </a>
+                            </div>
+                            <table>
+                                <tr class="title">
+                                    <td width="15%">{$Think.lang.id}</td>
+                                    <td width="25%">手机号码</td>
+                                    <td>{$Think.lang.action}</td>
+                                </tr>
+                                <volist name="data['tel']" id="item">
+                                    <tr>
+                                    <td>{$item.id}</td>
+                                    <td>{$item.content}</td>
+                                    <td><a href="javascript:;" data-id="{$item.id}" class="deldata">{$Think.lang.button_del}</a></td>
+                                </tr>
+                                </volist>
+                            </table>
+                            <form action="{:U('Dbcopy/contact')}" method="post" id="J_ajaxForm">
+                                <div class="section tel" style="display:none;">
+                                    <div class='box'>
+                                        <input type="hidden" id="style" class="wd250" name="style" value="0"/>
+                                        <input type="hidden" id="appid" class="wd250" name="appid" value="2"/>
+                                        <div id="dates">
+                                            <span >手机号码</span>
+                                            <input type="text" id="content" name="content" class="wd150" value="" required/><label></label>
+                                            <div class='line'></div>
+                                        </div>
+                                        <a href="javascript:void(0);" id="upd" data-url="{:U('Dbcopy/contact')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
+                                     </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                    <li id="tab2" class="tab_con">
+                        <div class="section">
+                            <div>
+                                <div class="lists">
+                                    <div class="fun_title">
+                                        <span key="sendmail" value="{$send.mail.value}" class="<notempty name="send.mail.value">ad_on<else/>ad_off</notempty>" title="<notempty name="send.mail.value">点击关闭<else/>点击开启</notempty>"></span>
+                                       <h3>发送邮件：</h3>
+                                    </div>
+                                  </div>
+                                <a href="javascript:;" class="buttons info add addmail">添加邮件地址 </a>
+                            </div>
+                            <table>
+                                <tr class="title">
+                                    <td width="15%">{$Think.lang.id}</td>
+                                    <td width="25%">邮件地址</td>
+                                    <td>{$Think.lang.action}</td>
+                                </tr>
+                                <volist name="data['mail']" id="item">
+                                    <tr>
+                                    <td>{$item.id}</td>
+                                    <td>{$item.content}</td>
+                                    <td><a href="javascript:;" data-id="{$item.id}" class="deldata">{$Think.lang.button_del}</a></td>
+                                </tr>
+                                </volist>
+                            </table>
+                            <form action="{:U('Dbcopy/contact')}" method="post" id="J_ajaxForm1">
+                                <div class="section mail" style="display:none;">
+                                    <div class='box'>
+                                        <input type="hidden" id="style" class="wd250" name="style" value="1"/>
+                                        <input type="hidden" id="appid" class="wd250" name="appid" value="2"/>
+                                        <div id="dates">
+                                            <span >邮件地址</span>
+                                            <input type="text" id="m-content" name="m-content" class="wd150" value="" required/><label></label>
+                                            <div class='line'></div>
+                                        </div>
+                                        <a href="javascript:void(0);" id="upd" data-url="{:U('Dbcopy/contact')}" class="save button J_ajax_submit_btn1">{$Think.lang.button_save}</a>
+                                     </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script type="text/javascript">
+             $(".deldata").on("click",function(){
+                    var id = $(this).attr('data-id');
+                    art.dialog({
+                    content: LNG.member_remove_tips,
+                    ok: function () {
+                        this.close();
+                        $.post("{:U('Enterprise/delContact')}",{id:id},function(data){
+                            if (data.state === 'success') {
+                                core.tips.tips(data.info,'success');
+                               if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                            } else if (data.state === 'fail') {
+                                core.tips.tips(data.info,'error');
+                                btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        },"json")
+                        return false;
+                    },
+                    okVal:LNG.if_remove,
+                    cancelVal: LNG.close,
+                    cancel: true 
+                });
+              });
+              $(".addtel").on('click',function(){
+                    $(".tel").slideDown();
+              });
+              $(".addmail").on('click',function(){
+                    $(".mail").slideDown();
+              });
+              var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm"),btn1 = $(".J_ajax_submit_btn1"),form1 = $("#J_ajaxForm1");
+                btn.on("click",function(){
+                    if($("#content").val()==""){
+                        core.tips.tips("必填项不能为空...",'info');
+                    }else if(!checkTel($("#content").val())){
+                        core.tips.tips("格式不正确，请确认输入...",'info');
+                    }else{
+                        form.ajaxSubmit({
+                        url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                        dataType: 'json',
+                        type:'post',
+                        beforeSubmit: function (arr, $form, options) {
+                            var text = btn.text();
+                            //按钮文案、状态修改
+                            btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                        },
+                        success: function (data, statusText, xhr, $form) {
+                            var text = btn.text();
+                            //按钮文案、状态修改
+                            btn.removeClass('disabled').text(text.replace('中...', ''));
+                            if (data.state === 'success') {
+                                //core.tips.tips(data.info,'success');
+                                //返回数据
+                                if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                            } else if (data.state === 'fail') {
+                                core.tips.tips(data.info,'error');
+                                btn.removeProp('disabled').removeClass('disabled');
+                                }
+                            }
+                        });
+                    }
+                });
+                btn1.on("click",function(){
+                    if($("#m-content").val()==""){
+                        core.tips.tips("必填项不能为空...",'info');
+                    }else if(!checkMail($("#m-content").val())){
+                        core.tips.tips("格式不正确，请确认输入...",'info');
+                    }else{
+                        form1.ajaxSubmit({
+                        url: btn.data('action') ? btn.data('action') : form1.attr('action'), 
+                        dataType: 'json',
+                        type:'post',
+                        beforeSubmit: function (arr, $form, options) {
+                            var text = btn.text();
+                            //按钮文案、状态修改
+                            btn1.text(text + '中...').prop('disabled', true).addClass('disabled');
+                        },
+                        success: function (data, statusText, xhr, $form) {
+                            var text = btn1.text();
+                            //按钮文案、状态修改
+                            btn1.removeClass('disabled').text(text.replace('中...', ''));
+                            if (data.state === 'success') {
+                                //core.tips.tips(data.info,'success');
+                                //返回数据
+                                if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                            } else if (data.state === 'fail') {
+                                core.tips.tips(data.info,'error');
+                                btn1.removeProp('disabled').removeClass('disabled');
+                                }
+                            }
+                        });
+                    }
+                });
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                jQuery.jqtab = function(tabtit,tabcon) {
+                    $(tabcon).hide();
+                    $(tabtit+" li:first").addClass("thistab").show();
+                    $(tabcon+":first").show();
+
+                    $(tabtit+" li").click(function() {
+                        $(tabtit+" li").removeClass("thistab");
+                        $(this).addClass("thistab");
+                        $(tabcon).hide();
+                        var activeTab = $(this).find("a").attr("tab");
+                        $("#"+activeTab).fadeIn();
+                        return false;
+                    });
+                };
+                $.jqtab("#tabs",".tab_con");
+            });
+            //按钮效果
+            $(function(){ 
+                //鼠标滑向换色 
+                $(".list").hover(function(){ 
+                    $(this).addClass("cur_select"); 
+                },function(){ 
+                    $(this).removeClass("cur_select"); 
+                }); 
+
+                //关闭 
+                $(".ad_on").on("click",function(){ 
+                    var key = $(this).attr("key"); 
+                    var value = $(this).attr("value"); 
+                    $.post("{:U('Enterprise/sendStatus')}",{appid:2,key:key,value:value},function(data){ 
+                        if (data.state === 'success') {
+                            reloadPage(window);
+                        }else{ 
+                            core.tips.tips(data.info,'error');
+                        } 
+                    }); 
+                }); 
+                //开启 
+                $(".ad_off").on("click",function(){ 
+                    var key = $(this).attr("key"); 
+                    var value = $(this).attr("value"); 
+                    $.post("{:U('Enterprise/sendStatus')}",{appid:2,key:key,value:value},function(data){ 
+                         if (data.state === 'success') {
+                            reloadPage(window);
+                        }else{ 
+                            core.tips.tips(data.info,'error');
+                        }  
+                    }); 
+                }); 
+            }); 
+        </script>
+    </body>
+</html>

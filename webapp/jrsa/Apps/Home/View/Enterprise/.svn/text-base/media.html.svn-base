@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+          .h1{font-weight: 400;color: #5c7fbd;padding: 0px 0 10px 10px;font-size: 26px;padding: 10px;}
+          #body table{margin: 0 10px;width: 97%;}
+          h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
+          .bt10{border-top: 1px solid #ddd;padding: 0 0 10px 0;}
+          h2{font-size: 18px;float: left;padding: 0 10px;color: green;font-weight: bold;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 1px;font-weight: 400;padding: 7px 10px 0 10px;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s;color: #fff;height: 25px;}
+          .info{background: #4265a4;}
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <h2 style="width: 97%;">磁带管理</h2>
+            <div style="margin:10px;">
+                <input type="button" value="全选" id="selectAll" />  
+                <!--input type="button" value="全不选" id="unSelect" /-->  
+                <input type="button" value="反选" id="reverse" />
+                <a href="javascript:;" data-id="{$item['VolumeName']}" data-type="add" class="buttons info">加入介质池</a>
+                <a href="javascript:;" data-id="{$item['VolumeName']}" data-type="imp" class="buttons info">导入磁带</a>
+                <a href="javascript:;" data-id="{$item['VolumeName']}" data-type="exp" class="buttons info">导出磁带</a>
+            </div>
+            <table>
+                <tr class="title">
+                    <td width="7%"></td>
+                    <td width="10%">槽位</td>
+                    <td width="15%">磁带标签</td>
+                    <td width="15%">备份池</td>
+                    <td width="15%">介质状态</td>
+                </tr>
+                <volist name="data" id="item">
+                    <tr>
+                        <td><input type="checkbox" name="tapes" class="tapes" value="{$item[0]}" /></td>
+                        <td>{$item[0]}</td>
+                        <td>{$item[1]}</td>
+                        <td>{$item[4]}</td>
+                        <td>{$item[2]}</td>
+                    </tr>
+                </volist>
+            </table>
+            <div style="margin:10px;">
+                <input type="button" value="全选" id="selectAll" />  
+                <!--input type="button" value="全不选" id="unSelect" /-->  
+                <input type="button" value="反选" id="reverse" />
+                <input type="hidden" value="{$poolname}" id="poolname"/>
+                <input type="hidden" value="{$sname}" id="storagename"/>
+                <a href="javascript:;" data-id="{$item['VolumeName']}" data-type="add" class="buttons info">加入介质池</a>
+                <a href="javascript:;" data-id="{$item['VolumeName']}" data-type="imp" class="buttons info">导入磁带</a>
+                <a href="javascript:;" data-id="{$item['VolumeName']}" data-type="exp" class="buttons info">导出磁带</a>
+            </div>
+            <div class="bt10"></div>
+        </div>
+        <script src="__JS__/seajs/sea.js"></script>
+        <script type="text/javascript">
+            seajs.config({
+                base: "__JS__",
+                preload: ["jquery"]
+            });
+            seajs.use('menu/main');
+        </script>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+          $(document).ready(function($) {
+              $("#selectAll").on("click",function(){
+                  $(".tapes:checkbox").attr("checked", true); 
+              });
+              $("#unSelect").on("click",function(){
+                $(".tapes:checkbox").attr("checked", false);  
+              });  
+              $("#reverse").on("click",function(){
+                $(".tapes:checkbox").each(function (){  
+                    $(this).attr("checked", !$(this).attr("checked"));  
+                });  
+              }); 
+              $(".buttons").on('click',function(){
+                var type = $(this).attr('data-type');                
+                var tapes=$("input[type='checkbox']:checked").val([]);
+                var poolname=$("#poolname").val();
+                var storagename=$("#storagename").val();
+                var tapeid = "";
+                for(var i=0;i<tapes.length;i++){
+                    tapeid +=tapes[i].value + ",";
+                }
+                if(type!="imp"){
+                    if(tapeid == ""){
+                        core.tips.tips("请选择对应的槽位",'info');
+                        return false;
+                    }
+                }
+                art.dialog({
+                    content: "操作不可逆，是否确认操作？",
+                    ok: function () {
+                        this.close();
+                        $.post("{:U('Enterprise/media')}",{id:tapeid,pool:poolname,storage:storagename,type:type},function(data){
+                            window.location.reload();
+                        },"json");
+                        return false;
+                    },
+                    icon: 'warning',
+                    okVal:LNG.confirm,
+                    cancelVal: LNG.close,
+                    cancel: true 
+                });
+              }); 
+            });
+        </script>
+    </body>
+</html>

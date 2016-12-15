@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+          #tabbox{overflow:hidden; margin:0 auto;}
+          .tab_conbox{border: 1px solid #999;border-top: none;}
+          .tab_con{ display:none;}
+          .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+          .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+          .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
+          .tabs li a:hover {background: #ccc;}    
+          .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+          .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+          .box{padding:10px;}
+          .section table tr.title {background: #eee;color: #224;}
+          .section table { font-size: 13px; color: #888; width: 98%; margin: 10px;border: 1px solid #ccc;}
+          .section table tr { border-bottom: 1px solid #ddd; height: 30px;}
+          .section table tr .title { border-bottom: 1px solid #ddd;}
+          .section table tr input { display: block; width: 250px; width: 90%; color: #888;}
+          .section table tr.title { background: #eee; color: #224;}
+          .section table tr.title td { border-bottom: 1px solid #ddd; font-weight: 800;}
+          .section table tr.title span { color: #999; font-size: 13px; padding-left: 4px; font-weight: 400;}
+          .section table tr td { border-bottom: 1px solid #eee; line-height: 2.5em; height: 2.5em; padding-left: 20px;}
+          .section table tr td.name { width: 30%;}
+          .section table tr td.name,#body table tr td.path { border-right: 1px solid #ddd;}
+          .section table tr td.action { line-height: 1.3em; width: 30%;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 5px 10px 5px 0;font-weight: 400;padding: 0.5em 1.5em;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s; color: #fff;}
+          .cinfo{background: #4265a4;}
+          .bodys .main .section {padding-bottom: 10px;color: #666;padding-top: 0px;border-top:#fff;}
+           .status{width: 135px;height: 20px; float: left;margin: 5px;}
+          .info{background: #4265a4;}
+          .add{float:right;}
+          .lins{padding:10px;}
+          /**按钮开关**/
+          .lists{padding:6px 4px; border-bottom:1px dotted #d3d3d3; position:relative} 
+          .fun_title span{width:82px; height:25px; background:url(__IMG__/switch.gif) no-repeat; cursor:pointer; position:absolute; left:80px; top:22px} 
+          .fun_title span.ad_on{background-position:0 -2px} 
+          .fun_title span.ad_off{background-position:0 -38px} 
+          .fun_title h3{font-size:14px; font-family:'microsoft yahei';} 
+          .lists p{line-height:20px} 
+          .lists p span{color:#f60} 
+          .cur_select{background:#ffc} 
+          p{font-size: 18px;padding:10px;color: green;font-weight: bold;}
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class="menu_left">
+                <include file="Common:vtl" />
+            </div>
+            <div class="main">
+                <div class='h1'><i class="font-icon icon-building"></i>存储介质</div>
+                <div class='line'></div>
+                <div class="clear"></div>
+                <div id="tabbox">
+                <ul class="tabs" id="tabs">
+                   <li><a href="javascript:;" tab="tab1">已加入池的存储介质</a></li>
+                   <li><a href="javascript:;" tab="tab2">未加入池的存储介质</a></li>
+                </ul>
+                <ul class="tab_conbox">
+                    <li id="tab1" class="tab_con">
+                        <table>
+                            <tr class="title">
+                                <td width="10%">ID</td>
+                                <td width="8%">Vendor</td>
+                                <td width="8%">Model</td>
+                                <td width="8%">Name</td>
+                                <td width="8%">Pool</td>
+                                <td width="8%">Size</td>
+                                <td width="8%">Used</td>
+                                <td width="8%">Status</td>
+                                <td>Action</td>
+                            </tr>
+                            <volist name="data" id="item">
+                                <tr>
+                                <td>{$item.ID}</td>
+                                <td>{$item.Vendor}</td>
+                                <td>{$item.Model}</td>
+                                <td>{$item.Name}</td>
+                                <td>{$item.Pool}</td>
+                                <td>{$item.Size}</td>
+                                <td>{$item.Used}</td>
+                                <td>{$item.Status}</td>
+                                <td>
+                                    <a href="javascript:;" data-bind="{$item.Name}" class="deldata">移除存储池</a> </if>
+                                </td>
+                            </tr>
+                            </volist>
+                        </table>
+                    </li>
+                    <li id="tab2" class="tab_con">
+                        <empty name="bdata"><p> 无相关数据 </p></empty>
+                        <notempty name="bdata">
+                        <table>
+                            <tr class="title">
+                                <td width="10%">ID</td>
+                                <td width="8%">Vendor</td>
+                                <td width="8%">Model</td>
+                                <td width="8%">Name</td>
+                                <td width="8%">Pool</td>
+                                <td width="8%">Size</td>
+                                <td width="8%">Used</td>
+                                <td width="8%">Status</td>
+                                <td>Action</td>
+                            </tr>
+                            <volist name="bdata" id="item">
+                                <tr>
+                                <td>{$item.ID}</td>
+                                <td>{$item.Vendor}</td>
+                                <td>{$item.Model}</td>
+                                <td>{$item.Name}</td>
+                                <td>{$item.Pool}</td>
+                                <td>{$item.Size}</td>
+                                <td>{$item.Used}</td>
+                                <td>{$item.Status}</td>
+                                <td>
+                                    <a href="javascript:;" data-bind="{$item.Name}" class="adddata">加入存储池</a> </if>
+                                </td>
+                            </tr>
+                            </volist>
+                        </table>
+                        </notempty>
+                    </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function($) {
+                $(".adddata").on("click",function(){
+                    var path = $(this).attr('data-bind');
+                        $.dialog({
+                          content: '<p>请选择存储池？</p>'
+                                  +'<select name="name" id="poolname">'
+                                  <volist name="pool" id="item">
+                                  +'<option value="{$item.Name}">{$item.Name}</option>'
+                                  </volist>
+                                  +'</select>',
+                          fixed: true,
+                          id: 'Fm7',
+                          icon: 'question',
+                          okVal: '执行',
+                          ok: function () {
+                              var input = document.getElementById('poolname');
+                              core.tips.tips("正在执行中，请稍后...",'info');
+                              $.post("{:U('Vtl/bdAction')}",{path:path,name:input.value},function(data){
+                                   if(data.info == ""){
+                                        core.tips.tips("操作成功",'success');
+                                        if (data.referer) {
+                                            window.location.href = data.referer;
+                                        } else {
+                                             reloadPage(window);
+                                        }
+                                    }else{
+                                        art.dialog({
+                                            title:"信息",
+                                           content: data.info,
+                                           width:'550px',
+                                           zIndex:999,
+                                           okVal: '确定',
+                                           ok: function () {
+                                               this.close();
+                                           },
+                                           close:function(){
+                                                if (data.referer) {
+                                                    window.location.href = data.referer;
+                                                } else {
+                                                     reloadPage(window);
+                                                }
+                                           }
+                                       });
+                                    }
+                              },"json")
+                          },
+                          cancel: true
+                      });
+                });
+                //删除池
+                $(".deldata").on("click",function(){
+                    var path = $(this).attr('data-bind');
+                    art.dialog({
+                        content: "是否确定从池中删除存储介质？",
+                        ok: function () {
+                            this.close();
+                            $.post("{:U('Vtl/bdAction')}",{path:path},function(data){
+                                
+                                 if(data.info == ""){
+                                        core.tips.tips("操作成功",'success');
+                                        if (data.referer) {
+                                            window.location.href = data.referer;
+                                        } else {
+                                             reloadPage(window);
+                                        }
+                                    }else{
+                                        art.dialog({
+                                            title:"信息",
+                                           content: data.info,
+                                           width:'550px',
+                                           zIndex:999,
+                                           okVal: '确定',
+                                           ok: function () {
+                                               this.close();
+                                           },
+                                           close:function(){
+                                                if (data.referer) {
+                                                    window.location.href = data.referer;
+                                                } else {
+                                                     reloadPage(window);
+                                                }
+                                           }
+                                       });
+                                    }
+                                    
+                            },"json")
+                            return false;
+                        },
+                        okVal:LNG.if_remove,
+                        cancelVal: LNG.close,
+                        cancel: true 
+                    });
+                });
+              });
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                jQuery.jqtab = function(tabtit,tabcon) {
+                    $(tabcon).hide();
+                    $(tabtit+" li:first").addClass("thistab").show();
+                    $(tabcon+":first").show();
+
+                    $(tabtit+" li").click(function() {
+                        $(tabtit+" li").removeClass("thistab");
+                        $(this).addClass("thistab");
+                        $(tabcon).hide();
+                        var activeTab = $(this).find("a").attr("tab");
+                        $("#"+activeTab).fadeIn();
+                        return false;
+                    });
+
+                };
+                $.jqtab("#tabs",".tab_con");
+            });
+            //按钮效果
+            $(function(){ 
+                //鼠标滑向换色 
+                $(".list").hover(function(){ 
+                    $(this).addClass("cur_select"); 
+                },function(){ 
+                    $(this).removeClass("cur_select"); 
+                }); 
+            }); 
+        </script>
+    </body>
+</html>

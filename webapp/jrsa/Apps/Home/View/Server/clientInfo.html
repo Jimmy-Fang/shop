@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+          .h1{font-weight: 400;color: #5c7fbd;padding: 0px 0 10px 10px;font-size: 26px;padding: 10px;}
+          #body table{margin: 0 10px;width: 97%;}
+          h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
+          .bt10{border-top: 1px solid #ddd;padding: 0 0 10px 0;}
+          h2{font-size: 18px;float: left;padding: 0 10px;color: green;font-weight: bold;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 5px 10px 5px 0;font-weight: 400;padding: 0.5em 1.5em;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s; color: #fff;}
+          .info{background: #4265a4;}</style>
+    </head>
+    <body>
+        <div id="body">
+            <div class='h1'><i class="font-icon icon-barcode"></i>{$Think.lang.sys_client_status}</div>
+            <h4>客户端版本：{$serverInfo.version} <br/>最近启动时间：{$serverInfo.date} <br/>操作系统版本：{$serverInfo.os}</h4>
+            <div class="clear"></div>
+            <div class="bt10"></div>
+            <h2 style="width:800px;"><notempty name="runingJob">进行中的任务  <a href="javascript:;" class="buttons refresh info">刷新 </a><a href="javascript:;" class="buttons cancel info" data-id="{$runingJob.id}">取消 </a><else />无进行中的任务</notempty></h2>
+            
+            <notempty name="runingJob">
+                <h4 style="width:800px;" class="running">文件数：<font color="red">{$runingJob.files}</font>个  容量：<font color="red">{$runingJob.bytes}</font>字节  速度：<font color="red">{$runingJob.bytessec} </font>字节/秒 带宽限制： <font color="red"><if condition="$runingJob.bwlimit eq 0">不限制<else />{$runingJob.bwlimit}</if> </font><br/>当前任务：<font color="red" style="word-break:break-all">{$runingJob.pfile}</font></h4>
+            </notempty>
+            <h2>已经完成的任务</h2>
+            <table>
+                <tr class="title">
+                    <td width="15%">任务ID</td>
+                    <td width="20%">任务名称</td>
+                    <td width="15%" align="center">任务级别</td>
+                    <td width="10%">文件数</td>
+                    <td width="10%">大小</td>
+                    <td width="10%">状态</td>
+                    <td>完成时间</td>
+                </tr>
+                <volist name="terminatedJob" id="item">
+                    <tr>
+                    <td>{$item.id}</td>
+                    <td>{$item.name}</td>
+                    <td align="center"><if condition="$item.level eq 'Full'">全备份<elseif condition="$item.level eq 'Diff'"/>差异备份<elseif condition="$item.level eq '-'"/>--<else />增量备份</if></td>
+                    <td>{$item.files}</td>
+                    <td>{$item.bytes}</td>
+                    <td><if condition="$item.status eq 'OK'"><font color="green">成功</font><elseif condition="$item.status eq 'Error'"/><font color="red">错误</font><else /><font color="orange">取消</font></if></td>
+                    <td>{$item.finished|strtotime|date='Y-m-d H:i:s',###}</td>
+                </tr>
+                </volist>
+            </table>
+            <div class="bt10"></div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+          $(document).ready(function($) {
+              $(".cancel").on('click',function(){
+                var id = $(this).attr('data-id');
+                art.dialog({
+                        content: "是否取消任务？",
+                        ok: function () {
+                            this.close();
+                            $.post("{:U('Server/cancelJob')}",{id:id},function(data){
+                                window.location.reload();
+                            },"json")
+                            return false;
+                        },
+                        okVal:LNG.confirm,
+                        cancelVal: LNG.close,
+                        cancel: true 
+                    });
+              });
+                var i = 0;
+                $(".refresh").on("click",function(){
+                    if(i==0){
+                        i++;
+                        var text = $(this).html();
+                        var btn = $(this);
+                        var name = "{$_GET['name']}";
+                        $(this).html(text + '中...').prop('disabled', true).addClass('disabled');
+                        $.post("{:U('Server/getRunningJob')}",{name:name},function(data){
+                             btn.removeClass('disabled').html(text.replace('中...', ''));
+                             i = 0;
+                                if (data.state == 'success') {
+                                    $(".running").html(data.info);
+                                } else {
+                                    $(".running").html("任务已经执行完了");
+                                }
+                                btn.removeProp('disabled').removeClass('disabled');
+                            },"json")
+                    }
+                });
+              });
+        </script>
+    </body>
+</html>

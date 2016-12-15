@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+          #tabbox{overflow:hidden; margin:0 auto;}
+          .tab_conbox{border: 1px solid #999;border-top: none;}
+          .tab_con{ display:none;}
+          .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+          .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+          .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
+          .tabs li a:hover {background: #ccc;}    
+          .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+          .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class="menu_left">
+                <include file="Common:enterprise" />
+            </div>
+            <div class="main">
+                <div class='h1'><i class="font-icon icon-edit"></i>任务统计<a href="{:U('Chart/job?type=1')}" class="adds">导出为CSV</a></div>
+                    <ul class="tabs" id="tabs">
+                        <li><a href="javascript:;" tab="tab1">文件大小统计</a></li>
+                        <li><a href="javascript:;" tab="tab2">文件数量统计</a></li>
+                     </ul>
+                     <ul class="tab_conbox">
+                        <li id="tab1" class="tab_con">
+                            <div id="container" style="min-width:700px;height:480px"></div>
+                        </li>
+                        <li id="tab2" class="tab_con">
+                            <div id="containerfiles" style="min-width:700px;height:480px"></div>
+                        </li>
+                     </ul>
+                </div>
+            </div>
+        </div>
+        <script src="__JS__/highcharts/jquery-1.8.2.min.js" type="text/javascript"></script>
+        <script src="__JS__/highcharts/highcharts.js" type="text/javascript"></script> 
+        <script src="__JS__/highcharts/exporting.js" type="text/javascript"></script> 
+        <script type="text/javascript">
+            $(function () {
+                $('#container').highcharts({
+                    title: {
+                        text: '任务备份文件大小统计'
+                    },
+                    xAxis: {
+                        categories: [{$jobinfo['bcategories']}]
+                    },
+                    series: [{$jobinfo['bytesColumn']}]
+                });
+                $('#containerfiles').highcharts({
+                    title: {
+                        text: '任务备份文件数量统计'
+                    },
+                    xAxis: {
+                        categories: [{$jobinfo['fcategories']}]
+                    },
+                    series: [{$jobinfo['filesColumn']}]
+                });
+                
+                jQuery.jqtab = function(tabtit,tabcon) {
+                    $(tabcon).hide();
+                    $(tabtit+" li:first").addClass("thistab").show();
+                    $(tabcon+":first").show();
+
+                    $(tabtit+" li").click(function() {
+                        $(tabtit+" li").removeClass("thistab");
+                        $(this).addClass("thistab");
+                        $(tabcon).hide();
+                        var activeTab = $(this).find("a").attr("tab");
+                        $("#"+activeTab).fadeIn();
+                        return false;
+                    });
+
+                };
+                $.jqtab("#tabs",".tab_con");
+                
+            });
+        </script>
+    </body>
+</html>

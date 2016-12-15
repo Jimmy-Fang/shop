@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+           #body table{margin: 10px;width: 96%;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 1px;font-weight: 400;padding: 1px 10px;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s;color: #fff;height: 25px;}
+          .cinfo{background: #4265a4;}
+          #tabbox{overflow:hidden; margin:0 auto;}
+         .bodys .main .section {border-top: 0px;padding: 10px;}
+         .tab_conbox{border: 1px solid #999;border-top: none;}
+         .tab_con{ display:none;}
+
+         .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+         .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+         .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
+         .tabs li a:hover {background: #ccc;}    
+         .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+
+         .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+         h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
+         p{font-size: 18px;padding:10px;color: green;font-weight: bold;width:800px;}
+         .info{background: #4265a4;}
+        </style>
+    </head>
+    <body>
+        <div class="bodys">
+            <div class="menu_left">
+                <include file="Common:enterprise" />
+            </div>
+            <div class="main">
+                <form action="{:U('Enterprise/addMedium')}" method="post" id="J_ajaxForm">
+                    <div class='h1'><i class="font-icon icon-building"></i><notempty name="data['id']">{$Think.lang.ep_medium_upd}<else />{$Think.lang.ep_medium_add}</notempty ></div>
+                    <div id="tabbox">
+                    <ul class="tabs" id="tabs">
+                       <li><a href="javascript:;" tab="tab1">基本配置</a></li>
+                       <li><a href="javascript:;" tab="tab2">高级配置</a></li>
+                       <li><a href="javascript:;" tab="tab3">安全配置</a></li>
+                    </ul>
+                    <ul class="tab_conbox">
+                        <li id="tab1" class="tab_con">
+                            <div class="section">
+                                <div class="box">
+                                    <input value="{$data['id']}" type="hidden" name="id"/>
+                                    <input value="{$data['deviceId']}" type="hidden" name="cid"/>
+                                    <span >{$Think.lang.name}</span>
+                                    <input type="text" id="name" name="name" value="{$data['name']}" <notempty name="data.id">readonly = "true" style="color:#a2a0a0;"</notempty> required/>
+                                    <div class='line'></div>
+                                    <span >{$Think.lang.ip_address}</span>
+                                    <input type="text" id="address" name="address" value="{$data['address']}" required/>
+                                    <div class='line'></div>
+                                    <span >位置</span>
+                                    <div class="tm20"><input type="radio"  value="<empty name="data['deviceId']">-1<else />{$data['deviceId']}</empty>" name="deviceId" <empty name="data['id']">checked<else /><empty name="data['deviceId']"><else />checked</empty></empty> <notempty name="data.id"> disabled </notempty>  /><label>本机</label><input type="radio" value="0" name="deviceId" <empty name="data['id']"><else /><empty name="data['deviceId']">checked<else /></empty></empty> <notempty name="data.id"> disabled </notempty> /><label>异机</label></div>
+                                    <div class='line'></div>
+                                    <span >{$Think.lang.ep_devicetype}</span>
+                                    <div class="tm21">
+                                        <input type="radio" value="file" name="deviceType" <notempty name="data.id"> disabled </notempty> <if condition="$data['mediaType'] eq 'file' ">checked</if> <notempty name="data['mediaType']">readonly = "true"</notempty> /><label>{$Think.lang.e_file}</label>&nbsp;
+                                        <input type="radio" value="fifo" name="deviceType" <notempty name="data.id"> disabled </notempty> <if condition="$data['mediaType'] eq 'fifo' ">checked</if> <notempty name="data['mediaType']">readonly = "true"</notempty> /><label>RDX</label>&nbsp;
+                                        <notempty name="tape"><input type="radio" value="tapes" name="deviceType" <notempty name="data.id"> disabled </notempty> <notempty name="data['mediaType']">readonly = "true"</notempty> <if condition="$data['mediaType'] eq 'tapes' ">checked</if> /><label>磁带库</label></notempty>&nbsp;
+                                        <!-- <notempty name="tape"><input type="radio" value="tape" name="deviceType" <notempty name="data['deviceType']">disabled</notempty> <if condition="$data['deviceType'] eq 'tape' ">checked</if> /><label>磁带机</label></notempty>-->
+                                    </div>
+                                    <div class='line'></div>
+                                    <div class="curt1" <empty name="data['id']">style="display:block;"<else /><empty name="data['deviceId']">style="display:none;"<else />style="display:block;"</empty></empty>>
+                                        <div class="curtabfile">
+                                            <span >{$Think.lang.eq_archivedevice}</span>
+                                            <input type="text" id="filepath" class="wd250" name="archiveDevicef" value="{$cdata['archiveDevice']}" readonly required/>
+                                            <div class='line'></div>
+                                        </div>
+                                        <div class="curtabtapes" style="display:none;">
+                                            <span >机械臂</span>
+                                            <input type="text" id="changerDevice" style="width: 390px;" value="<empty name='cdata.changerDevice'><else/>{$cdata['changerDevice']}</empty>" name="changerDevice" required title='<volist name="tapelist" id="vo">{$vo}&#13;</volist>' />
+                                            <label></label>
+                                            <div class='line'></div>
+                                        </div>
+                                        <div class="curtabtapes" style="display:none;">
+                                            <span >驱动器</span>
+                                            <textarea id="archiveDevicetape" name='archiveDevicetape' style="resize:none;width: 400px;height: 50px;" title='<volist name="tapelist" id="vo">{$vo}&#10;</volist>' required>{$cdata['archiveDevice']}</textarea>
+                                            <label>一行一条数据</label>
+                                            <div class='line'></div>
+                                        </div>
+                                        <div class="curtabtapes" id="tageradio" style="display:none;">
+                                            <span >类型</span>
+                                            <input type="radio" value="runstor" name="tapetype" <if condition="$cdata['vtltype'] eq 1 ">checked</if>/><label>Runstor 磁带库</label>&nbsp;
+                                            <input type="radio" value="diys" name="tapetype" <if condition="$cdata['vtltype'] neq 1 ">checked</if> /><label>其它磁带库</label>
+                                            <div class='line'></div>
+                                        </div>
+                                        <div class="curtabtapes1" id="tapgediys" <if condition="$cdata['vtltype'] eq 1 ">style="display:none;"<else/>style="display:block;"</if>>
+                                            <span >参数</span>
+                                            <textarea id="changerCommand" name='changerCommand' style="resize:none;width: 400px;height: 50px;" required><empty name='cdata.changerCommand'><else/>{$cdata['changerCommand']}</empty></textarea>
+                                            <label></label>
+                                            <div class='line'></div>
+                                        </div>
+                                    </div>
+                                    <span >{$Think.lang.app_desc}</span>
+                                    <textarea id="description" name='description' style="resize:none;width: 400px;height: 50px;"  placeholder="" required>{$data['description']}</textarea>
+                                    <div class="clear"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="tab2" class="tab_con">
+                        <div class="section">
+                            <div class='box'>
+                                <span >介质服务器端口</span>
+                                <input type="text" id="sdport" value="<empty name='data.sdPort'>5103<else/>{$data['sdPort']}</empty>" class="wd50" name="sdPort" required />
+                                <label>*默认端口 5103</label>
+                                <div class='line'></div>
+                                <span >最大并发</span>
+                                <input type="text" id="maxConcurrentJobs" class="wd50" name="maxConcurrentJobs" value="<notempty name='data.maxConcurrentJobs'>{$data['maxConcurrentJobs']}<else/>4</notempty>" required/>
+                                <div class='line'></div>
+                                <!-- ###start client### -->
+                                <span >网络最大缓存</span>
+                                <select name="maxNetworkBufferSize">
+                                    <option value="32768" <if condition="$ddata['maxNetworkBufferSize'] eq '32768' ">selected</if>>32768</option>
+                                    <option value="65536" <if condition="$ddata['maxNetworkBufferSize'] eq '65536' ">selected</if>>65536</option>
+                                </select>
+                                <div class='line'></div>
+                                <span >备份块大小</span>
+                                <select name="minBlockSize">
+                                    <option value="64512" <if condition="$ddata['minBlockSize'] eq '64512' ">selected</if>>default</option>
+                                    <option value="131072" <if condition="$ddata['minBlockSize'] eq '131072' ">selected</if>>128k</option>
+                                    <option value="262144" <if condition="$ddata['minBlockSize'] eq '262144' ">selected</if>>256k</option>
+                                    <option value="524288" <if condition="$ddata['minBlockSize'] eq '524288' ">selected</if>>512k</option>
+                                    <option value="1048576" <if condition="$ddata['minBlockSize'] eq '1048576' ">selected</if>>1M</option>
+                                    <option value="2097152" <if condition="$ddata['minBlockSize'] eq '2097152' ">selected</if>>2M</option>
+                                    <option value="4194304" <if condition="$ddata['minBlockSize'] eq '4194304' ">selected</if>>4M</option>
+                                </select>
+                                <div class='line'></div>
+                                <span >最大文件包大小</span>
+                                <input type="text" id="maxFileSize" class="wd50" name="maxFileSize" value="<notempty name='data.maxFileSize'>{$data['maxFileSize']}<else/>20</notempty>" required/><label>单位：（/G）</label>
+                                <div class='line'></div>
+                                <span >最大缓存容量</span>
+                                <input type="text" id="maxSpoolSize" class="wd50" name="maxSpoolSize" value="<notempty name='data.maxSpoolSize'>{$data['maxSpoolSize']}<else/>20</notempty>" required/><label>单位：（/G）</label>
+                                <div class='line'></div>
+                                <!-- ###end client### -->
+                                <span >重复数据删除</span>
+                                <div class="tm20"><input type="checkbox" class="checkbox" name="allowCompression" id="allowCompression" value="1" <if condition="$data['allowCompression'] eq 1 ">checked</if>></div>
+                                <div class='line'></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="tab3" class="tab_con">
+                        <div class="section">
+                            <div class='box'>
+                                <span >启用TLS</span>
+                                <input value="1" type="checkbox" id="TLSEnable" name="TLSEnable" class="ckbs" <if condition="$data['TLSEnable'] eq 'yes'">checked="checked" </if>/>
+                                <div class='line'></div>
+                                <div class="tlsshow" <if condition="$data['TLSEnable'] eq 'no'">style="display: none;"</if>>
+                                    <span >只接受TLS链接</span>
+                                    <input value="1" type="checkbox" id="TLSRequire" name="TLSRequire" class="ckbs" <if condition="$data['TLSRequire'] eq 'yes'">checked="checked" </if>/>
+                                    <div class='line'></div>
+                                    <span >证书有效性验证</span>
+                                    <input value="1" type="checkbox" id="TLSVerifyPeer" name="TLSVerifyPeer" class="ckbs" <if condition="$data['TLSVerifyPeer'] eq 'yes'">checked="checked" </if>/>
+                                    <div class='line'></div>
+                                    <span >TLS证书</span>
+                                    <input type="text" id="TLSCertificate" name="TLSCertificate" value="{$data['TLSCertificate']}" required class="wd250"/>
+                                    <div class='line'></div>
+                                    <span >TLS密钥</span>
+                                    <input type="text" id="TLSKey" name="TLSKey" value="{$data['TLSKey']}" required class="wd250"/>
+                                    <div class='line'></div>
+                                    <span >TLS CA证书</span>
+                                    <input type="text" id="TLSCACertificateFile" name="TLSCACertificateFile" value="{$data['TLSCACertificateFile']}" required class="wd250"/>
+                                    <div class='line'></div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <a href="javascript:void(0);" id="upd" data-url="{:U('Enterprise/addMedium')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
+                <label style="margin:0 20px;font:14px;">注意：修改后请重启备份服务器</label>
+                </form>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+            $(".tm20 input").click(function(){
+              var curt=$(":radio[name='deviceId']").filter(":checked").val();
+              if(curt == 0){
+                  $(".curt1").hide();
+              }else{
+                  $(".curt1").show();
+              }
+            });
+            $("#tageradio input").click(function(){
+                var tapes=$(":radio[name='tapetype']").filter(":checked").val();
+                if(tapes == "runstor"){
+                    $("#tapgediys").hide();
+                }else{
+                    $("#tapgediys").show();
+                }
+            });
+            var curtab=$(":radio[name='deviceType']").filter(":checked").val();
+            $(".curtabfile,.curtabtape,.curtabtapes").hide().filter(".curtab"+curtab).show(); 
+            $(".tm21 input").click(function(){
+              curtab=$(":radio[name='deviceType']").filter(":checked").val();
+              $(".curtabfile,.curtabtape,.curtabtapes").hide().filter(".curtab"+curtab).show(); 
+              $("#tapgediys").hide();
+            });
+            $("#filepath").on("click",function(){
+                <empty name="cdata['deviceType']">
+                $.dialog.open("{:U('Tools/folder')}", {
+                    title: '选择备份目录',
+                    fixed: true,
+                    width: 570,
+                    height: 500
+                });
+                </empty>
+              });
+            var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm");
+            btn.on("click",function(){
+                var curt=$(":radio[name='deviceId']").filter(":checked").val();
+                var curtype=$(":radio[name='deviceType']").filter(":checked").val();
+                if(curt != 0){
+                    if(curtype == 'file'){
+                        if($("#filepath").val() ==""){
+                            core.tips.tips(LNG.not_null,'info');
+                            return false;
+                        }
+                    }
+                }else{
+                    if(typeof(curtype)== "undefined"){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }
+                }
+                if($("#name").val() =="" || $("#address").val() =="" || $("#description").val() ==""){
+                    core.tips.tips(LNG.not_null,'info');
+                }else if(checkIP($("#address").val())==false){
+                    core.tips.tips(LNG.ip_address + LNG.illegal,'info');
+                }else if(!checkName($("#name").val())){
+                    core.tips.tips(LNG.verify_name_cross,'info');
+                }else{
+                    if ($('#TLSEnable').attr('checked')) {
+                        if($("#TLSCertificate").val() ==""){
+                            core.tips.tips(LNG.not_null,'info');
+                            return false;
+                        }
+                        if($("#TLSKey").val() ==""){
+                            core.tips.tips(LNG.not_null,'info');
+                            return false;
+                        }
+                        if($("#TLSCACertificateFile").val() ==""){
+                            core.tips.tips(LNG.not_null,'info');
+                            return false;
+                        }
+                    }
+                    form.ajaxSubmit({
+                    url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                    dataType: 'json',
+                    type:'post',
+                    beforeSubmit: function (arr, $form, options) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.removeClass('disabled').text(text.replace('中...', ''));
+                        if (data.state === 'success') {
+                            core.tips.tips(data.info,'success');
+                             if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                        } else if (data.state === 'fail') {
+                            core.tips.tips(data.info,'error');
+                            btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            jQuery.jqtab = function(tabtit,tabcon) {
+                $(tabcon).hide();
+                $(tabtit+" li:first").addClass("thistab").show();
+                $(tabcon+":first").show();
+
+                $(tabtit+" li").click(function() {
+                    $(tabtit+" li").removeClass("thistab");
+                    $(this).addClass("thistab");
+                    $(tabcon).hide();
+                    var activeTab = $(this).find("a").attr("tab");
+                    $("#"+activeTab).fadeIn();
+                    return false;
+                });
+
+            };
+            $.jqtab("#tabs",".tab_con");
+            $("#TLSEnable").click(function(){
+                if($("#TLSEnable").attr("checked")=="checked"){
+                    $(".tlsshow").css("display","block");
+               }else{
+                    $(".tlsshow").css("display","none");
+               }
+           });
+        });
+        </script>
+    </body>
+</html>

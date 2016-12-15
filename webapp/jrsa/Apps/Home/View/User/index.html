@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/{$userconfig['theme']}/app_setting.css" rel="stylesheet" />
+    </head>
+    <style>
+        #body table tr.title td{line-height: 2.5em;height: 2.5em;}
+        #body table tr td{line-height: 1em;height: 1em;border-right: 1px solid #ddd;}
+    </style>
+    <body>
+        <div id="body">
+            <div class="menu_left">	
+                <h1>{$Think.lang.setting_title}</h1>
+                <ul class='setting'>
+                    <li id="user" data-url="{:U('user/info')}"><i class="font-icon icon-user"></i>{$Think.lang.setting_user}</li>
+                    <li id="member" data-url="{:U('user/member')}"><i class="font-icon icon-group"></i>{$Think.lang.setting_member}</li>
+                    <li id="theme" data-url="{:U('userconfig/theme')}"><i class="font-icon icon-dashboard"></i>{$Think.lang.setting_theme}</li>
+                    <li id="wall" data-url="{:U('userconfig/wall')}"><i class="font-icon icon-picture"></i>{$Think.lang.setting_wall}</li>	
+                    <li id="help" data-url="{:U('help/index')}"><i class="font-icon icon-question"></i>{$Think.lang.setting_help}</li>
+                </ul>
+            </div>		
+            <div class='main'></div>
+        </div>
+        <script src="__JS__/seajs/sea.js"></script>
+        <script type="text/javascript">
+	var LNG = <?php echo strtolower(json_encode(L()));?>;
+                    var G = {
+                            is_root  : <?php echo UID;?>,
+                            web_root 	: "<?php echo WEB_ROOT?>",
+                            web_host 	: "<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/';?>",
+                            static_path : "__STATIC__",
+                            login_out:"{:U('public/loginout')}",
+                            user_list  : "{:U('user/lists')}",
+                            version 	: "1.0"
+                    };
+            seajs.config({
+                base: "__JS__",
+                preload: ["jquery"]
+            });
+            seajs.use('setting/main');
+        </script>
+    </body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+          #tabbox{overflow:hidden; margin:0 auto;}
+          .tab_conbox{border: 1px solid #999;border-top: none;}
+          .tab_con{ display:none;}
+          .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+          .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+          .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
+          .tabs li a:hover {background: #ccc;}    
+          .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+          .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+          .box{padding:10px;}
+          .section table tr.title {background: #eee;color: #224;}
+          .section table { font-size: 13px; color: #888; width: 98%; margin: 10px;border: 1px solid #ccc;}
+          .section table tr { border-bottom: 1px solid #ddd; height: 30px;}
+          .section table tr .title { border-bottom: 1px solid #ddd;}
+          .section table tr input { display: block; width: 250px; width: 90%; color: #888;}
+          .section table tr.title { background: #eee; color: #224;}
+          .section table tr.title td { border-bottom: 1px solid #ddd; font-weight: 800;}
+          .section table tr.title span { color: #999; font-size: 13px; padding-left: 4px; font-weight: 400;}
+          .section table tr td { border-bottom: 1px solid #eee; line-height: 2.5em; height: 2.5em; padding-left: 20px;}
+          .section table tr td.name { width: 30%;}
+          .section table tr td.name,#body table tr td.path { border-right: 1px solid #ddd;}
+          .section table tr td.action { line-height: 1.3em; width: 30%;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 1px;font-weight: 400;padding: 1px 10px;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s;color: #fff;height: 25px;}
+          .cinfo{background: #4265a4;}
+          .bodys .main .section {padding-bottom: 10px;color: #666;padding-top: 0px;border-top:#fff;}
+          
+        </style>
+    </head>
+    <body>
+        <div class="bodys">
+            <div class="menu_left">
+                <include file="Common:dbcopyleftmenu" />
+            </div>
+            <div class="main">
+                <div class='h1'><i class="font-icon icon-terminal"></i>修改主从数据库参数</div>
+                <div id="tabbox">
+                <ul class="tabs" id="tabs">
+                   <li><a href="javascript:;" tab="tab1">主数据库信息</a></li>
+                   <li><a href="javascript:;" tab="tab2">从数据库信息</a></li>
+                </ul>
+                <ul class="tab_conbox">
+                    <li id="tab1" class="tab_con">
+                        <div class="section">
+                            <if condition="$status.mconn neq '1' ">
+                                <br/><font size="5" style="padding-left:20px;">{$status.mconn}</font>
+                            <else />
+                            <table>
+                                <tr class="title">
+                                    <td width="15%">参数名称</td>
+                                    <td width="20%">原始值</td>
+                                    <td width="20%">修改为</td>
+                                    <td>操作</td>
+                                </tr>
+                                <tr>
+                                    <td>open_links</td>
+                                    <td><input type="text" name="open_links" value="{$master['open_links']}" class="wd50" readonly required/></td>
+                                    <td><input type="text" id="open_links" name="open_links" value="" class="wd50" required/></td>
+                                    <td><a href="javascript:void(0);" class="buttons cinfo">修 改</a></td>
+                                </tr>
+                                <tr>
+                                    <td>parallel_max_servers</td>
+                                    <td><input type="text" name="parallel_max_servers" value="{$master['parallel_max_servers']}" class="wd50" readonly required/></td>
+                                    <td><input type="text" id="parallel_max_servers" name="parallel_max_servers" value="" class="wd50" required/></td>
+                                    <td><a href="javascript:void(0);" class="buttons cinfo">修 改</a></td>
+                                </tr>
+                                <tr>
+                                    <td>processes</td>
+                                    <td><input type="text" name="processes" value="{$master['processes']}" class="wd50" readonly required/></td>
+                                    <td><input type="text" id="processes" name="processes" value="" class="wd50" required/></td>
+                                    <td><a href="javascript:void(0);" class="buttons cinfo">修 改</a></td>
+                                </tr>
+                                <tr>
+                                    <td>sessions</td>
+                                    <td><input type="text" name="sessions" value="{$master['sessions']}" class="wd50" readonly required/></td>
+                                    <td><input type="text" id="sessions" name="sessions" value="" class="wd50" required/></td>
+                                    <td><a href="javascript:void(0);" class="buttons cinfo">修 改</a></td>
+                                </tr>
+                                <tr>
+                                    <td>global_names</td>
+                                    <td><input type="text" name="global_names" value="{$master['global_names']}" class="wd50" readonly required/></td>
+                                    <td>
+                                        <select name="global_names" id="global_names"> 
+                                            <option value="TRUE">TRUE</option>
+                                            <option value="FALSE">FALSE</option>
+                                        </select>
+                                    </td>
+                                    <td><a href="javascript:void(0);" class="buttons cinfo">修 改</a></td>
+                                </tr>
+                            </table>
+                            <div style="margin-left: 10px;"><a href="javascript:;" data-id='1' class="button restart info">查看所有参数 </a></div>
+                            </if>
+                        </div>
+                    </li>
+                    <li id="tab2" class="tab_con">
+                        <div class="section">
+                             <if condition="$status.sconn neq '1' ">
+                                <br/><font size="5" style="padding-left:20px;">{$status.sconn}</font>
+                            <else />
+                            <table>
+                                <tr class="title">
+                                    <td width="15%">参数名称</td>
+                                    <td width="20%">原始值</td>
+                                    <td width="20%">修改为</td>
+                                    <td>操作</td>
+                                </tr>
+                                <tr>
+                                    <td>open_links</td>
+                                    <td><input type="text" name="open_links" value="{$slave['open_links']}" class="wd50" readonly required/></td>
+                                    <td><input type="text" id="open_links" name="m-open_links" value="" class="wd50" required/></td>
+                                    <td><a href="javascript:void(0);" class="buttons cinfo">修 改</a></td>
+                                </tr>
+                                <tr>
+                                    <td>parallel_max_servers</td>
+                                    <td><input type="text" name="parallel_max_servers" value="{$slave['parallel_max_servers']}" class="wd50" readonly required/></td>
+                                    <td><input type="text" id="parallel_max_servers" name="m-parallel_max_servers" value="" class="wd50" required/></td>
+                                    <td><a href="javascript:void(0);" class="buttons cinfo">修 改</a></td>
+                                </tr>
+                                <tr>
+                                    <td>processes</td>
+                                    <td><input type="text" name="processes" value="{$slave['processes']}" class="wd50" readonly required/></td>
+                                    <td><input type="text" id="processes" name="m-processes" value="" class="wd50" required/></td>
+                                    <td><a href="javascript:void(0);" class="buttons cinfo">修 改</a></td>
+                                </tr>
+                                <tr>
+                                    <td>sessions</td>
+                                    <td><input type="text" name="sessions" value="{$slave['sessions']}" class="wd50" readonly required/></td>
+                                    <td><input type="text" id="sessions" name="m-sessions" value="" class="wd50" required/></td>
+                                    <td><a href="javascript:void(0);" class="buttons cinfo">修 改</a></td>
+                                </tr>
+                                <tr>
+                                    <td>global_names</td>
+                                    <td><input type="text" name="global_names" value="{$slave['global_names']}" class="wd50" readonly required/></td>
+                                    <td>
+                                        <select name="m-global_names" id="global_names"> 
+                                            <option value="TRUE">TRUE</option>
+                                            <option value="FALSE">FALSE</option>
+                                        </select>
+                                    </td>
+                                    <td><a href="javascript:void(0);" class="buttons cinfo">修 改</a></td>
+                                </tr>
+                            </table>
+                            <div style="margin-left: 10px;"><a href="javascript:;" data-id='0' class="button restart info">查看所有参数 </a></div>
+                            </if>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+            var btn = $(".buttons");
+            btn.on("click",function(){
+                var name = $(this).parent().parent().children('td:eq(2)').children().attr("name");
+                var value = $(this).parent().parent().children('td:eq(2)').children().val();
+                var oldvalue = $(this).parent().parent().children('td:eq(1)').children();
+                if(value ==""){
+                    core.tips.tips("必填项不能为空",'info');
+                }else{
+                    $.post("{:U('Dbcopy/updValues')}",{name:name,value:value},function(data){
+                        if (data.state == 'success') {
+                            core.tips.tips(data.info,'info');
+                            oldvalue.val(value)
+                        }
+                    },"json")
+                }
+            });
+            $(document).on('click','.info',function(){
+                var id = $(this).attr('data-id');
+                var url = "{:U('Home/Dbcopy/allParameter','','')}/id/"+id;
+                art.dialog.open(url, {
+                    title: "所有参数",
+                    fixed: true,
+                    width: 900,
+                    height: 600
+                });
+            });
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                jQuery.jqtab = function(tabtit,tabcon) {
+                    $(tabcon).hide();
+                    $(tabtit+" li:first").addClass("thistab").show();
+                    $(tabcon+":first").show();
+
+                    $(tabtit+" li").click(function() {
+                        $(tabtit+" li").removeClass("thistab");
+                        $(this).addClass("thistab");
+                        $(tabcon).hide();
+                        var activeTab = $(this).find("a").attr("tab");
+                        $("#"+activeTab).fadeIn();
+                        return false;
+                    });
+
+                };
+                $.jqtab("#tabs",".tab_con");
+            });
+        </script>
+    </body>
+</html>

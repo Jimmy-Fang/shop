@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class="menu_left">
+                <include file="Common:vtl" />
+            </div>
+            <div class="main">
+                <div class='h1'><i class="font-icon icon-building"></i>Target管理</div>
+                <table>
+                    <tr class="title">
+                        <td width="10%">ID</td>
+                        <td width="20%">Name</td>
+                        <td width="30%">WWPN</td>
+                        <td width="10%">Mode</td>
+                        <td>Action</td>
+                    </tr>
+                    <volist name="data" id="item">
+                        <tr>
+                        <td>{$i}</td>
+                        <td><div class="names" band-id="{$item.id}">{$item.Name}</div></td>
+                        <td>{$item.wwpn}</td>
+                        <td><if condition="$item['flag'] neq '1'">Target<else/>Initiator</if></td>
+                        <td>
+                            <if condition="$item['flag'] neq '1'">
+                                <a href="javascript:;" data-bind="{$item.wwpn}" data-name="{$item.Name}" data-id="{$item.id}" data-flag="initiator" class="actions">模式切换</a>
+                            <else/>
+                                <a href="javascript:;" data-bind="{$item.wwpn}" data-name="{$item.Name}" data-id="{$item.id}" data-flag="target" class="actions">模式切换</a>
+                            </if> | 
+                            <a href="javascript:;" data-id="{$item.id}" class="refresh">刷新</a> | 
+                            <a href="javascript:;" data-id="{$item.id}" class="infos">详细</a>
+                        </td>
+                    </tr>
+                    </volist>
+                </table>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function($) {
+            $(".refresh").on("click",function(){
+                var id = $(this).attr("data-id");
+                upd_name(id,'','refresh');
+            });
+            $(".infos").on("click",function(){
+                var id = $(this).attr("data-id");
+                upd_name(id,'','infos');
+            });
+            $(".names").on("click",function(){
+                //$(".names").unbind( "click" );
+                var td = $(this);
+                var val = td.html(); 
+                var id  = td.attr('band-id'); 
+                var input = $("<input type='text' style='width:100%' value='" + val + "'/>");
+                $(this).html('').html(input);
+                input.click(function () { return false; }); 
+                input.trigger("focus"); 
+                input.blur(function(){
+                    var newStr = $(this).val();
+                    if(newStr != val){
+                        if(newStr == ""){
+                            td.html(val);
+                        }else{
+                            td.html(newStr);
+                            upd_name(id,newStr,'Name');
+                            core.tips.tips("操作成功.",'success');
+                        }
+                    }else{
+                        td.html(val);
+                        return false;
+                    }
+                });
+            });
+            $(".actions").on("click",function(){
+                var wwpn = $(this).attr('data-bind');
+                var id = $(this).attr('data-id');
+                var name = $(this).attr('data-name');
+                var flag = $(this).attr('data-flag');
+                var _flag = "target";
+                if(flag == "target"){
+                    _flag = "initiator";
+                }
+                art.dialog({
+                content: "FC端口<font color=red>"+name+"</font>将由<font color=red>"+_flag+"</font>模式切换至<font color=red>"+flag+"</font>模式,请你确认?",
+                ok: function () {
+                    this.close();
+                    $.post("{:U('Vtl/updtarget')}",{wwpn:wwpn,id:id},function(data){
+                         if(data.state == "success"){
+                            core.tips.tips(data.info,'success');
+                            if (data.referer) {
+                                window.location.href = data.referer;
+                            } else {
+                                 reloadPage(window);
+                            }
+                        }else{
+                            core.tips.tips(data.info,'error');
+                        }
+                    },"json")
+                    return false;
+                },
+                okVal:'确认',
+                cancelVal: LNG.close,
+                cancel: true 
+                });
+            });
+
+            function upd_name(id,name,type){
+                $.post("{:U('Vtl/updtarget')}",{id:id,name:name,type:type},function(result){
+                    console.log(result);
+                    core.tips.tips(result.info,'success');
+                    if(type == "infos"){
+                        $.dialog({
+                            content: result.info,
+                            title:"详细信息"
+                        })
+                    }
+                });
+            }
+        });
+        </script>
+    </body>
+</html>

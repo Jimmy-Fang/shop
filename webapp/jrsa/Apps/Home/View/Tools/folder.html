@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="zoom: 1; background-attachment: fixed;">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>文件夹选择</title>
+    <link rel="Shortcut Icon" href="__STATIC__images/favicon.ico">
+    <link href="__STATIC__css/bootstrap.css" rel="stylesheet">
+    <link href="__STATIC__css/font-awesome/style.css" rel="stylesheet">
+    <link href="__STATIC__css/skin/metro/app_explorer.css" rel="stylesheet">
+  </head>
+  
+  <body>
+    <div class="frame-header">
+      <div class="header-content">
+        <div class="header-middle">
+          <button class="btn btn-default" id="home" title="我的文件">
+            <i class="font-icon icon-home">
+            </i>
+          </button>
+          <div id="yarnball" title="点击进入编辑状态" style="display: block;">
+            <ul class="yarnball" style="left: 3px; width: 435px;">
+                <volist name="path" id="item">
+                    <li class="yarnlet <eq name='key' value='0'>first</eq>"><a title="<eq name='item.url' value=''>/</eq>{$item.url}" style="z-index:<?php echo 100-$key;?>;" url="javascript:;" class="tipurl"><eq name='mod' value='0'><span class="left-yarn"></span></eq><eq name='item.name' value=''>/</eq>{$item.name}</a></li>
+                </volist>
+            </ul>
+          </div>
+          <div id="yarnball_input" style="display: none;">
+            <input type="text" name="path" value="" class="path" id="path">
+          </div>
+          <!--button class="btn btn-default" id="up" title="" type="button">
+            <i class="font-icon icon-circle-arrow-up">
+            </i>
+          </button-->
+        </div>
+      </div>
+    </div>
+    <!-- / header end -->
+    <div class="frame-main">
+      <div class="frame-right">
+        <div class="frame-right-main">
+          <div class="tools">
+            <div class="tools-left">
+              <div class="btn-group btn-group-sm">
+                <!--button id="newfolder" class="btn btn-default" type="button">
+                  <i class="font-icon icon-folder-close-alt">
+                  </i>
+                  新建文件夹
+                </button-->
+              </div>
+            </div>
+            <div style="clear:both">
+            </div>
+          </div>
+          <!-- end tools -->
+          <div id="list_type_list">
+            <div id="main_title">
+              <div class="filename" field="name">
+                名称
+                <span>
+                </span>
+              </div>
+              <div class="filetype" field="ext">
+                类型
+                <span>
+                </span>
+              </div>
+              <div style="clear:both">
+              </div>
+            </div>
+          </div>
+          <!-- list type 列表排序方式 -->
+          <div class="bodymain html5_drag_upload_box">
+            <div class="fileContiner fileList_list" style="display: block;">
+                <volist name="data['folderlist']" id="item" mod="2">
+                    <div class="file folderBox menufolder <eq name='mod' value='1'>file2</eq>" data-name="{$item.name}" title="{$item.name}" data-url="{$item.path}{$item.name}">
+                    <div class="folder ico" filetype="folder">
+                    </div>
+                    <div id="{$item.name}" class="titleBox">
+                      <span class="title">
+                        {$item.name}
+                      </span>
+                    </div>
+                    <div class="filetype">
+                      文件夹
+                    </div>
+                    <div style="clear:both">
+                    </div>
+                  </div>
+                </volist>
+                <volist name="data['filelist']" id="item" mod="2">
+                    <div class="file fileApp menuApp <eq name='mod' value='1'>file2</eq>" data-name="{$item.name}" title="{$item.name}" data-url="{$item.path}{$item.name}">
+                    <div class="{$ext} ico" filetype="folder">
+                    </div>
+                    <div id="{$item.name}" class="titleBox">
+                      <span class="title">
+                        {$item.name}
+                      </span>
+                    </div>
+                    <div class="filetype">
+                      文件
+                    </div>
+                    <div style="clear:both">
+                    </div>
+                  </div>
+                </volist>
+              <div style="clear:both">
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+        var G = {
+                static_path : "__STATIC__",
+            };
+    </script>
+    <script src="__JS__/jquery.js"></script>
+    <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+    <script>
+        $(document).ready(function($) {
+            var api = art.dialog.open.api,
+                filepath = document.getElementById('filepath');
+            // 操作对话框
+            if(api){
+                api.button({
+                    name: '确定',
+                    callback: function () {
+                         var path = $(".select").attr("data-url");
+                        if(path==undefined){
+                            art.dialog.tips('请选择目录');
+                            return false;
+                        }else{
+                            var origin = artDialog.open.origin;
+                            var input = origin.document.getElementById('{$fileId}');
+                            <empty name="dir"> 
+                                input.value = path; 
+                            <else />
+                                input.value += path + '{$dir}';
+                            </empty>
+                        }
+                   },
+                        focus: true
+                },
+                {
+                    name: '取消'
+                });
+            }
+            
+            $(".menufolder,.menuApp").on({
+                mouseover:function(){
+                    $(this).addClass('hover');
+                },
+                mouseout:function(){
+                    $(".menufolder,.menuApp").removeClass('hover');
+                },
+                click:function(){
+                    $(".menufolder,.menuApp").removeClass('select');
+                    $(this).addClass('select');
+                }
+            });
+            $(".folderBox,.fileApp").dblclick(function(){
+                var path = $(this).attr('data-url');
+                goFolder(path);
+            })
+            $(".tipurl").on('click',function(){
+                var url = $(this).attr("title");
+                goFolder(url);
+            });
+//            $("#yarnball").on({
+//                click:function(){
+//                    $(this).css('display','none');
+//                    $("#yarnball_input").css('display','block')
+//                }
+//            });
+//            $("#path").blur(function(){
+//                $("#yarnball_input").css('display','none');
+//                $("#yarnball").css('display','block')
+//            })
+        })
+        function goFolder(path){
+            path = path.replace(/\//g, '@@')
+            var dir = '{$dir}',
+                  isfile = '{$isfile}',
+                  fileId = '{$fileId}',
+                  url = "/path/" + path;
+            if(dir){
+                url += "/dir/n";
+            }
+            if(isfile){
+                url += "/isfile/" + isfile;
+            }
+            if(fileId){
+                url += "/fileId/" + fileId;
+            }
+            window.location.href = "{:U('Tools/folder','','')}" + url;
+        }
+        function getPath(){
+            var path = $(".select").attr("data-url");
+            if(path==undefined){
+                alert("请选择目录");
+                return false;
+            }else{
+                alert(path);
+            }
+            
+        }
+    </script>
+  </body>
+</html>

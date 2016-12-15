@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+           #body table{margin: 10px;width: 96%;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 1px;font-weight: 400;padding: 1px 10px;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s;color: #fff;height: 25px;}
+          .cinfo{background: #4265a4;}
+          #tabbox{overflow:hidden; margin:0 auto;}
+         .bodys .main .section {border-top: 0px;padding: 10px;}
+         .tab_conbox{border: 1px solid #999;border-top: none;}
+         .tab_con{ display:none;}
+
+         .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+         .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+         .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
+         .tabs li a:hover {background: #ccc;}    
+         .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+
+         .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+         h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
+         p{font-size: 18px;padding:10px;color: green;font-weight: bold;width:800px;}
+         .info{background: #4265a4;}
+        </style>
+    </head>
+    <body>
+        <div class="bodys">
+            <div class="menu_left">
+                <include file="Common:storage" />
+            </div>
+            <div class="main">
+                <form action="{:U('Storage/addnfs')}" method="post" id="J_ajaxForm">
+                    <div class='h1'><i class="font-icon icon-building"></i><notempty name="data['id']">更新客户端<else />添加客户端</notempty ></div>
+                    <div class="section">
+                                <div class="box">
+                                    <input value="{$data['id']}" type="hidden" name="id"/>
+                                    <span >共享目录</span>
+                                    <input type="text" id="filepath" class="wd200" name="output" value="{$data['output']}" readonly required/>
+                                    <label> 该目录为共享目录，修改此处，所有客户端共享目录都会改变</label>
+                                    <div class='line'></div>
+                                    <span >客户端地址</span>
+                                    <input type="text" id="ip" name="ip" value="{$data['ip']}" required/> <label> 可以填写 * 号，代表所有</label>
+                                    <div class='line'></div>
+                                    <span >共享目录权限</span>
+                                    <select name="access">
+                                        <option value="ro" <if condition="$data['access'] eq 'ro' ">selected</if>>只读</option>
+                                        <option value="rw" <if condition="$data['access'] eq 'rw' ">selected</if>>读写</option>
+                                    </select>
+                                    <div class='line'></div>
+                                    <span >用户映射</span>
+                                    <label><input name="squash" type="radio" value="all_squash" <if condition="$data['squash'] eq 'all_squash'  or $data['no_all_squash'] eq ''">checked</if> />all_squash </label> 
+                                    <label><input name="squash" type="radio" value="no_all_squash" <if condition="$data['squash'] eq 'no_all_squash'">checked</if>/>no_all_squash </label> 
+                                    <div class='line'></div>
+                                    <div class='line'></div>
+                                    <span >读写模式</span>
+                                    <label><input name="sync" type="radio" value="sync" <if condition="$data['sync'] eq 'sync' ">checked</if> />同步 </label> 
+                                    <label><input name="sync" type="radio" value="async" <if condition="$data['sync'] eq 'async' or $data['sync'] eq ''">checked</if>/>异步 </label> 
+                                    <div class='line'></div>
+                            </div>
+                        </div>
+                <a href="javascript:void(0);" id="upd" data-url="{:U('Storage/addnfs')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
+                </form>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+//            $("#maps").change(function(){
+//               var sty =  $("#maps").val();
+//               if(sty == "anonuid" || sty == "anongid"){
+//                   $("#mapsid").css("display","inline")
+//               }else{
+//                   $("#mapsid").css("display","none")
+//               }
+//            });
+            $("#filepath").on("click",function(){
+                $.dialog.open("{:U('Tools/folder')}", {
+                    title: '选择备份目录',
+                    fixed: true,
+                    width: 570,
+                    height: 500
+                });
+              });
+            var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm");
+            btn.on("click",function(){
+                var sty =  $("#maps").val();
+//                if(sty == "anonuid" || sty == "anongid"){
+//                   if($("#mapsid").val() ==""){
+//                        core.tips.tips(LNG.not_null,'info');
+//                        return false;
+//                    }
+//                }
+                if($("#filepath").val() =="" || $("#ip").val() ==""){
+                    core.tips.tips(LNG.not_null,'info');
+                }
+//                else if($("#ip").val() != "*" && checkIP($("#ip").val())==false){
+//                    core.tips.tips(LNG.ip_address + LNG.illegal,'info');
+//                }
+                else{
+                    form.ajaxSubmit({
+                    url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                    dataType: 'json',
+                    type:'post',
+                    beforeSubmit: function (arr, $form, options) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.removeClass('disabled').text(text.replace('中...', ''));
+                        if (data.state === 'success') {
+                            core.tips.tips(data.info,'success');
+                             if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                        } else if (data.state === 'fail') {
+                            core.tips.tips(data.info,'error');
+                            btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

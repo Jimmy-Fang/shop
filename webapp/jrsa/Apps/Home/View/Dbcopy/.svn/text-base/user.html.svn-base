@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+          #tabbox{overflow:hidden; margin:0 auto;}
+          .tab_conbox{border: 1px solid #999;border-top: none;}
+          .tab_con{ display:none;}
+          .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+          .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+          .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
+          .tabs li a:hover {background: #ccc;}    
+          .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+          .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+          .box{padding:10px;}
+        </style>
+    </head>
+    <body>
+        <div class="bodys">
+            <div class="menu_left">
+                <include file="Common:dbcopyleftmenu" />
+            </div>
+            <div class="main">
+                <div class='h1'><i class="font-icon icon-user"></i>创建管理用户</div>
+                <div id="tabbox">
+                <ul class="tabs" id="tabs">
+                   <li><a href="javascript:;" tab="tab1">主数据库信息</a></li>
+                   <li><a href="javascript:;" tab="tab2">从数据库信息</a></li>
+                </ul>
+                <ul class="tab_conbox">
+                    <li id="tab1" class="tab_con">
+                        <div class="section">
+                            <empty name="status['mtablespace'][0]">
+                                <form action="{:U('Dbcopy/user')}" method="post" id="J_ajaxForm">
+                                    <div class='box'>
+                                        <input value="1" type="hidden" name="master"/>
+                                        <span >用户名：</span>
+                                        <input type="text" id="musername" name="musername" value="" class="wd150" required/>
+                                        <div class='line'></div>
+                                        <span >用户密码：</span>
+                                        <input type="text" id="muserpwd" name="muserpwd" value="" class="wd150" required/>
+                                        <div class='line'></div>
+                                        <span >表空间：</span>
+                                        <select name="mtablespace" id="mtablespace" style="width:190px;">
+                                            <volist name="dbaDataFies['master']['TABLESPACE_NAME']" id="item">
+                                                <option value="{$item}">{$item}</option>
+                                            </volist>
+                                        </select>
+                                        <div class='line'></div>
+                                        <span >缓存路径：</span>
+                                        <input type="text" id="mcache" name="mcache" value="" class="wd150" required/>
+                                        <div class='line'></div>
+                                        <div class="clear"></div>
+                                        <empty name="status['mtablespace'][0]"><a href="javascript:void(0);" id="madd" data-url="{:U('Dbcopy/user')}" class="save button J_ajax_submit_btn">确 定</a></empty>
+                                    </div>
+                                </form>
+                                <else />
+                                <div class='box'>
+                                    <span >用户名：</span>
+                                    <font color="red">{$status['minfo']['username']}</font>
+                                    <div class='line'></div>
+                                    <span >表空间路径：</span>
+                                    <font color="red">{$status['mtablespace'][0]}</font>
+                                    <div class='line'></div>
+                                    <span >缓存路径：</span>
+                                    <font color="red">{$status['minfo']['cache']}</font>
+                                    <div class='line'></div>
+                                </div>
+                            </empty>
+                        </div>
+                    </li>
+                    <li id="tab2" class="tab_con">
+                        <div class="section">
+                            <empty name="status['stablespace'][0]">
+                                <form action="{:U('Dbcopy/user')}" method="post" id="J_ajaxForm">
+                                    <div class='box'>
+                                        <input value="0" type="hidden" name="master"/>
+                                        <span >用户名：</span>
+                                        <input type="text" id="username" name="username" value="" class="wd150" required/>
+                                        <div class='line'></div>
+                                        <span >用户密码：</span>
+                                        <input type="text" id="userpwd" name="userpwd" value="" class="wd150" required/>
+                                        <div class='line'></div>
+                                        <span >表空间：</span>
+                                        <select name="tablespace" id="tablespace" style="width:190px;">
+                                            <volist name="dbaDataFies['master']['TABLESPACE_NAME']" id="item">
+                                                <option value="{$item}">{$item}</option>
+                                            </volist>
+                                        </select>
+                                        <div class='line'></div>
+                                        <span >缓存路径：</span>
+                                        <input type="text" id="cache" name="cache" value="" class="wd150" required/>
+                                        <div class='line'></div>
+                                        <div class="clear"></div>
+                                        <empty name="status['stablespace'][0]"><a href="javascript:void(0);" id="madd" data-url="{:U('Dbcopy/user')}" class="save button J_ajax_submit_btn">确 定</a></empty>
+                                    </div>
+                                </form>
+                                <else />
+                                <div class='box'>
+                                    <span >用户名：</span>
+                                    <font color="red">{$status['sinfo']['username']}</font>
+                                    <div class='line'></div>
+                                    <span >表空间路径：</span>
+                                    <font color="red">{$status['stablespace'][0]}</font>
+                                    <div class='line'></div>
+                                    <span >缓存路径：</span>
+                                    <font color="red">{$status['sinfo']['cache']}</font>
+                                    <div class='line'></div>
+                                </div>
+                            </empty>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+            var mbtn = $("#madd"),mform = $("#J_ajaxForm"),btn = $("#add"),form = $("#J_ajaxForms");
+            <empty name="status['mtablespace'][0]">
+            mbtn.on("click",function(){
+                if($("#musername").val() =="" || $("#muserpwd").val() =="" || $("#mcache").val() ==""){
+                    core.tips.tips("必填项不能为空",'info');
+                }else{
+                    mform.ajaxSubmit({
+                    url: mbtn.data('action') ? mbtn.data('action') : mform.attr('action'), 
+                    dataType: 'json',
+                    type:'post',
+                    beforeSubmit: function (arr, $form, options) {
+                        var text = mbtn.text();
+                        //按钮文案、状态修改
+                        mbtn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        var text = mbtn.text();
+                        //按钮文案、状态修改
+                        mbtn.removeClass('disabled').text(text.replace('中...', ''));
+                        if (data.state === 'success') {
+                            core.tips.tips(data.info,'success');
+                             if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                        } else if (data.state === 'fail') {
+                            core.tips.tips(data.info,'error');
+                            mbtn.removeProp('disabled').removeClass('disabled');
+                            }
+                        }
+                    });
+                }
+            });
+            </empty>
+            <empty name="status['stablespace'][0]">
+            btn.on("click",function(){
+                 if($("#username").val() =="" || $("#userpwd").val() =="" || $("#cache").val() ==""){
+                    core.tips.tips("必填项不能为空",'info');
+                }else{
+                    form.ajaxSubmit({
+                    url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                    dataType: 'json',
+                    type:'post',
+                    beforeSubmit: function (arr, $form, options) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.removeClass('disabled').text(text.replace('中...', ''));
+                        if (data.state === 'success') {
+                            core.tips.tips(data.info,'success');
+                             if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                        } else if (data.state === 'fail') {
+                            core.tips.tips(data.info,'error');
+                            btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        }
+                    });
+                }
+            });
+            </empty>
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                jQuery.jqtab = function(tabtit,tabcon) {
+                    $(tabcon).hide();
+                    $(tabtit+" li:first").addClass("thistab").show();
+                    $(tabcon+":first").show();
+
+                    $(tabtit+" li").click(function() {
+                        $(tabtit+" li").removeClass("thistab");
+                        $(this).addClass("thistab");
+                        $(tabcon).hide();
+                        var activeTab = $(this).find("a").attr("tab");
+                        $("#"+activeTab).fadeIn();
+                        return false;
+                    });
+
+                };
+                $.jqtab("#tabs",".tab_con");
+            });
+        </script>
+    </body>
+</html>

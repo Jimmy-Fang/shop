@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+          .h1{font-weight: 400;color: #5c7fbd;padding: 0px 0 10px 10px;font-size: 26px;padding: 10px;}
+          #body table{margin: 0 10px;width: 97%;}
+          h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
+          .bt10{border-top: 1px solid #ddd;padding: 0 0 10px 0;}
+          h2{font-size: 18px;display: block;padding: 0 10px;color: green;font-weight: bold;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 5px 10px 5px 0;font-weight: 400;padding: 0.5em 1.5em;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s; color: #fff;}
+          .info{background: #4265a4;}
+          .joblog{padding: 10px 20px;}
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class='h1'>{$data.name} 详细信息</div>
+            <h2>{$data.name} VTL Information</h2>
+            <table>
+                <tr>
+                    <td width="15%">VTL Type</td>
+                    <td width="30%">{$data['vtl']['Type']}</td>
+                    <td width="15%">VTL Name</td>
+                    <td width="30%">{$data['vtl']['Name']}</td>
+                </tr>
+                <tr>
+                    <td>Serial Number</td>
+                    <td>{$data['vtl']['Number']}</td>
+                    <td>Slots</td>
+                    <td>{$data['vtl']['Slots']}</td>
+                </tr>
+                <tr>
+                    <td>Ports</td>
+                    <td>{$data['vtl']['Ports']}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            <h2>{$data.name} VDrive Information</h2>
+            <table>
+                <tr>
+                        <td width="10%">Name</td>
+                        <td width="30%">DType</td>
+                        <td width="20%"> Serial Number</td>
+                        <td width="10%">VCartridge</td>
+                </tr>
+                <volist name="data['Drive']" id="item"  offset="4" length='99'>
+                <tr>
+                        <td>{$item.Name}</td>
+                        <td>{$item.DType}</td>
+                        <td>{$item.Number}</td>
+                        <td>{$item.VCartridge}</td>
+                </tr>
+                </volist>
+            </table>
+            <h2>{$data.name} VCartridge Information <a href="{:U('Vtl/addVc',array('name'=>$data['name'],'Vtype'=>$data['VCartridge'][0]['Vtype']))}" data-bind="{$item.Label}" style="float:right;padding:0 20;">添加磁带</a></h2>
+            <table>
+                <tr>
+                        <td width="10%">Pool</td>
+                        <td width="10%">Label</td>
+                        <td width="10%">Element</td>
+                        <td width="10%">Address</td>
+                        <td width="20%">Vtype</td>
+                        <td width="10%">Size</td>
+                        <td width="10%">Used</td>
+                        <td width="10%">Status</td>
+                        <td width="10%">WORM</td>
+                        <td width="10%">Action</td>
+                </tr>
+                <volist name="data['VCartridge']" id="item">
+                <tr>
+                        <td>{$item.Pool}</td>
+                        <td>{$item.Label}</td>
+                        <td>{$item.Element}</td>
+                        <td>{$item.Address}</td>
+                        <td>{$item.Vtype}</td>
+                        <td>{$item.Size}</td>
+                        <td>{$item.Used}%</td>
+                        <td>{$item.Status}</td>
+                        <td><input value="{$item.Label}" type="checkbox" name="worm" class="wormck" <if condition="$item['WORM'] eq 'Yes'">checked="checked" </if>/></td>
+                        <td><a href="javascript:;" data-bind="{$item.Label}" class="deldata">{$Think.lang.button_del}</a></td>
+                </tr>
+                </volist>
+            </table>
+        </div>
+        <script src="__JS__/seajs/sea.js"></script>
+        <script type="text/javascript">
+            seajs.config({
+                base: "__JS__",
+                preload: ["jquery"]
+            });
+            seajs.use('menu/main');
+        </script>
+
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+          $(document).ready(function($) {
+              var name = "{$data.name}";
+              $(".wormck").on("click",function(){
+                  var label = $(this).val();
+                  var worm = 0;
+                  if($(this).attr("checked")=="checked"){
+                      //worm选中
+                      worm = 1;
+                  }else{
+                      //worm未选中
+                      worm = 0;
+                  }
+                  $.post("{:U('Vtl/updWorm')}",{name:name,label:label,worm:worm},function(data){
+//                       if (data.state === 'success') {
+//                            core.tips.tips(data.info,'success');
+//                            reloadPage(window);
+//                        } else if (data.state === 'fail') {
+//                            core.tips.tips(data.info,'error');
+//                        }
+                       if(data.info == ""){
+                            core.tips.tips("操作成功",'success');
+                            if (data.referer) {
+                                window.location.href = data.referer;
+                            } else {
+                                 reloadPage(window);
+                            }
+                        }else{
+                            art.dialog({
+                                title:"信息",
+                               content: data.info,
+                               width:'550px',
+                               zIndex:999,
+                               okVal: '确定',
+                               ok: function () {
+                                   this.close();
+                               },
+                               close:function(){
+                                    if (data.referer) {
+                                        window.location.href = data.referer;
+                                    } else {
+                                         reloadPage(window);
+                                    }
+                               }
+                           });
+                        }
+                  })
+              });
+              $(".deldata").on("click",function(){
+                    var label = $(this).attr('data-bind');
+                    art.dialog({
+                    content: "删除后不可恢复，确认删除？",
+                        ok: function () {
+                            this.close();
+                            $.post("{:U('Vtl/delVc')}",{name:name,label:label},function(data){
+                                 if(data.info == ""){
+                                    core.tips.tips("操作成功",'success');
+                                    if (data.referer) {
+                                        window.location.href = data.referer;
+                                    } else {
+                                         reloadPage(window);
+                                    }
+                                }else{
+                                    art.dialog({
+                                        title:"信息",
+                                       content: data.info,
+                                       width:'550px',
+                                       zIndex:999,
+                                       okVal: '确定',
+                                       ok: function () {
+                                           this.close();
+                                       },
+                                       close:function(){
+                                            if (data.referer) {
+                                                window.location.href = data.referer;
+                                            } else {
+                                                 reloadPage(window);
+                                            }
+                                       }
+                                   });
+                                }
+                            },"json")
+                            return false;
+                        },
+                        okVal:LNG.if_remove,
+                        cancelVal: LNG.close,
+                        cancel: true 
+                    });
+                });
+          });
+        </script>
+    </body>
+</html>

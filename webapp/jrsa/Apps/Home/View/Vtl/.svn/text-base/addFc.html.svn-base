@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+        </style>
+    </head>
+    <body>
+        <div class="bodys">
+            <div class="menu_left">
+                <include file="Common:vtl" />
+            </div>
+            <div class="main">
+                <form action="{:U('Vtl/addFc')}" method="post" id="J_ajaxForm">
+                    <div class='h1'><i class="font-icon icon-desktop"></i>添加映射</div>
+                    <div class="section">
+                        <div class='box'>
+                                <span >VTL</span>
+                                <select name="vtl">
+                                    <volist  name="vtl" id="item">
+                                        <option value="{$item.Name}">{$item.Name}</option>
+                                    </volist>
+                                </select>
+                                <div class='line'></div>
+                                <span >规则</span>
+                                <select name="rule">
+                                        <option value="allow">允许</option>
+                                        <option value="disallow">禁止</option>
+                                </select>
+                                <div class='line'></div>
+                                <span >主机端口</span>
+                                <select name="wwpn" id="wwpn">
+                                        <option value="1">所有</option>
+                                        <option value="2">FC</option>
+                                        <option value="4">InfiniBand</option>
+                                </select>
+                                <div class='line'></div>
+                                <div id="sty2" style="display:none;">
+                                    <span >　　</span>
+                                    <input type="text" id="wwpn2" name="wwpn2" value="" class="wd150" /><label>　格式：f0:f1:f2:f3:f4:f5:f6:f7</label>
+                                    <div class='line'></div>
+                                </div>
+                                <div id="sty4" style="display:none;">
+                                    <span>　　</span>
+                                    <input type="text" id="wwpn4" name="wwpn4" value="" style="width:330px" /><label>　格式：fe80:0000:0000:0000:0002:c902:0025:7f89</label>
+                                    <div class='line'></div>
+                                </div>
+                                <a href="javascript:void(0);" id="upd" data-url="{:U('Vtl/addFc')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+            var wwpn = 1;
+            $("#wwpn").on('change',function(){
+                $("#sty2,#sty4").css("display","none");
+                var styley = $(this).val();
+                wwpn = styley;
+                $("#sty"+styley).css("display","block");
+            });
+            var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm");
+            btn.on("click",function(){
+                if(wwpn == 2){
+                    if($("#wwpn2").val() ==""){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }
+                    if(checkwwnp2($("#wwpn2").val()) == false){
+                        core.tips.tips("格式不匹配，请重新输入.",'info');
+                        return false;
+                    }
+                }
+                 if(wwpn == 4){
+                    if($("#wwpn4").val() ==""){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }
+                    if(checkwwnp4($("#wwpn4").val()) == false){
+                        core.tips.tips("格式不匹配，请重新输入.",'info');
+                        return false;
+                    }
+                }
+                form.ajaxSubmit({
+                url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                dataType: 'json',
+                type:'post',
+                beforeSubmit: function (arr, $form, options) {
+                    var text = btn.text();
+                    //按钮文案、状态修改
+                    btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                },
+                success: function (data, statusText, xhr, $form) {
+                    var text = btn.text();
+                    //按钮文案、状态修改
+                    btn.removeClass('disabled').text(text.replace('中...', ''));
+                    if(data.info == ""){
+                            core.tips.tips("操作成功",'success');
+                            if (data.referer) {
+                                window.location.href = data.referer;
+                            } else {
+                                 reloadPage(window);
+                            }
+                        }else{
+                            art.dialog({
+                                title:"信息",
+                               content: data.info,
+                               width:'550px',
+                               zIndex:999,
+                               okVal: '确定',
+                               ok: function () {
+                                   this.close();
+                               },
+                               close:function(){
+                                    if (data.referer) {
+                                        window.location.href = data.referer;
+                                    } else {
+                                         reloadPage(window);
+                                    }
+                               }
+                           });
+                        }
+                    }
+                });
+            });
+            function checkwwnp2(input){
+                 var re =  /^\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2}:\w{2}$/ ;
+                 return re.test(input); 
+            }
+            function checkwwnp4(input){
+                 var re =  /^\w{4}:\w{4}:\w{4}:\w{4}:\w{4}:\w{4}:\w{4}:\w{4}$/ ;
+                 return re.test(input); 
+            }
+        </script>
+    </body>
+</html>

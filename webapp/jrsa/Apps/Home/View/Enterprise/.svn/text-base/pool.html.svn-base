@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class="menu_left">
+                <include file="Common:enterprise" />
+            </div>
+            <div class="main">
+                <div class='h1'><i class="font-icon icon-qrcode"></i>{$Think.lang.ep_pool}<a href="{:U('Enterprise/addPool')}" class="adds">{$Think.lang.ep_pool_add}</a></div>
+                <table>
+                    <tr class="title">
+                        <td width="15%">{$Think.lang.name}</td>
+                        <td width="10%">{$Think.lang.type}</td>
+                        <td width="15%">{$Think.lang.eq_volumes}</td>
+                        <td width="10%">{$Think.lang.eq_volumebytes}</td>
+                        <td width="25%" align="center">卷回收周期</td>
+                        <td>{$Think.lang.action}</td>
+                    </tr>
+                    <volist name="data" id="item">
+                    <tr>
+                        <td>{$item.name}</td>
+                        <td><if condition="$item['types'] == 1">磁盘<else />磁带</if></td>
+                        <td><if condition="$item['types'] == 1">{$item.maxVolumes}<else/>-</if></td>
+                        <td><if condition="$item['types'] == 1">{$item.maxVolumeBytes}GB<else/>-</if></td>
+                        <td  align="center">{$item['volumeRetention']}天</td>
+                        <td>
+                            <a href="{:U('Enterprise/addPool',array('id'=>$item['id']))}">{$Think.lang.edit}</a> | 
+                            <a href="javascript:;" data-bind="{$item.id}" class="copy">复制</a> | 
+                            <a href="javascript:;" data-bind="{$item.id}" class="deldata">{$Think.lang.button_del}</a>
+                            <if condition="$item['types'] != 1">
+                                 | <a href="javascript:;" data-id="{$item['atoragename']}" data-pool="{$item['name']}" class="buttons">磁带</a>
+                            </if>
+                        </td>
+                        <input type="hidden" id="scheduleId" class="wd250" name="scheduleId" value="{$data['scheduleId']}"/>
+                        <input type="hidden" id="nextPoolIds" class="wd250" name="nextPoolIds" value=""/>
+                        <input type="hidden" id="scheduleName" class="wd250" name="scheduleName" value="{$data['scheduleName']}" />
+                    </tr>
+                    </volist>
+                </table>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+          $(document).ready(function($) {
+              $(".buttons").on("click",function(){
+                    var id = $(this).attr('data-id');
+                    var name = $(this).attr('data-pool');
+                    var url = "{:U('Enterprise/media','','')}/tape/"+id+"/name/"+name;
+                    $.dialog.open(url, {
+                        title: LNG.info,
+                        fixed: true,
+                        width: 900,
+                        height: 600
+                    });
+                });
+              $(".copy").on('click',function(){
+                  var pid = $(this).attr('data-bind');
+                  var contents = '<p>请选择目标备份池？</p><select name="nextPoolId" id="nextPoolId">';
+                   <volist name="data" id="item">
+                   var poolId = "{$item['id']}";
+                       if(poolId != pid){
+                            contents +='<option value="{$item['id']}">{$item['name']}</option>';
+                        }
+                  </volist>
+                  contents +='</select>';
+                  $.dialog({
+                    content:contents ,
+                    fixed: true,
+                    id: 'Fm7',
+                    icon: 'question',
+                    okVal: '确定',
+                    ok: function () {
+                        var input = document.getElementById('nextPoolId');
+                        $("#nextPoolIds").val(input.value);
+                        $.post("{:U('Enterprise/checCopyPool')}",{preid:pid,postid:input.value},function(data){
+                            if(data.state =="success"){
+                                var url = "{:U('Enterprise/schedule','','')}/types/1/pooId/"+pid;
+                                $.dialog.open(url, {
+                                    title: LNG.eq_schedule,
+                                    fixed: true,
+                                    width: 700,
+                                    height: 500
+                                });
+                            }else{
+                                core.tips.tips(data.info,'error');
+                            }
+                      },"json")
+                        
+                    },
+                    cancel: true
+                });
+              });
+                $(".deldata").on("click",function(){
+                    var id = $(this).attr('data-bind');
+                    art.dialog({
+                    content: '确认删除？',
+                    ok: function () {
+                        this.close();
+                        $.post("{:U('Enterprise/delPool')}",{id:id},function(data){
+                            if (data.state === 'success') {
+                                core.tips.tips(data.info,'success');
+                               if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                            } else if (data.state === 'fail') {
+                                core.tips.tips(data.info,'error');
+                                btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        },"json")
+                        return false;
+                    },
+                    okVal:LNG.if_remove,
+                    cancelVal: LNG.close,
+                    cancel: true 
+                });
+             });
+         });
+        </script>
+    </body>
+</html>

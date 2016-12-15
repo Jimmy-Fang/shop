@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class="menu_left">
+                <include file="Common:vtl" />
+            </div>
+            <div class="main">
+                <div class='h1'><i class="font-icon icon-building"></i>虚拟带库<a href="{:U('Vtl/addVtl')}" class="adds">添加虚拟带库</a></div>
+                <table>
+                    <tr class="title">
+                        <td width="20%">Name</td>
+                        <td width="2%">DevType</td>
+                        <td width="50%">Type</td>
+                        <td>Action</td>
+                    </tr>
+                    <volist name="data" id="item">
+                        <tr>
+                            <td>{$item.Name}</td>
+                        <td>{$item.DevType}</td>
+                        <td>{$item.Type}</td>
+                        <td>
+                            <a href="javascript:;" class="infos" data-id="{$item.Name}">配置</a> | <a href="javascript:;" data-bind="{$item.Name}" class="deldata">{$Think.lang.button_del}</a> </if>
+                        </td>
+                    </tr>
+                    </volist>
+                </table>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function($) {
+                $(".deldata").on("click",function(){
+                    var name = $(this).attr('data-bind');
+                    art.dialog({
+                    content: "删除后不可恢复？",
+                    ok: function () {
+                        this.close();
+                        $.post("{:U('Vtl/delVtl')}",{name:name},function(data){
+                            
+                             if(data.info == ""){
+                                        core.tips.tips("操作成功",'success');
+                                        if (data.referer) {
+                                            window.location.href = data.referer;
+                                        } else {
+                                             reloadPage(window);
+                                        }
+                                    }else{
+                                        art.dialog({
+                                            title:"信息",
+                                           content: data.info,
+                                           width:'550px',
+                                           zIndex:999,
+                                           okVal: '确定',
+                                           ok: function () {
+                                               this.close();
+                                           },
+                                           close:function(){
+                                                if (data.referer) {
+                                                    window.location.href = data.referer;
+                                                } else {
+                                                     reloadPage(window);
+                                                }
+                                           }
+                                       });
+                                    }
+                            
+                        },"json")
+                        return false;
+                    },
+                    okVal:LNG.if_remove,
+                    cancelVal: LNG.close,
+                    cancel: true 
+                });
+                });
+                $(document).on('click','.infos',function(){
+                    var id = $(this).attr('data-id');
+                    var url = "{:U('Vtl/vtlInfo','','')}/name/"+id;
+                    $.dialog.open(url, {
+                        title: LNG.info,
+                        fixed: true,
+                        width: 900,
+                        height: 600
+                    });
+                });
+              });
+        </script>
+    </body>
+</html>

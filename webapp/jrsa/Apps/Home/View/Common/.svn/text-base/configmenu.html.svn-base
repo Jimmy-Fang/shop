@@ -1,0 +1,52 @@
+<h1>{$Think.lang.config}</h1>
+<div class="content">
+    <ul class="menu-one">
+        <li class="firstChild <if condition='$menuid eq ip'>menu-show</if>">
+            <div class="header">
+                <span class="txt">{$Think.lang.config_network}</span>
+                <span class="arrow"></span>
+            </div>
+            <ul class="menu-two" <if condition='$menuid eq ip'>style="display: block;"</if>>
+                <li class="firstChild <if condition='$menuid eq ip'>current</if>"><a href="{:U('Config/index')}">{$Think.lang.config_ip}</a></li>
+            </ul>
+        </li>
+        <li class="firstChild <if condition='$menuid eq user_info or $menuid eq members'>menu-show</if>">
+        <li >
+            <div class="header">
+                <span class="txt">{$Think.lang.setting_member}</span>
+                <span class="arrow"></span>
+            </div>
+            <ul class="menu-two" <if condition="($menuid eq 'user_info') or ($menuid eq 'members')">style="display: block;"</if>>
+                <li class="firstChild <if condition='$menuid eq user_info'>current</if>"><a href="{:U('User/info')}">{$Think.lang.setting_password}</a></li>
+                <li class="<if condition='$menuid eq members'>current</if>"><a href="{:U('User/member')}">{$Think.lang.setting_member}</a></li>
+            </ul>
+        </li>
+        <li <if condition='$menuid eq license or $menuid eq license_reg'>class="menu-show"</if>>
+            <div class="header">
+                <span class="txt">{$Think.lang.license}</span>
+                <span class="arrow"></span>
+            </div>
+            <ul class="menu-two" <if condition='$menuid eq license or $menuid eq license_reg'>style="display: block;"</if>>
+                <li class="firstChild <if condition='$menuid eq license'>current</if>"><a href="{:U('License/index')}">{$Think.lang.license_info}</a></li>
+                <li class="firstChild <if condition='$menuid eq license_reg'>current</if>"><a href="{:U('License/reg')}">{$Think.lang.license_add}</a></li>
+            </ul>
+        </li>
+        <li <if condition='$menuid eq system'>class="menu-show"</if>>
+            <div class="header">
+                <span class="txt">系统管理</span>
+                <span class="arrow"></span>
+            </div>
+            <ul class="menu-two" <if condition='$menuid eq system'>style="display: block;"</if>>
+                <li class="firstChild <if condition='$menuid eq system'>current</if>"><a href="{:U('Config/system')}">系统启停</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<script src="__JS__/seajs/sea.js"></script>
+<script type="text/javascript">
+    seajs.config({
+        base: "__JS__",
+        preload: ["jquery"]
+    });
+    seajs.use('menu/main');
+</script>

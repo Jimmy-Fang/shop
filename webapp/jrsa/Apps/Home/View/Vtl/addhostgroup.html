@@ -1,0 +1,311 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <link href="__JS__/ztree/style/zTreeStyle.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+            .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+            .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+            }.info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+            .wdinput label{width: 80px;margin-right: 0px; }
+            #body table{margin: 10px;width: 96%;}
+            .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 1px;font-weight: 400;padding: 1px 10px;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s;color: #fff;height: 25px;}
+            .cinfo{background: #4265a4;}
+            #tabbox{overflow:hidden; margin:0 auto;}
+            .bodys .main .section {border-top: 0px;padding: 10px;}
+            .tab_conbox{border: 1px solid #999;border-top: none;}
+            .tab_con{ display:none;}
+
+            .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+            .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+            .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
+            .tabs li a:hover {background: #ccc;}    
+            .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+
+            .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+            h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
+            p{font-size: 18px;padding:10px;color: green;font-weight: bold;width:800px;}
+            .info{background: #4265a4;}
+
+            .wraper {position: relative;float: left;}
+            .lists {width: 200px;height: 200px;overflow: auto;position: absolute;border: 1px solid #617775;display: none;float: left;/*margin-left: 110px;*/background: none repeat scroll 0 0 #FFFFFF;}
+            .lists ul li{padding-left: 10px;padding-top: 2px;padding-bottom: 2px;border-top: 1px solid #999; }
+            .bodys .main .section .box span{line-height: 20px;}
+            .testContainer {width:600px;height:200px;border:1px solid red;}
+            ul{list-style:none outside none;}
+            font{line-height: 33px;    margin: 0 10px;}
+            .fm110{margin-left: 110px; float: left;}
+            .lunul li{width: 260px;float: left;}
+            .lists li span{width: 140px;}
+            .lefts{padding-left: 110px;}
+        </style>
+    </head>
+    <body>
+        <div class="bodys">
+            <div class="menu_left">
+                <include file="Common:vtl" />
+            </div>
+            <div class="main">
+                <form action="{:U('Vtl/addhostgroup')}" method="post" id="J_ajaxForm">
+                    <div class='h1'><i class="font-icon icon-desktop"></i><notempty name="data['id']">{$Think.lang.ep_client_upd}<else />映射记录</notempty ></div>
+                    <div id="tabbox">
+                    <div class="section">
+                        <div class='box'>
+                            <input value="{$data['id']}" type="hidden" name="id"/>
+                            <input value="{$data['name']}" type="hidden" name="names"/>
+                            <span >Name</span>
+                            <input type="text" id="name" name="name" value="{$data['name']}" <notempty name="data.id">style="color:#a2a0a0;" disabled="disabled"</notempty> required/>
+                            <div class='line'></div>
+                            <span >Target</span>
+                            <select name="target"> 
+                                <volist name="target_list" id="item">
+                                    <option value="{$item.wwpn}" <if condition="$item['wwpn'] eq $data['target']">selected</if>>{$item.Name}</option>
+                                </volist>
+                            </select>
+                            <div class='line'></div>
+                            <span >Initiator</span>
+                            <input id="initiator_data" type="hidden" name="initiator_data" value="{$groupinitiator}" />
+                            <div class='line'></div>
+                            <div style="height: 30px;">
+                                <input id="initiator" style="width: 180px;" value="{$data['initiator']}" type="text" name="initiator" readonly />
+                                <input id="initiators" type="hidden" name="initiators" value="{$data['initiator']}" />
+                            </div>
+                            <div class='line'></div>
+                            <span >VTL</span>
+                            <div class='line'></div>
+                        </div>
+                        <div class="lefts">
+                            <ul id="lunTree" class="ztree"></ul>
+                            <label id="treeMsg"></label>
+                            <input type="hidden" id="lun" name="lun" value="{$data['lun']}"/>
+                        </div>
+                    </div>
+                <a href="javascript:void(0);" id="upd" data-url="{:U('Vtl/addhostgroup')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
+                </form>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script src="__JS__/jquery-droplist-vtl.js"></script>
+        <script src="__JS__/ztree/js/ztree.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var initdata = $("#initiator_data").val();
+                $("#initiator").MultDropList({ data: initdata,selected: "{$data['initiator']}"});
+                $("#groupLun").on("click",function(){
+                    var id = $(this).attr('data-id');
+                    var url = "{:U('Vtl/group',array('types'=>2))}";
+                    $.dialog.open(url, {
+                        title: "LUN管理",
+                        fixed: true,
+                        width: 600,
+                        height: 400,
+                        close:function(){
+                            onloadGrop(2,'lun');
+                        }
+                    });
+                });
+            });
+            var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm");
+            btn.on("click",function(){
+                var treeObj = $.fn.zTree.getZTreeObj("lunTree");
+                var nodes = treeObj.getCheckedNodes(true);
+                var names = '';
+                for(var i = 0;i<nodes.length;i++){
+                    tmpname = nodes[i].name +'';
+                    names += tmpname + ',';
+                }
+                names=names.substring(0,names.length-1);
+                if(names == ''){
+                    core.tips.tips('请选择LUN.','info');
+                    return false;
+                }
+                $("#lun").val(names);
+                if($("#name").val() =="" || $("#initiators").val() ==""){
+                    core.tips.tips(LNG.not_null,'info');
+                }else if(!checkName($("#name").val())){
+                    core.tips.tips(LNG.verify_name_cross,'info');
+                }else{
+                    form.ajaxSubmit({
+                    url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                    dataType: 'json',
+                    type:'post',
+                    beforeSubmit: function (arr, $form, options) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.removeClass('disabled').text(text.replace('中...', ''));
+                        if (data.state === 'success') {
+                            core.tips.tips(data.info,'success');
+                             if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                        } else if (data.state === 'fail') {
+                            core.tips.tips(data.info,'error');
+                            btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        }
+                    });
+                }
+            });
+            var lun = $("#lun").val();
+            var setting = {
+                async: {
+                    enable: true,
+                    url:"{:U('Vtl/ajaxLunList')}",
+                    autoParam:["id"],
+                    otherParam:{"lun":lun},
+                    type: "post"
+                },
+                data: {
+                    simpleData: {
+                        enable:true,
+                        idKey: "id",
+                        pIdKey: "pId",
+                        rootPId: ""
+                    }
+                },
+                check: {
+                    enable: true,
+                    //nocheckInherit: true
+                },
+                callback: {
+                    beforeAsync: beforeAsync,
+                    onAsyncSuccess: onAsyncSuccess,
+                    onAsyncError: onAsyncError
+                }
+            };
+            function beforeAsync() {
+                curAsyncCount++;
+                $("#treeMsg").html("数据加载中，请稍后..");$("#treeMsg").html("");
+            }
+            
+            function onAsyncSuccess(event, treeId, treeNode, msg) {
+                curAsyncCount--;
+                //$("#h3cvirtual").removeAttr('disabled');
+            }
+
+            function onAsyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
+                curAsyncCount--;
+                alert("数据加载中，请稍后..");
+                if (curAsyncCount <= 0) {
+                    curStatus = "";
+                    if (treeNode!=null) asyncForAll = true;
+                }
+            }
+            var curStatus = "init", curAsyncCount = 0, asyncForAll = false,
+            goAsync = false;
+            function expandAll() {
+                if (!check()) {
+                    return;
+                }
+                var zTree = $.fn.zTree.getZTreeObj("lunTree");
+                if (asyncForAll) {
+                    zTree.expandAll(true);
+                } else {
+                    expandNodes(zTree.getNodes());
+                    if (!goAsync) {
+                        curStatus = "";
+                    }
+                }
+            }
+            
+            function expandNodes(nodes) {
+                if (!nodes) return;
+                curStatus = "expand";
+                var zTree = $.fn.zTree.getZTreeObj("lunTree");
+                for (var i=0, l=nodes.length; i<l; i++) {
+                    zTree.expandNode(nodes[i], true, false, false);
+                    if (nodes[i].isParent && nodes[i].zAsync) {
+                        expandNodes(nodes[i].children);
+                    } else {
+                        goAsync = true;
+                    }
+                }
+            }
+
+            function asyncAll() {
+                if (!check()) {
+                    return;
+                }
+                var zTree = $.fn.zTree.getZTreeObj("lunTree");
+                if (asyncForAll) {
+                } else {
+                    asyncNodes(zTree.getNodes());
+                    if (!goAsync) {
+                        curStatus = "";
+                    }
+                }
+            }
+            function asyncNodes(nodes) {
+                if (!nodes) return;
+                curStatus = "async";
+                var zTree = $.fn.zTree.getZTreeObj("lunTree");
+                for (var i=0, l=nodes.length; i<l; i++) {
+                    if (nodes[i].isParent && nodes[i].zAsync) {
+                        asyncNodes(nodes[i].children);
+                    } else {
+                        goAsync = true;
+                        zTree.reAsyncChildNodes(nodes[i], "refresh", true);
+                    }
+                }
+            }
+            
+            function check() {
+                if (curAsyncCount > 0) {
+                    return false;
+                }
+                return true;
+            }
+            
+            function _initSett(id){
+                $("#lunTree").empty();
+                var setting = {
+                    async: {
+                        enable: true,
+                        url:"{:U('Vtl/ajaxLunList')}",
+                        autoParam:["id"],
+                        type: "post"
+                    },
+                    data: {
+                        simpleData: {
+                            enable:true,
+                            idKey: "id",
+                            pIdKey: "pId",
+                            rootPId: ""
+                        }
+                    },
+                    check: {
+                        enable: true,
+                        //nocheckInherit: true
+                    },
+                    callback: {
+                        beforeAsync: beforeAsync,
+                        onAsyncSuccess: onAsyncSuccess,
+                        onAsyncError: onAsyncError
+                    }
+                };
+                $.fn.zTree.init($("#lunTree"), setting);
+            }
+            $(document).ready(function(){
+                $.fn.zTree.init($("#lunTree"), setting);
+                asyncAll();
+            });
+        </script>
+    </body>
+</html>

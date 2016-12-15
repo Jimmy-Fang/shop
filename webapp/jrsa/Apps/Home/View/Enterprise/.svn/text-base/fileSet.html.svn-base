@@ -1,0 +1,711 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <link href="__JS__/ztree/style/zTreeStyle.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+        	#body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+        	.info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+        	#h3clists{padding:0 0 10px 100px;}
+			#h3clists label{display: block;float: left;width: 110px;line-height: 25px;}
+			.wdinput label{width: 80px;margin-right: 0px; }
+           .button {cursor: pointer; margin: 5px 10px 5px 0;font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;}
+        </style>
+    </head>
+    <body>
+        <div class="bodys">
+            <div class="main" style="left: 0%;width: 95%;">
+                <form action="{:U('Enterprise/fileSet')}" method="post" id="J_ajaxForm">
+                    <div class='h1'><i class="font-icon icon-file"></i>{$Think.lang.eq_fileSet}</div>
+                    <div class="section">
+                        <div class='box'>
+                            <input value="{$data['id']}" type="hidden" name="id" id="fid"/>
+                            <span style="height: 60px;">数据集类型</span>
+                            <div class="tm20 wdinput">
+                                <input type="radio" value="file" name="types" <empty name="data['types']">checked="checked" </empty><if condition="$data['types'] eq 'file'">checked</if> /><label>普通文件</label>
+                                <input type="radio" value="dbsql" name="types" <if condition="$data['types'] eq 'dbsql'">checked</if>  /><label>MSSQL</label>
+                                <input type="radio" value="dboracle" name="types" <if condition="$data['types'] eq 'dboracle'">checked</if>  /><label>Oracle</label>
+                                <input type="radio" value="dbsybase" name="types" <if condition="$data['types'] eq 'dbsybase'">checked</if>  /><label>Sybase</label>
+                                <input type="radio" value="dbdb2" name="types" <if condition="$data['types'] eq 'dbdb2'">checked</if>  /><label>DB2</label>
+                                <input type="radio" value="dbinf" name="types" <if condition="$data['types'] eq 'dbinf'">checked</if>  /><label>Informix</label></br>
+                                <input type="radio" value="dbmysql" name="types" <if condition="$data['types'] eq 'dbmysql'">checked</if>  /><label>MySQL</label>
+                                <input type="radio" value="dbdm" name="types" <if condition="$data['types'] eq 'dbdm'">checked</if>  /><label>达梦</label>
+                                <input type="radio" value="dbkingbase" name="types" <if condition="$data['types'] eq 'dbkingbase'">checked</if>  /><label>KingBase</label>
+                                <input type="radio" value="dbkdb" name="types" <if condition="$data['types'] eq 'dbkdb'">checked</if>  /><label>K-DB/UPDB</label>
+                                <input type="radio" value="dbbmr" name="types" <if condition="$data['types'] eq 'dbbmr'">checked</if>  /><label>整机备份</label>
+                                <input type="radio" value="dbad" name="types" <if condition="$data['types'] eq 'dbad'">checked</if>  /><label>活动目录</label></br>
+                                <!--input type="radio" value="5" name="types" <if condition="$data['types'] eq '5'">checked</if>  /><label>PostgerSQL</label-->
+                                <notempty name="data['vms']"><input type="radio" value="vms" name="types" <if condition="$data['types'] eq 'vms'">checked</if>  /><label>VMWARE</label></notempty>
+                                <notempty name="data['h3c']"><input type="radio" value="h3c" name="types" <if condition="$data['types'] eq 'h3c'">checked</if>  /><label>H3C CAS</label></notempty>
+                            </div>
+                            <div class='line'></div>
+                            <div class="curtabfile" <empty name="data['types']">style="display:block;"</empty><if condition="$data['types'] eq 'file'">style="display:block;"<else />style="display:none;"</if>> 
+	                            <span >{$Think.lang.eq_fileSet}</span>
+                                <textarea id="fileSet" name='fileSet' style="resize:none;width: 300px;height: 100px;"  placeholder="" required>{$data['fileSet']}</textarea>
+                                <label>多条数据换行分割</label>
+                                <div class='line'></div>
+                                <span >排除文件</span>
+                                <textarea id="exclude" name='exclude' style="resize:none;width: 300px;height: 50px;"  placeholder="" required>{$data['exclude']}</textarea>
+                                <label>多条数据换行分割</label>
+                                <div class='line'></div>
+	                            <span >任务脚本</span>
+                                	<input value="1" type="checkbox" name="preScript" <notempty name="data['preScript']">checked="checked" </notempty>/><label title="<notempty name='data.BeforeJob'>脚本路径：{$data['BeforeJob']}</notempty>">前置脚本</label>
+                                	<input value="1" type="checkbox" name="postScript" <notempty name="data['postScript']">checked="checked" </notempty>/><label title="<notempty name='data.AfterJob'>脚本路径：{$data['AfterJob']}</notempty>">后置脚本</label>
+                                <div class='line'></div>
+                                <span >VSS</span>
+                                <div class="tm20"><input type="checkbox" name="enableVSS" id="enableVSS" value="yes" <if condition="$data['enableVSS'] eq 'yes' ">checked</if>><label>　仅windows2003以上版本有效</label></div>
+                                <div class='line'></div>
+                            </div>
+                            <notempty name="data['vms']">
+                            <div class="curtabvms" <if condition="$data['types'] eq 'vms'">style="display:block;"<else />style="display:none;"</if>>
+                                <span >数据中心</span>
+                                <select name="vmvirtual" id="vmvirtual">
+                                	<volist name="vm" id="item">
+                                		<option value="{$item.id}" <if condition="$data['vmvirtual'] eq $item['id']">selected</if>>{$item.name}</option>
+                                	</volist>
+                                </select>
+                                <div class='line'></div>
+                                <span >文件夹</span>
+                                <input type="text" id="file" class="wd250" name="file" value="<empty name="data['file']">/<else />{$data['file']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >虚拟机</span>
+                                <input type="text" id="vm" class="wd250" name="vm" value="{$data['vm']}" required/>
+                                <div class='line'></div>
+                            </div>
+                            </notempty>
+                            <div class="curtabdbsql" <if condition="$data['types'] eq 'dbsql'">style="display:block;"<else />style="display:none;"</if>>
+                                <span >数据库实例</span>
+                                <input type="text" id="msinstance" class="wd250" name="msinstance" value="<empty name="data['msinstance']">default<else />{$data['msinstance']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >使用系统账号</span>
+                                <input value="1" type="checkbox" name="mssystem" id="mssystem" <empty name="data['msusername']">checked="checked" </empty>/><label>使用系统账号无需输入账号密码</label>
+                                 <div class='line'></div>
+                                 <div id="mssystems" <empty name="data['msusername']">style="display:none;"<else/>style="display:block;"</empty>><span >用户名</span>
+                                    <input type="text" id="msusername" class="wd250" name="msusername" value="{$data['msusername']}" required/>
+                                    <div class='line'></div>
+                                    <span >密码</span>
+                                    <input type="password" id="mspassword" class="wd250" name="mspassword" value="{$data['mspassword']}" required/>
+                                    <div class='line'></div>
+                                </div>
+                                <span >数据库名</span>
+                                <input type="text" id="msdb" class="wd250" name="msdb" value="{$data['msdb']}" required/>
+                                <div class='line'></div>
+                            </div>
+                            <div class="curtabdboracle" <if condition="$data['types'] eq 'dboracle'">style="display:block;"<else />style="display:none;"</if>>
+                                <span >备份类型</span>
+                                <select name="orctype"> 
+                                    <option value="1" <if condition="$data['appType'] eq 1">selected</if>>{$Think.lang.eq_all_backup}</option>
+                                    <option value="2" <if condition="$data['appType'] eq 2">selected</if>>{$Think.lang.eq_log_backup}</option>
+                                </select>
+                                <div class='line'></div>
+                                <span >数据库实例</span>
+                                <input type="text" id="orinstance" class="wd250" name="orinstance" value="<empty name="data['orinstance']"><else />{$data['orinstance']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >用户名</span>
+                                <input type="text" id="orusername" class="wd250" name="orusername" value="<empty name="data['orusername']">oracle<else />{$data['orusername']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >备份路径</span>
+                                <input type="text" id="ordir" class="wd250" name="ordir" value="<empty name="data['ordir']"><else />{$data['ordir']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >日志保留天数</span>
+                                <input type="text" id="ordays" class="wd250" name="ordays" value="<empty name="data['ordays']">3<else />{$data['ordays']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >开启压缩</span>
+                                <div class="tm20"><input type="checkbox" name="enableCom" id="enableCom" value="1" <if condition="$data['enableCom'] eq '1' ">checked</if>><label></label></div>
+                                <div class='line'></div>
+                            </div>
+                            <div class="curtabdbsybase" <if condition="$data['types'] eq 'dbsybase'">style="display:block;"<else />style="display:none;"</if>>
+                                <span >备份类型</span>
+                                <select name="sytype"> 
+                                    <option value="1" <if condition="$data['appType'] eq 1">selected</if>>{$Think.lang.eq_all_backup}</option>
+                                    <option value="2" <if condition="$data['appType'] eq 2">selected</if>>{$Think.lang.eq_log_backup}</option>
+                                </select>
+                                <div class='line'></div>
+                                <span >系统用户名</span>
+                                <input type="text" id="syinstance" class="wd250" name="syinstance" value="<empty name="data['syinstance']">sybase<else />{$data['syinstance']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >用户名</span>
+                                <input type="text" id="syusername" class="wd250" name="syusername" value="<empty name="data['syusername']">sa<else />{$data['syusername']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >密码</span>
+                                <input type="password" id="syuserpwd" class="wd250" name="syuserpwd" value="<empty name="data['syuserpwd']"><else />{$data['syuserpwd']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >数据库名称</span>
+                                <input type="text" id="sydbname" class="wd250" name="sydbname" value="<empty name="data['sydbname']"><else />{$data['sydbname']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >备份路径</span>
+                                <input type="text" id="sydir" class="wd250" name="sydir" value="<empty name="data['sydir']"><else />{$data['sydir']}</empty>" required/>
+                                <div class='line'></div>
+                            </div>
+                            <div class="curtabdbdb2" <if condition="$data['types'] eq 'dbdb2'">style="display:block;"<else />style="display:none;"</if>>
+                                <span >备份类型</span>
+                                <select name="dbtype"> 
+                                    <option value="1" <if condition="$data['appType'] eq 1">selected</if>>{$Think.lang.eq_all_backup}</option>
+                                    <option value="2" <if condition="$data['appType'] eq 2">selected</if>>{$Think.lang.eq_log_backup}</option>
+                                </select>
+                                <div class='line'></div>
+                                <span >系统用户名</span>
+                                <input type="text" id="dbinstance" class="wd250" name="dbinstance" value="<empty name="data['dbinstance']">db2inst1<else />{$data['dbinstance']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >数据库名称</span>
+                                <input type="text" id="dbdbname" class="wd250" name="dbdbname" value="<empty name="data['dbdbname']"><else />{$data['dbdbname']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >备份路径</span>
+                                <input type="text" id="dbdir" class="wd250" name="dbdir" value="<empty name="data['dbdir']"><else />{$data['dbdir']}</empty>" required/>
+                                <div class='line'></div>
+                            </div>
+                            <div class="curtabdbinf" <if condition="$data['types'] eq 'dbinf'">style="display:block;"<else />style="display:none;"</if>>
+                                <span >备份类型</span>
+                                <select name="inftype"> 
+                                    <option value="1" <if condition="$data['appType'] eq 1">selected</if>>{$Think.lang.eq_all_backup}</option>
+                                    <option value="2" <if condition="$data['appType'] eq 2">selected</if>>{$Think.lang.eq_log_backup}</option>
+                                </select>
+                                <div class='line'></div>
+                                <span >系统用户名</span>
+                                <input type="text" id="infinstance" class="wd250" name="infinstance" value="<empty name="data['infinstance']">informix<else />{$data['infinstance']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >备份路径</span>
+                                <input type="text" id="infdir" class="wd250" name="infdir" value="<empty name="data['infdir']"><else />{$data['infdir']}</empty>" required/>
+                                <div class='line'></div>
+                            </div>
+                            <div class="curtabdbmysql" <if condition="$data['types'] eq 'dbmysql'">style="display:block;"<else />style="display:none;"</if>>
+                                <span >备份类型</span>
+                                <select name="sqltype"> 
+                                    <option value="1" <if condition="$data['appType'] eq 1">selected</if>>{$Think.lang.eq_all_backup}</option>
+                                </select>
+                                <div class='line'></div>
+                                <span >数据库用户名</span>
+                                <input type="text" id="sqlusername" class="wd250" name="sqlusername" value="<empty name="data['sqlusername']"><else />{$data['sqlusername']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >密码</span>
+                                <input type="password" id="sqluserpwd" class="wd250" name="sqluserpwd" value="<empty name="data['sqluserpwd']"><else />{$data['sqluserpwd']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >端口</span>
+                                <input type="text" id="sqlport" class="wd250" name="sqlport" value="<empty name="data['sqlport']">3306<else />{$data['sqlport']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >数据库名</span>
+                                <input type="text" id="sqldbname" class="wd250" name="sqldbname" value="<empty name="data['sqldbname']"><else />{$data['sqldbname']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >备份路径</span>
+                                <input type="text" id="sqldir" class="wd250" name="sqldir" value="<empty name="data['sqldir']"><else />{$data['sqldir']}</empty>" required/>
+                                <div class='line'></div>
+                            </div>
+                            <div class="curtabdbdm" <if condition="$data['types'] eq 'dbdm'">style="display:block;"<else />style="display:none;"</if>>
+                                <span >备份类型</span>
+                                <select name="dmtype"> 
+                                    <option value="1" <if condition="$data['appType'] eq 1">selected</if>>{$Think.lang.eq_all_backup}</option>
+                                    <option value="2" <if condition="$data['appType'] eq 2">selected</if>>{$Think.lang.eq_log_backup}</option>
+                                </select>
+                                <div class='line'></div>
+                                <span >系统用户名</span>
+                                <input type="text" id="dminstance" class="wd250" name="dminstance" value="<empty name="data['dminstance']">dmdba<else />{$data['dminstance']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >数据库用户名</span>
+                                <input type="text" id="dmusername" class="wd250" name="dmusername" value="<empty name="data['dmusername']">SYSDBA<else />{$data['dmusername']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >密码</span>
+                                <input type="password" id="dmuserpwd" class="wd250" name="dmuserpwd" value="<empty name="data['dmuserpwd']"><else />{$data['dmuserpwd']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >备份路径</span>
+                                <input type="text" id="dmdir" class="wd250" name="dmdir" value="<empty name="data['dmdir']"><else />{$data['dmdir']}</empty>" required/>
+                                <div class='line'></div>
+                            </div>
+                            <div class="curtabdbkingbase" <if condition="$data['types'] eq 'dbkingbase'">style="display:block;"<else />style="display:none;"</if>>
+                                <span >备份类型</span>
+                                <select name="kbtype"> 
+                                    <option value="1" <if condition="$data['appType'] eq 1">selected</if>>{$Think.lang.eq_all_backup}</option>
+                                </select>
+                                <div class='line'></div>
+                                <span >系统用户名</span>
+                                <input type="text" id="kbinstance" class="wd250" name="kbinstance" value="<empty name="data['kbinstance']">kingbase<else />{$data['kbinstance']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >数据库用户名</span>
+                                <input type="text" id="kbusername" class="wd250" name="kbusername" value="<empty name="data['kbusername']">SYSTEM<else />{$data['kbusername']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >密码</span>
+                                <input type="password" id="kbuserpwd" class="wd250" name="kbuserpwd" value="<empty name="data['kbuserpwd']"><else />{$data['kbuserpwd']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >数据库名</span>
+                                <input type="text" id="kbdbname" class="wd250" name="kbdbname" value="<empty name="data['kbdbname']"><else />{$data['kbdbname']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >备份路径</span>
+                                <input type="text" id="kbdir" class="wd250" name="kbdir" value="<empty name="data['kbdir']"><else />{$data['kbdir']}</empty>" required/>
+                                <div class='line'></div>
+                            </div>
+                            <div class="curtabdbkdb" <if condition="$data['types'] eq 'dbkdb'">style="display:block;"<else />style="display:none;"</if>>
+                                <span >备份类型</span>
+                                <select name="kdbtype"> 
+                                    <option value="1" <if condition="$data['appType'] eq 1">selected</if>>{$Think.lang.eq_all_backup}</option>
+                                    <option value="2" <if condition="$data['appType'] eq 2">selected</if>>{$Think.lang.eq_log_backup}</option>
+                                </select>
+                                <div class='line'></div>
+                                <span >系统用户名</span>
+                                <input type="text" id="kdbinstance" class="wd250" name="kdbinstance" value="<empty name="data['kdbinstance']">kdb<else />{$data['kdbinstance']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >数据库用户名</span>
+                                <input type="text" id="kdbusername" class="wd250" name="kdbusername" value="<empty name="data['kdbusername']">sys<else />{$data['kdbusername']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >密码</span>
+                                <input type="password" id="kdbuserpwd" class="wd250" name="kdbuserpwd" value="<empty name="data['kdbuserpwd']">updb<else />{$data['kdbuserpwd']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >备份路径</span>
+                                <input type="text" id="kdbdir" class="wd250" name="kdbdir" value="<empty name="data['kdbdir']"><else />{$data['kdbdir']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >删除归档日志</span>
+                                <div class="tm20"><input type="checkbox" name="kdbgd" id="kdbgd" value="1" <if condition="$data['kdbgd'] eq '1' ">checked</if>><label></label></div>
+                                <div class='line'></div>
+                            </div>
+                            <div class="curtabdbbmr" <if condition="$data['types'] eq 'dbbmr'">style="display:block;"<else />style="display:none;"</if>>
+                                <span >备份类型</span>
+                                <select name="bmrtype"> 
+                                    <option value="1" <if condition="$data['appType'] eq 1">selected</if>>全备份</option>
+                                    <option value="2" <if condition="$data['appType'] eq 2">selected</if>>系统内核</option>
+                                </select>
+                                <div class='line'></div>
+                                <span >备份分区</span>
+                                <input type="text" id="bmrdisk" class="wd250" name="bmrdisk" value="<empty name="data['bmrdisk']"><else />{$data['bmrdisk']}</empty>" required/>
+                                <div class='line'></div>
+                                <span >备份路径</span>
+                                <input type="text" id="bmrdir" class="wd250" name="bmrdir" value="<empty name="data['bmrdir']"><else />{$data['bmrdir']}</empty>" required/>
+                                <div class='line'></div>
+                            </div>
+                            <div class="curtabdbad" <if condition="$data['types'] eq 'dbad'">style="display:block;"<else />style="display:none;"</if>>
+                                <span >操作系统</span>
+                                <select name="adsys"> 
+                                    <option value="1" <if condition="$data['appType'] eq 1">selected</if>>windows2003</option>
+                                    <option value="2" <if condition="$data['appType'] eq 2">selected</if>>windows2008</option>
+                                </select>
+                                <div class='line'></div>
+                                <span >备份路径</span>
+                                <input type="text" id="addir" class="wd250" name="addir" value="<empty name="data['addir']">d:\WindowsImageBackup<else />{$data['addir']}</empty>" required/>
+                                <div class='line'></div>
+                            </div>
+	                        <notempty name="data['h3c']">
+	                        <div class="curtabh3c" <if condition="$data['types'] eq 'h3c'">style="display:block;"<else />style="display:none;"</if>>
+	                            <span >数据中心</span>
+	                            <select name="h3cvirtual" id="h3cvirtual">
+	                            	<volist name="h3c" id="item">
+	                            		<option value="{$item.id}" <if condition="$data['h3cvirtual'] eq $item['id']">selected</if>>{$item.name}</option>
+	                            	</volist>
+	                            </select>
+	                            <div class='line'></div>
+	                            <span >文件服务器</span>
+	                            <select name="h3cfile" id="h3cfile">
+	                            	<volist name="h3cfile" id="item">
+	                            		<option value="{$item.id}" <if condition="$item['id'] eq $data['h3cfile']">selected</if>>{$item.name}</option>
+	                            	</volist>
+	                            </select>
+	                            <div class='line'></div>
+	                            <span >备份方式</span>
+                                <select name="h3csys"> 
+		                            <option value="Full" <if condition="$data['h3csys'] eq 'Full'">selected</if>>全备份</option>
+		                            <option value="Differential" <if condition="$data['h3csys'] eq 'Differential'">selected</if>>差异备份</option>
+		                            <option value="Incremental" <if condition="$data['h3csys'] eq 'Incremental'">selected</if>>增量备份</option>
+                                </select>
+                                <div class='line'></div>
+	                            <span >临时路径</span>
+	                            <input type="text" id="h3ctmppath" name="h3ctmppath" value="<empty name="data['h3ctmppath']">/vms/vmbackuptmp<else />{$data['h3ctmppath']}</empty>" class="wd250" required/>
+	                            <label>*例如 /vms/vmbackuptmp</label>
+	                            <div class='line'></div>
+	                        </div>
+	                        </notempty>
+                        </div>
+                        <notempty name="data['h3c']">
+                        <div class="curtabh3c" id="h3clists" <if condition="$data['types'] eq 'h3c'">style="display:block;"<else />style="display:none;"</if>>
+                            <div class="left">
+								<ul id="h3cTree" class="ztree"></ul>
+								<label id="treeMsg"></label>
+								<input type="hidden" id="vid" name="vid" value="{$data['vid']}"/>
+							</div>
+                            <div class='line'></div>
+                        </div>
+                        </notempty>
+                        <div class="box">
+                        	<div id="compression">
+	                            <span >压缩类型</span>
+	                            <select name="compression"> 
+	                                <option value="" <if condition="$data['compression'] eq ''">selected</if>>不压缩</option>
+	                                <option value="gzip" <if condition="$data['compression'] eq 'gzip'">selected</if>>gzip</option>
+	                                <option value="lzo" <if condition="$data['compression'] eq 'lzo'">selected</if>>lzo</option>
+	                                <option value="lz4" <if condition="$data['compression'] eq 'lz4'">selected</if>>lz4</option>
+	                                <option value="lzfast" <if condition="$data['compression'] eq 'lzfast'">selected</if>>lzfast</option>
+	                                <option value="lz4hc" <if condition="$data['compression'] eq 'lz4hc'">selected</if>>lz4hc</option>
+	                            </select>
+	                            <div class='line'></div>
+                            </div>
+                            <span >{$Think.lang.app_desc}</span>
+                            <textarea id="description" name='description' style="resize:none;width: 400px;height: 50px;"  placeholder="" required>{$data['description']}</textarea>
+                            <div class='line'></div>
+                            <a href="javascript:void(0);" id="upd" data-url="{:U('Enterprise/fileSet')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/seajs/sea.js"></script>
+        <script type="text/javascript">
+            seajs.config({
+                base: "__JS__"
+            });
+            seajs.use('menu/main');
+        </script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script src="__JS__/ztree/js/ztree.js"></script>
+        <script type="text/javascript">            
+            $(document).ready(function($) {
+                $(".tm20 input").click(function(){
+                  var curtab=$(":radio[name='types']").filter(":checked").val();
+                  $(".curtabfile,.curtabvms,.curtabdbsql,.curtabdbmysql,.curtabdbsybase,.curtabdbdb2,.curtabdbinf,.curtabdbdm,.curtabdbkingbase,.curtabdbkdb,.curtabdbbmr,.curtabdboracle,.curtabdbad,.curtabh3c").hide().filter(".curtab"+curtab).show();
+                	if(curtab == "dboracle"){
+                		$("#compression").hide();
+                	}else{
+                		$("#compression").show();
+                	}
+                });
+                $("#mssystem").click(function(){
+                   if($("#mssystem").attr("checked")=="checked"){
+                       $("#mssystems").hide();
+                   }else{
+                       $("#mssystems").show();
+                   }
+                });
+                $("#filepath").on("click",function(){
+                    $.dialog.open("{:U('Tools/folder','isfile=1&fileId=fileSet&dir=n')}", {
+                        title: '选择备份目录',
+                        fixed: true,
+                        width: 570,
+                        height: 500
+                    });
+                });
+              });
+          var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm");
+            btn.on("click",function(){
+                 var type=$(":radio[name='types']").filter(":checked").val();
+                 if(type=='vms'){
+                     if($("#dc").val() =="" || $("#ip").val() ==""|| $("#user").val() ==""|| $("#password").val() ==""|| $("#vm").val() ==""|| $("#file").val() ==""){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }
+                 }else if(type=="dbsql"){
+                     if($("#mssystem").attr("checked")=="checked"){
+                        if($("#msinstance").val() =="" || $("#msdb").val() ==""){
+                            core.tips.tips(LNG.not_null,'info');
+                            return false;
+                        }
+                    }else{
+                        if($("#msinstance").val() =="" || $("#msusername").val() ==""|| $("#mspassword").val() ==""|| $("#msdb").val() ==""){
+                            core.tips.tips(LNG.not_null,'info');
+                            return false;
+                        }
+                    }
+                 }else if(type=="dboracle"){
+                     if($("#ordays").val() =="" || $("#ordir").val() ==""|| $("#orusername").val() ==""){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }else if(!checkPath($("#ordir").val())){
+                    	core.tips.tips("请输入正确的路径.",'info');
+                    	return false;
+                    }
+                 }else if(type=="dbsybase"){
+                     if($("#syinstance").val() =="" || $("#sydir").val() ==""|| $("#syusername").val() ==""|| $("#sydbname").val() ==""){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }else if(!checkPath($("#sydir").val())){
+                    	core.tips.tips("请输入正确的路径.",'info');
+                    	return false;
+                    }
+                 }else if(type=="dbdb2"){
+                     if($("#dbinstance").val() =="" || $("#dbdir").val() ==""||$("#dbdbname").val() ==""){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }else if(!checkPath($("#dbdir").val())){
+                    	core.tips.tips("请输入正确的路径.",'info');
+                    	return false;
+                    }
+                 }else if(type=="dbdm"){
+                     if($("#dminstance").val() =="" || $("#dmdir").val() ==""|| $("#dmusername").val() ==""|| $("#dmuserpwd").val() ==""){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }else if(!checkPath($("#dmdir").val())){
+                    	core.tips.tips("请输入正确的路径.",'info');
+                    	return false;
+                    }
+                 }else if(type=="dbkingbase"){
+                     if($("#kbinstance").val() =="" || $("#kbdir").val() ==""|| $("#kbusername").val() ==""|| $("#kbuserpwd").val() ==""|| $("#kbdbname").val() ==""){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }else if(!checkPath($("#kbdir").val())){
+                    	core.tips.tips("请输入正确的路径.",'info');
+                    	return false;
+                    }
+                 }else if(type=="dbkdb"){
+                     if($("#kdbinstance").val() =="" || $("#kdbdir").val() ==""|| $("#kdbusername").val() ==""|| $("#kdbuserpwd").val() ==""){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }else if(!checkPath($("#kdbdir").val())){
+                    	core.tips.tips("请输入正确的路径.",'info');
+                    	return false;
+                    }
+                 }else if(type=="dbbmr"){
+                     if($("#bmrdir").val() ==""){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }else if(!checkPath($("#bmrdir").val())){
+                    	core.tips.tips("请输入正确的路径.",'info');
+                    	return false;
+                    }
+                 }else if(type=="dbad"){
+                     if($("#addir").val() ==""){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }else if(!checkWinPath($("#addir").val())){
+                    	core.tips.tips("请输入正确的路径.",'info');
+                    	return false;
+                    }
+                 }else if(type=="dbmysql"){
+                     if($("#sqlport").val() =="" || $("#sqldir").val() =="" || $("#sqldbname").val() =="" || $("#sqldir").val() ==""){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }else if(!checkPath($("#sqldir").val())){
+                    	core.tips.tips("请输入正确的路径.",'info');
+                    	return false;
+                    }
+                 }else if(type=="dbinf"){
+                     if($("#infdir").val() ==""){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }else if(!checkPath($("#infdir").val())){
+                    	core.tips.tips("请输入正确的路径.",'info');
+                    	return false;
+                    }
+                 }else if(type=="h3c"){
+                    var ids = '';
+					var tmpid = '';
+					var treeObj = $.fn.zTree.getZTreeObj("h3cTree");
+					var nodes = treeObj.getCheckedNodes(true);
+					for(var i = 0;i<nodes.length;i++){
+						tmpid = nodes[i].id +'';
+						tmpid = tmpid.substring(1);
+						ids += tmpid + ',';
+					}
+					ids=ids.substring(0,ids.length-1);
+					if(ids == ''){
+						core.tips.tips('请选择要备份的虚拟机.','info');
+                        return false;
+					}else if($("#h3ctmppath").val() ==""){
+						core.tips.tips(LNG.not_null,'info');
+                        return false;
+					}
+					$("#vid").val(ids);
+                 }else{
+                    if($("#fileSet").val() =="" || $("#description").val() ==""){
+                        core.tips.tips(LNG.not_null,'info');
+                        return false;
+                    }
+                 }
+                 form.ajaxSubmit({
+                    url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                    dataType: 'json',
+                    type:'post',
+                    beforeSubmit: function (arr, $form, options) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.removeClass('disabled').text(text.replace('中...', ''));
+                        if (data.state === 'success') {
+                            core.tips.tips(data.info,'success');
+                            //返回数据
+                            var api = art.dialog.open.api;
+                            if(api){
+                                var id = $("#fid").val();
+                                if(!id){
+                                    id=data.info;
+                                }
+                                var origin = artDialog.open.origin;
+                                var fileid = origin.document.getElementById('fileSetId');
+                                var filename = origin.document.getElementById('fileSetName');
+                                fileid.value = id; 
+                                filename.value = "点击查看或修改"; 
+                                api.close();
+                            }
+                        } else if (data.state === 'fail') {
+                            core.tips.tips(data.info,'error');
+                            btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        }
+                    });
+            });
+        </script>
+        <notempty name="data['h3c']">
+        <script type="text/javascript">
+		<!--
+		var id = $("#h3cvirtual").val();
+		var vid = $("#vid").val();
+		var setting = {
+			async: {
+				enable: true,
+				url:"{:U('Virtual/ajaxVirtualList')}",
+				autoParam:["id"],
+				otherParam:{"id":id,"vid":vid},
+				//dataFilter: filter,
+				type: "post"
+			},
+			data: {
+				simpleData: {
+					enable:true,
+					idKey: "id",
+					pIdKey: "pId",
+					rootPId: ""
+				}
+			},
+			check: {
+				enable: true,
+				//nocheckInherit: true
+			},
+			callback: {
+				beforeAsync: beforeAsync,
+				onAsyncSuccess: onAsyncSuccess,
+				onAsyncError: onAsyncError
+			}
+		};
+		function beforeAsync() {
+			curAsyncCount++;
+			$("#treeMsg").html("数据加载中，请稍后..");$("#treeMsg").html("");
+		}
+		
+		function onAsyncSuccess(event, treeId, treeNode, msg) {
+			curAsyncCount--;
+			$("#h3cvirtual").removeAttr('disabled');
+		}
+
+		function onAsyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
+			curAsyncCount--;
+			alert("数据加载中，请稍后..");
+			if (curAsyncCount <= 0) {
+				curStatus = "";
+				if (treeNode!=null) asyncForAll = true;
+			}
+		}
+		var curStatus = "init", curAsyncCount = 0, asyncForAll = false,
+		goAsync = false;
+		function expandAll() {
+			if (!check()) {
+				return;
+			}
+			var zTree = $.fn.zTree.getZTreeObj("h3cTree");
+			if (asyncForAll) {
+				zTree.expandAll(true);
+			} else {
+				expandNodes(zTree.getNodes());
+				if (!goAsync) {
+					curStatus = "";
+				}
+			}
+		}
+		
+		function expandNodes(nodes) {
+			if (!nodes) return;
+			curStatus = "expand";
+			var zTree = $.fn.zTree.getZTreeObj("h3cTree");
+			for (var i=0, l=nodes.length; i<l; i++) {
+				zTree.expandNode(nodes[i], true, false, false);
+				if (nodes[i].isParent && nodes[i].zAsync) {
+					expandNodes(nodes[i].children);
+				} else {
+					goAsync = true;
+				}
+			}
+		}
+
+		function asyncAll() {
+			if (!check()) {
+				return;
+			}
+			var zTree = $.fn.zTree.getZTreeObj("h3cTree");
+			if (asyncForAll) {
+			} else {
+				asyncNodes(zTree.getNodes());
+				if (!goAsync) {
+					curStatus = "";
+				}
+			}
+		}
+		function asyncNodes(nodes) {
+			if (!nodes) return;
+			curStatus = "async";
+			var zTree = $.fn.zTree.getZTreeObj("h3cTree");
+			for (var i=0, l=nodes.length; i<l; i++) {
+				if (nodes[i].isParent && nodes[i].zAsync) {
+					asyncNodes(nodes[i].children);
+				} else {
+					goAsync = true;
+					zTree.reAsyncChildNodes(nodes[i], "refresh", true);
+				}
+			}
+		}
+		
+		function check() {
+			if (curAsyncCount > 0) {
+				return false;
+			}
+			return true;
+		}
+		
+		function _initSett(id){
+			$("#h3cTree").empty();
+			var setting = {
+				async: {
+					enable: true,
+					url:"{:U('Virtual/ajaxVirtualList')}",
+					autoParam:["id"],
+					otherParam:{"id":id},
+					//dataFilter: filter,
+					type: "post"
+				},
+				data: {
+					simpleData: {
+						enable:true,
+						idKey: "id",
+						pIdKey: "pId",
+						rootPId: ""
+					}
+				},
+				check: {
+					enable: true,
+					//nocheckInherit: true
+				},
+				callback: {
+					beforeAsync: beforeAsync,
+					onAsyncSuccess: onAsyncSuccess,
+					onAsyncError: onAsyncError
+				}
+			};
+			$.fn.zTree.init($("#h3cTree"), setting);
+		}
+		$(document).ready(function(){
+			$.fn.zTree.init($("#h3cTree"), setting);
+			asyncAll();
+			$("#h3cvirtual").bind("change",function(){
+				$(this).attr('disabled','disabled');
+				var id = $("#h3cvirtual").val();
+				_initSett(id);
+				asyncAll();
+            });
+		});
+		-->
+	</script>
+	</notempty>
+    </body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>{$Think.lang.WELCOME}</title>
+	<link rel="Shortcut Icon" href="__IMG__/favicon.ico">
+	<link href="__CSS__/bootstrap.css" rel="stylesheet"/>	
+	<link href="__CSS__/font-awesome/style.css" rel="stylesheet"/> 
+	<link href="__CSS__/skin/metro/app_desktop.css" rel="stylesheet" />
+	
+	<style type="text/css" media="screen">
+	.desktop{
+                            background:#222 url('__STATIC__images/wall_page/5.jpg');
+                            -moz-background-size: 100% 100%;
+                            -o-background-size: 100% 100%;
+                            -webkit-background-size: 100% 100%;
+                            background-size: 100% 100%;
+	}
+	</style>
+</head>
+
+<body style="overflow: hidden;" oncontextmenu="return core.contextmenu();">
+    <include file="Common:navbar" />
+    <img class="wallbackground" src="" style='overflow:hidden'/>
+    <div class='bodymain html5_drag_upload_box desktop'>
+            <div class="fileContiner fileList_icon">
+                    <div class="file systemBox menuDefault" title="{$Think.lang.setting}"
+                    data-app='{ "type":"1","width":"960","height":"500","open":"1","content":"{:U("License/index")}","icon":"__STATIC__/images/app/setting.png" }'>
+                            <div class="ico" filetype="1" style="background-image:url(__STATIC__/images/app/setting.png)"></div>
+                            <div class="titleBox" ><span>{$Think.lang.setting}</span></div>
+                    </div>
+                    <!--div class="file systemBox menuDefault" title="{$Think.lang.setting}"
+                    data-app='{ "type":"1","width":"960","height":"500","open":"1","content":"{:U("Storage/nfs")}","icon":"__STATIC__/images/app/storage.png" }'>
+                            <div class="ico" filetype="1" style="background-image:url(__STATIC__/images/app/storage.png)"></div>
+                            <div class="titleBox" ><span>存储管理</span></div>
+                    </div-->
+            </div>
+    </div><!-- html5拖拽上传list -->
+<script src="__JS__/seajs/sea.js"></script>
+<script type="text/javascript">
+	var LNG = <?php echo strtolower(json_encode(L()));?>;
+	var G = {
+		is_root 	: <?php echo UID;?>,
+		web_root 	: "<?php echo WEB_ROOT?>",
+		web_host 	: "<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/';?>",
+		static_path : "__STATIC__",
+		basic_path  : "<?php echo SITE_PATH;?>",
+		public_path  : "<?php echo RUNTIME_PATH;?>",
+		version 	: "1.0",
+		app_host 	: "<?php echo APPHOST;?>",
+		app_path    : "{:U('Apps/getlist')}",// 获取应用
+		uconfig_path    : "{:U('Userconfig/set')}",// 配置文件
+		
+		json_data   : ""
+	};
+	seajs.config({
+		base: "__JS__/",
+		preload: ["jquery"]
+	});
+	seajs.use("desktop/main");
+</script>
+</body>
+</html>

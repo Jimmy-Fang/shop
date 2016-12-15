@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{$Think.lang.LOGIN_TITLE} - {$Think.lang.WELCOME}</title>
+    <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/login.css">
+    <script src="__JS__/jquery.js"></script>
+    <script src="__JS__/validform.js"></script>
+    <script src="__JS__/ajaxForm.js"></script>
+    <script src="__JS__/common.js"></script>
+</head>
+
+<body>
+   <div class="loginbox pop_fadein">
+            <div class="title">
+                    <div class="logo">Backup<b>Manager</b></div>
+            </div>
+            <form method="post" action="{:U('Public/login')}" class="J_ajaxForm">
+                    <div class="inputs">
+                            <div class="lines"><span>{$Think.lang.LOGIN_USERNAME}：</span><input id="username" name='name' type="text" placeholder="{$Think.lang.LOGIN_USERNAME}" required/> </div> 
+                            <div class="lines"><span>{$Think.lang.LOGIN_PASSWORD}：</span><input id="password" name='password' type="password" placeholder="{$Think.lang.LOGIN_PASSWORD}" required /></div>
+                            <div class='check_code'><span>{$Think.lang.LOGIN_CODE}：</span><input name='check_code' class="check_code" type="text" placeholder="{$Think.lang.LOGIN_CODE}" required /> <img id="code_img" src="{:U('Home/Public/Checkcode','code_len=4&font_size=14&width=80&height=32&font_color=&background=')}" />
+                            <div style="clear:both;"></div></div>	
+                    </div>
+                    <div class="actions">
+                        <input type="submit" id="submit" value="{$Think.lang.LOGIN_BUTTOM}" class="J_ajax_submit_btn" />
+                            <input type="checkbox" class="checkbox" name="rember_password" id='rm' checked='checked' />
+                            <label for='rm'>{$Think.lang.LOGIN_KEEPIN}</label>				
+                    </div>
+                    <div class="msg"></div>
+                    <div style="clear:both;"></div>
+            </form>
+    </div><a href=""></a>
+    <div class="footer">{$Think.RIGHTS_URL} 2014 © All Rights Reserved.| 
+    <a href="http://{$Think.RIGHTS_URL}" target="_blank">{$Think.RIGHTS_NAME}</a>
+    <i>  (v<?php echo C('_VERSION');?>)</i>
+    </div>
+    <script>
+         var btn = $(".J_ajax_submit_btn"),
+        ajaxForm_list = $('form.J_ajaxForm');
+        ajaxForm_list.Validform({
+        tiptype: function (msg, o, cssctl) {
+            if (!o.obj.is("form")) {
+                //定位到相应的Tab页面
+                if (o.obj.is(o.curform.find(".Validform_error:first"))) {
+                    var tabobj = o.obj.parents(".tab-content"); //显示当前的选项
+                    var tabindex = $(".tab-content").index(tabobj); //显示当前选项索引
+                    if (!$(".content-tab ul li").eq(tabindex).children("a").hasClass("selected")) {
+                        $(".content-tab ul li a").removeClass("selected");
+                        $(".content-tab ul li").eq(tabindex).children("a").addClass("selected");
+                        $(".tab-content").hide();
+                        tabobj.show();
+                    }
+                }
+                //页面上不存在提示信息的标签时，自动创建;
+                if (o.obj.parents("dd").find(".Validform_checktip").length == 0) {
+                    o.obj.parents("dd").append("<span class='Validform_checktip' />");
+                    o.obj.parents("dd").next().find(".Validform_checktip").remove();
+                }
+                var objtip = o.obj.parents("dd").find(".Validform_checktip");
+                cssctl(objtip, o.type);
+                objtip.text(msg);
+            }
+        },
+        showAllError: true,
+        ajaxPost:true,
+        callback:function(data){
+          var text = btn.val();
+          //按钮文案、状态修改
+          btn.val(text + '中...').prop('disabled', true).addClass('disabled');
+          if(data.status == 1){
+              btn.removeClass('disabled').val(text.replace('中...', '')).parent().find('span').remove();
+              $(".msg").html(data.info).fadeIn('slow').delay(1000).fadeOut(function () {
+                          if (data.url) {
+                              //返回带跳转地址
+                              if(window.parent.art){
+                                  //iframe弹出页
+                                  window.parent.location.href = data.url;
+                              }else{
+                                  window.location.href = data.url;
+                              }
+                          } else {
+                              if(window.parent.art){
+                                  reloadPage(window.parent);
+                              }else{
+                                  //刷新当前页
+                                  reloadPage(window);
+                              }
+                          }
+                      });
+          }else {
+              btn.removeClass('disabled').val(text.replace('中...', '')).parent().find('span').remove();
+              $(".msg").html(data.info).fadeIn('fast');
+              btn.removeProp('disabled').removeClass('disabled');
+              updCodeImg();
+          }
+        }
+      });
+      $("#code_img").click(function(){
+            updCodeImg();
+        });
+        
+        function updCodeImg(){
+            $("#code_img").attr("src", '{:U('Home/Public/Checkcode','code_len=4&font_size=14&width=80&height=32&refresh=1&time=','')}'+Math.random());
+        }
+    </script>
+</body>
+</html>

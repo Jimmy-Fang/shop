@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+          #tabbox{overflow:hidden; margin:0 auto;}
+          .tab_conbox{border: 1px solid #999;border-top: none;}
+          .tab_con{ display:none;}
+          .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+          .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+          .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
+          .tabs li a:hover {background: #ccc;}    
+          .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+          .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+          .box{padding:10px;}
+        </style>
+    </head>
+    <body>
+        <div class="bodys">
+            <div class="menu_left">
+                <include file="Common:dbcopyleftmenu" />
+            </div>
+            <div class="main">
+                <div class='h1'><i class="font-icon icon-terminal"></i>数据库链接信息配置</div>
+                <div id="tabbox">
+                <ul class="tabs" id="tabs">
+                   <li><a href="javascript:;" tab="tab1">主数据库配置</a></li>
+                   <li><a href="javascript:;" tab="tab2">从数据库配置</a></li>
+                </ul>
+                <ul class="tab_conbox">
+                    <li id="tab1" class="tab_con">
+                        <div class="section">
+                            <form action="{:U('Dbcopy/info')}" method="post" id="J_ajaxForm">
+                                <div class='box'>
+                                    <input value="1" type="hidden" name="master"/>
+                                    <span >服务名</span>
+                                    <input type="text" id="mdbname" name="mdbname" value="{$master['dbname']}" class="wd150" required/>
+                                    <div class='line'></div>
+                                    <span >IP地址</span>
+                                    <input type="text" id="mdbhost" name="mdbhost" value="{$master['dbhost']}" class="wd150" required/>
+                                    <div class='line'></div>
+                                    <span >端口号</span>
+                                    <input type="text" id="mdbport" name="mdbport" value="{$master['dbport']}" class="wd50" required/>
+                                    <div class='line'></div>
+                                    <span >数据库用户</span>
+                                    <input type="text" id="mdbuser" name="mdbuser" value="sys" readonly class="wd150" required/>
+                                    <div class='line'></div>
+                                    <span >数据库密码</span>
+                                    <input type="password" id="mdbpwd" name="mdbpwd" value="{$master['dbpwd']}" class="wd150" required/>
+                                    <div class='line'></div>
+                                    <div class="clear"></div>
+                                    <a href="javascript:void(0);" id="madd" data-url="{:U('Dbcopy/info')}" class="save button J_ajax_submit_btn">保 存</a>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                    <li id="tab2" class="tab_con">
+                        <div class="section">
+                            <form action="{:U('Dbcopy/info')}" method="post" id="J_ajaxForms">
+                                <div class='box'>
+                                    <input value="0" type="hidden" name="master"/>
+                                    <span >服务名</span>
+                                    <input type="text" id="dbname" name="dbname" value="{$slave['dbname']}" class="wd150" required/>
+                                    <div class='line'></div>
+                                    <span >IP地址</span>
+                                    <input type="text" id="dbhost" name="dbhost" value="{$slave['dbhost']}" class="wd150" required/>
+                                    <div class='line'></div>
+                                    <span >端口号</span>
+                                    <input type="text" id="dbport" name="dbport" value="{$slave['dbport']}" class="wd50" required/>
+                                    <div class='line'></div>
+                                    <span >数据库用户</span>
+                                    <input type="text" id="dbuser" name="dbuser" value="sys" readonly class="wd150" required/>
+                                    <div class='line'></div>
+                                    <span >数据库密码</span>
+                                    <input type="password" id="dbpwd" name="dbpwd" value="{$slave['dbpwd']}" class="wd150" required/>
+                                    <div class='line'></div>
+                                    <div class="clear"></div>
+                                    <a href="javascript:void(0);" id="add" data-url="{:U('Dbcopy/info')}" class="save button J_ajax_submit_btn">保 存</a>
+                                    <a href="javascript:void(0);" id="test" class="button J_ajax_submit_btn">测 试</a>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+            var mbtn = $("#madd"),mform = $("#J_ajaxForm"),btn = $("#add"),form = $("#J_ajaxForms");
+            mbtn.on("click",function(){
+                if($("#mdbhost").val() =="" || $("#mdbname").val() =="" || $("#mdbuser").val() =="" || $("#mdbpwd").val() =="" || $("#mdbport").val() ==""){
+                    core.tips.tips("必填项不能为空",'info');
+                }else if(isNaN($("#mdbport").val())){
+                    core.tips.tips("端口号必须是数字",'info');
+                }else if(checkIP($("#mdbhost").val())==false){
+                    core.tips.tips("IP地址不合法",'info');
+                }else{
+                    mform.ajaxSubmit({
+                    url: mbtn.data('action') ? mbtn.data('action') : mform.attr('action'), 
+                    dataType: 'json',
+                    type:'post',
+                    beforeSubmit: function (arr, $form, options) {
+                        var text = mbtn.text();
+                        //按钮文案、状态修改
+                        mbtn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        var text = mbtn.text();
+                        //按钮文案、状态修改
+                        mbtn.removeClass('disabled').text(text.replace('中...', ''));
+                        if (data.state === 'success') {
+                            core.tips.tips(data.info,'success');
+                             if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                        } else if (data.state === 'fail') {
+                            core.tips.tips(data.info,'error');
+                            mbtn.removeProp('disabled').removeClass('disabled');
+                            }
+                        }
+                    });
+                }
+            });
+            btn.on("click",function(){
+                if($("#dbhost").val() =="" || $("#dbname").val() =="" || $("#dbuser").val() =="" || $("#dbpwd").val() =="" || $("#dbport").val() ==""){
+                    core.tips.tips("必填项不能为空",'info');
+                }else if(isNaN($("#dbport").val())){
+                    core.tips.tips("端口号必须是数字",'info');
+                }else if(checkIP($("#dbhost").val())==false){
+                    core.tips.tips("IP地址不合法",'info');
+                }else{
+                    form.ajaxSubmit({
+                    url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                    dataType: 'json',
+                    type:'post',
+                    beforeSubmit: function (arr, $form, options) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        var text = btn.text();
+                        //按钮文案、状态修改
+                        btn.removeClass('disabled').text(text.replace('中...', ''));
+                        if (data.state === 'success') {
+                            core.tips.tips(data.info,'success');
+                             if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                        } else if (data.state === 'fail') {
+                            core.tips.tips(data.info,'error');
+                            btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        }
+                    });
+                }
+            });
+            $("#mtest").on('click',function(){
+                //
+            });
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                jQuery.jqtab = function(tabtit,tabcon) {
+                    $(tabcon).hide();
+                    $(tabtit+" li:first").addClass("thistab").show();
+                    $(tabcon+":first").show();
+
+                    $(tabtit+" li").click(function() {
+                        $(tabtit+" li").removeClass("thistab");
+                        $(this).addClass("thistab");
+                        $(tabcon).hide();
+                        var activeTab = $(this).find("a").attr("tab");
+                        $("#"+activeTab).fadeIn();
+                        return false;
+                    });
+
+                };
+                $.jqtab("#tabs",".tab_con");
+            });
+        </script>
+    </body>
+</html>

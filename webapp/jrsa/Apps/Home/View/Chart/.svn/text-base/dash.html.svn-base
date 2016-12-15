@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+          #tabbox{overflow:hidden; margin:0 auto;}
+          .tab_conbox{border: 1px solid #999;border-top: none;}
+          .tab_con{ display:none;}
+          .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+          .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+          .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
+          .tabs li a:hover {background: #ccc;}    
+          .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+          .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class="menu_left">
+                <include file="Common:enterprise" />
+            </div>
+            <div class="main">
+                <div class='h1'><i class="font-icon icon-edit"></i>备份仪表盘</div>
+                <br />
+                <div>
+                	<label>统计周期</label>
+                	<select name="days" id="days"> 
+                        <option value="1" <if condition="$days eq 1">selected</if>>1</option>
+                        <option value="3" <if condition="$days eq 3">selected</if>>3</option>
+                        <option value="7" <if condition="$days eq 7">selected</if>>7</option>
+                        <option value="10" <if condition="$days eq 10">selected</if>>10</option>
+                        <option value="15" <if condition="$days eq 15">selected</if>>15</option>
+                        <option value="30" <if condition="$days eq 30">selected</if>>30</option>
+                        <option value="60" <if condition="$days eq 60">selected</if>>60</option>
+                        <option value="90" <if condition="$days eq 90">selected</if>>90</option>
+                        <option value="180" <if condition="$days eq 180">selected</if>>180</option>
+                        <option value="365" <if condition="$days eq 365">selected</if>>365</option>
+                    </select>
+                    <label>天</label>
+                </div>
+                <div id="container" style="min-width:500px;height:400px"></div>
+                </div>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script src="__JS__/highcharts/highcharts.js" type="text/javascript"></script> 
+        <script src="__JS__/highcharts/exporting.js" type="text/javascript"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script type="text/javascript">
+        $(function () {
+        	$("#days").on('change',function(){
+        		window.location.href= "{:U('Chart/dash','','')}/days/"+$(this).val();
+        	});
+		    $('#container').highcharts({
+		        chart: {
+		            type: 'pie',
+		            options3d: {
+		                enabled: true,
+		                alpha: 45,
+		                beta: 0
+		            }
+		        },
+		        title: {
+		            text: '仪表盘'
+		        },
+		        tooltip: {
+		            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b><br/>数量:{point.y}'
+		        },
+		        plotOptions: {
+		            pie: {
+		                allowPointSelect: true,
+		                cursor: 'pointer',
+		                depth: 35,
+		                dataLabels: {
+		                    enabled: true,
+		                    format: '{point.name}:{point.y}'
+		                }, 
+		                showInLegend: {
+		                    enabled: true,
+		                    format: '{point.name}:{point.y}'
+		                },
+		                events:{
+		                	click:function(e){
+		                		var name = e.point.names;
+		                		var days = $("#days").val();
+		                		var url = "{:U('Server/diyJob','','')}/type/"+name+"/days/"+days;
+			                    art.dialog.open(url, {
+			                        title: LNG.info,
+			                        fixed: true,
+			                        width: 900,
+			                        height: 600
+			                    });
+		                	}
+		                }
+		            }
+		        },
+		        colors:['red','orange','blue'],
+		        series: [{
+		            type: 'pie',
+		            name: '占比',
+		            data: [
+		                {
+		                    name: '错误',
+		                    names: 'error',
+		                    y: {$jobinfo['errcount']},
+		                    sliced: true,
+		                    selected: true
+		                },
+		                {
+		                    name: '警告',
+		                    names: 'warning',
+		                    y: {$jobinfo['wrrcount']},
+		                    sliced: true,
+		                    selected: true
+		                },
+		                {
+		                    name: '成功',
+		                    names: 'success',
+		                    y: {$jobinfo['okcount']},
+		                    sliced: true,
+		                    selected: true
+		                }
+		            ]
+		        }],
+		        exporting:false
+		    });
+		});
+        </script>
+    </body>
+</html>

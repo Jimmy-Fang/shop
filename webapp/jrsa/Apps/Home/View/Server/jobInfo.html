@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+          .h1{font-weight: 400;color: #5c7fbd;padding: 0px 0 10px 10px;font-size: 26px;padding: 10px;}
+          #body table{margin: 0 10px;width: 97%;}
+          h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
+          .bt10{border-top: 1px solid #ddd;padding: 0 0 10px 0;}
+          h2{font-size: 18px;display: block;padding: 0 10px;color: green;font-weight: bold;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 5px 10px 5px 0;font-weight: 400;padding: 0.5em 1.5em;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s; color: #fff;}
+          .info{background: #4265a4;}
+          .joblog{padding: 10px 20px;}
+          #joblogs{cursor: pointer;}
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class='h1'>{$data.Name} ({$data.JobId})详细信息</div>
+            <table>
+                <tr>
+                    <td width="15%">任务类型</td>
+                    <td width="20%"><if condition="$data.Type eq 'B'"><font color="green">备份</font><elseif condition="$data.Type eq 'C' or $data.Type eq 'c'"/><font color="#FAAD03">复制</font><else /><font color="blue">恢复</font></if></td>
+                    <td width="15%">任务级别</td>
+                    <td width="50%"><if condition="$data.Level eq 'F'">全备份<elseif condition="$data.Level eq 'D'"/>差异备份<else />增量备份</if></td>
+                </tr>
+                <tr>
+                    <td>客户端</td>
+                    <td>{$client.Name}</td>
+                    <td>备份池</td>
+                    <td>{$pool.Name}</td>
+                </tr>
+                <tr>
+                    <td>开始时间</td>
+                    <td>{$data.StartTime}</td>
+                    <td>结束时间</td>
+                    <td>{$data.EndTime}</td>
+                </tr>
+                <tr>
+                    <td>任务执行时间</td>
+                    <td>{$infos.elapsed}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>任务文件数</td>
+                    <td>{$data.JobFiles|number_format} 个</td>
+                    <td>任务大小</td>
+                    <td>{$data.JobBytes|number_format} bytes</td>
+                </tr>
+                <tr>
+                    <td>任务速度</td>
+                    <td>{$infos.rate}</td>
+                    <td>任务状态</td>
+                    <td>
+                        <if condition="$data.JobStatus eq 'C'"><font color="green">已创建，待运行任务</font>
+                        <elseif condition="$data.JobStatus eq 'R'"/><font color="green">任务正在运行</font>
+                        <elseif condition="$data.JobStatus eq 'B'"/><font color="red">任务被阻止</font>
+                        <elseif condition="$data.JobStatus eq 'T'"/><font color="blue">成功完成</font>
+                        <elseif condition="$data.JobStatus eq 'E'"/><font color="red">结束，有错误</font>
+                        <elseif condition="$data.JobStatus eq 'e'"/><font color="red">一般错误</font>
+                        <elseif condition="$data.JobStatus eq 'f'"/><font color="red">严重错误</font>
+                        <elseif condition="$data.JobStatus eq 'W'"/><font color="orange">警告</font>
+                        <elseif condition="$data.JobStatus eq 'D'"/><font color="#FAAD03">校验发现差异</font>
+                        <elseif condition="$data.JobStatus eq 'A'"/><font color="#FAAD03">用户取消任务</font>
+                        <elseif condition="$data.JobStatus eq 'F'"/><font color="#FAAD03">等待客户端响应</font>
+                        <elseif condition="$data.JobStatus eq 'S'"/><font color="#FAAD03">等待介质服务器响应</font>
+                        <elseif condition="$data.JobStatus eq 'm'"/><font color="#FAAD03">等待新的备份卷</font>
+                        <elseif condition="$data.JobStatus eq 'M'"/><font color="#FAAD03">等待挂载备份卷</font>
+                        <elseif condition="$data.JobStatus eq 's'"/><font color="#FAAD03">等待介质资源</font>
+                        <elseif condition="$data.JobStatus eq 'j'"/><font color="#FAAD03">等待任务资源</font>
+                        <elseif condition="$data.JobStatus eq 'c'"/><font color="#FAAD03">等待客户端资源</font>
+                        <elseif condition="$data.JobStatus eq 'd'"/><font color="#FAAD03">已达最大任务数，等待</font>
+                        <elseif condition="$data.JobStatus eq 't'"/><font color="#FAAD03">等待开始时间</font>
+                        <elseif condition="$data.JobStatus eq 'p'"/><font color="#FAAD03">等待高优先级任务完成</font>
+                        <elseif condition="$data.JobStatus eq 'i'"/><font color="green">执行文件数据批量插入</font>
+                        <elseif condition="$data.JobStatus eq 'a'"/><font color="green">介质服务器导出文件属性</font>
+                        <else />未找到对应状态</if></td>
+                </tr>
+            </table>
+            <h2 id="joblogs" title="点击可切换字符集编码">{$data.Name} ({$data.JobId})详细日志</h2>
+            <div class="joblog">
+                <volist name="jobLog" id="item">
+                    <p title="{$item|iconv="UTF-8", "GBK",###}">{$item}</p>
+                </volist>
+            </div>
+            <div class="joblog" style="display: none;">
+                <volist name="jobLog" id="item">
+                    <p title="{$item}">{$item|iconv="GBK", "UTF-8",###}</p>
+                </volist>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+          $(document).ready(function($) {
+            var i = 0;
+            $(".refresh").on("click",function(){
+                if(i==0){
+                    i++;
+                    var text = $(this).html();
+                    var btn = $(this);
+                    $(this).html(text + '中...').prop('disabled', true).addClass('disabled');
+                    $.post("{:U('Server/getRunningJob')}",function(data){
+                         btn.removeClass('disabled').html(text.replace('中...', ''));
+                         i = 0;
+                            if (data.state == 'success') {
+                                $(".running").html(data.info);
+                            } else {
+                                $(".running").html("任务已经执行完了");
+                            }
+                            btn.removeProp('disabled').removeClass('disabled');
+                        },"json")
+                }
+            });
+            $("#joblogs").on('click',function(){
+            	$(".joblog").each(function(){
+            		if($(this).css("display") == "none"){
+            			$(this).show();
+	            	}else{
+	            		$(this).hide();
+	            	}
+            	});
+            });
+          });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <style>
+            .info{font-size: 18px;border-top: 1px solid #999;padding:10px;}
+            .info label{color: red;}
+            .info .fz18 {font-size: 18px;}
+            .info a{color: red;}
+            .info a:hover{color: #999;}
+            #body table {width: 90%;}
+        </style>
+    </head>
+    <body>
+        <div id="body">
+            <div class="menu_left">
+                <include file="Common:configmenu" />
+            </div>
+            <div class="main">
+                <div class='h1'><i class="font-icon icon-unlock-alt"></i>{$Think.lang.license_info}</div>
+                <div class="info">{$Think.lang.license_macid}：<label>{$macid}</label></div>
+                <if condition="$overdue.code eq 2">
+                    <div class="info">尊敬的用户您好，您可以<label> 永久 </label>使用该软件，使用中有任何疑问，请联系<label> {$Think.RIGHTS_TEL} </label>，感谢您的使用！</div>
+                <elseif condition="$overdue.code eq 1"/>
+                <div class="info">尊敬的用户您好，软件到期时间 <label> {$overdue.date}日({$overdue.status}) </label>，<if condition="$overdue.status eq '已到期'">请联系 <label> {$Think.RIGHTS_TEL} </label> 购买授权，若您已经获得授权码，请点此<a href="{:U('License/reg')}">注册软件</a>，感谢您的使用！<else />使用中有任何疑问，请联系<label> {$Think.RIGHTS_TEL} </label>，感谢您的使用！</if></div>
+                <elseif condition="$overdue.code eq -1"/>
+                    <div class="info">尊敬的用户您好，您的授权信息有误，请核对！若有任何疑问，请联系 <label> {$Think.RIGHTS_TEL} </label> ，感谢您的使用！</div>
+                <else />
+                    <div class="info">尊敬的用户您好，您可以试用<label> 30天</label>，软件到期时间 <label> {$overdue.date}日({$overdue.status})  </label>，请联系 <label> {$Think.RIGHTS_TEL} </label> 购买授权，若您已经获得授权码，请点此<a href="{:U('License/reg')}">注册软件</a>，感谢您的使用！</div>
+                </if>
+                <notempty name="overdue.product">
+                <div class="info">
+                    <table>
+                        <tr>
+                            <td>unix客户端</td>
+                            <td><label class="fz18"><if condition="$overdue['product']['Unixclient'] lt 0 ">无限制<else />{$overdue['product']['Unixclient']}</if></label></td>
+                            <td>X86客户端</td>
+                            <td><label class="fz18"><if condition="$overdue['product']['X86client'] lt 0 ">无限制<else />{$overdue['product']['X86client']}</if></label></td>
+                        </tr>
+                        <tr>
+                            <td>unix应用端数量</td>
+                            <td><label class="fz18"><if condition="$overdue['product']['Unixapp'] lt 0 ">无限制<else />{$overdue['product']['Unixapp']}</if></td>
+                            <td>X86应用端数量</td>
+                            <td><label class="fz18"><if condition="$overdue['product']['X86app'] lt 0 ">无限制<else />{$overdue['product']['X86app']}</if></td>
+                        </tr>
+                        <tr>
+                            <td>磁盘容量(TB)：</td>
+                            <td><label class="fz18"><if condition="$overdue['product']['disk'] lt 0 ">无限制<else />{$overdue['product']['disk']}</if></td>
+                            <td>LAN-Free</td>
+                            <td><label class="fz18"><notempty name="overdue.product.lanfree">√<else />×</notempty></label></td>
+                        </tr>
+                        <tr>
+                            <td>BMR：</td>
+                            <td><label class="fz18"><notempty name="overdue.product.bmr">√<else />×</notempty></label></td>
+                            <td>NDMP</td>
+                            <td><label class="fz18"><notempty name="overdue.product.ndmp">√<else />×</notempty></label></td>
+                        </tr>
+                        <tr>
+                            <td>带库支持：</td>
+                            <td><label class="fz18"><notempty name="overdue.product.Tape">√<else />×</notempty></label></td>
+                            <td>复制功能</td>
+                            <td><label class="fz18"><notempty name="overdue.product.replication">√<else />×</notempty></label></td>
+                        </tr>
+                    </table>
+                </div>
+                </notempty>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+        <link href="__CSS__/menu.css" rel="stylesheet" />
+        <include file="Common:base" />
+        <style>
+            .info{font-size: 18px;border-top: 1px solid #999;padding:10px;}
+            .info label{color: red;}
+              #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+          .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+           .button {cursor: pointer; margin: 5px 10px 5px 0;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+          }
+           #body table{margin: 10px;width: 96%;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 1px;font-weight: 400;padding: 1px 10px;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s;color: #fff;height: 25px;}
+          .cinfo{background: #4265a4;}
+          #tabbox{overflow:hidden; margin:0 auto;}
+         .bodys .main .section {border-top: 0px;padding: 10px;}
+         .tab_conbox{border: 1px solid #999;border-top: none;}
+         .tab_con{ display:none;}
+
+         .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+         .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+         .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
+         .tabs li a:hover {background: #ccc;}    
+         .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+
+         .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+         h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
+         p{font-size: 18px;padding:10px;color: green;font-weight: bold;width:800px;}
+         .info{background: #4265a4;}
+        </style>
+    </head>
+    <body>
+        <div class="bodys">
+            <div class="menu_left">
+                <include file="Common:configmenu" />
+            </div>
+            <div class="main">
+                <form action="{:U('Config/index')}" method="post" id="J_ajaxForm">
+                    <div class='h1'><i class="font-icon icon-ellipsis-horizontal"></i>{$Think.lang.config_ip}</div>
+                    <php>if(strtolower(PHP_OS) == 'linux' || strtolower(PHP_OS) == 'unix'){</php>
+                    <div id="tabbox">
+                        <ul class="tabs" id="tabs">
+                            <volist name="eth_array" id="item">
+                                <li><a href="javascript:;" tab="tab{$i}">{$item.sname}</a></li>
+                            </volist>
+                        </ul>
+                        <ul class="tab_conbox">
+                            <volist name="eth_array" id="item">
+                                <li id="tab{$i}" class="tab_con">
+                                    <div class="section" style="padding:10px;">
+                                        <div class='box'>
+                                                <span >自动加载</span>
+                                                <div class="tm20">
+                                                    <input type="radio" value="yes" name="onboot-{$item.sname}" <if condition="$item.onboot eq 'yes'">checked</if>/><label>开启</label>
+                                                    <input type="radio" value="no" name="onboot-{$item.sname}" <if condition="$item.onboot neq 'yes'">checked</if> /><label>关闭</label>
+                                                </div>
+                                                <div class='line'></div>
+                                                <span >地址协议</span>
+                                                <select name="bootproto-{$item.sname}" id="bootproto-{$item.sname}" onchange="infotools(this);"> 
+                                                    <option value="static" <if condition="$item['bootproto'] eq 'static' ">selected</if>>静态协议</option>
+                                                    <option value="dhcp" <if condition="$item['bootproto'] eq 'dhcp' ">selected</if>>dhcp协议</option>
+                                                </select>
+                                                <div class='line'></div>
+                                                <div class="bootproto-{$item.sname}" <if condition="$item['bootproto'] neq 'static'">style="display:none;"</if>>
+                                                    <span >{$Think.lang.ip_address}</span>
+                                                    <input type="text" id="ipaddr-{$item.sname}"value="{$item.ipaddr}" name="ipaddr-{$item.sname}" required/>
+                                                    <div class='line'></div>
+                                                    <span >{$Think.lang.ip_mask}</span>
+                                                    <input type="text" id="netmask-{$item.sname}" value="{$item.netmask}" name="netmask-{$item.sname}" required/>
+                                                    <div class='line'></div>
+                                                    <span >{$Think.lang.ip_gateway}</span>
+                                                    <input type="text" id="gateway-{$item.sname}" value="{$item.gateway}" name="gateway-{$item.sname}" required/>
+                                                    <div class='line'></div>
+                                                    <span >{$Think.lang.ip_dns}</span>
+                                                    <input type="text" id="dns1-{$item.sname}" value="{$item.dns1}" name="dns1-{$item.sname}" required/>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </volist>
+                        </ul>
+                        <a href="javascript:void(0);" id="submit" data-url="{:U('Config/index')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
+                    <php>}else{</php>
+                        <div class="info"><label>{$Think.lang.ip_no_windows}</label></div>
+                    <php>}</php>
+                </form>
+            </div>
+        </div>
+        <script src="__JS__/jquery.js"></script>
+        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
+        <script src="__JS__/ajaxForm.js"></script>
+        <script src="__JS__/common.js"></script>
+        <script type="text/javascript">
+            function infotools(obj){
+                var id = obj.id;
+                var proto = obj.options[obj.options.selectedIndex].value;
+                if(proto == 'static'){
+                    $("."+id).show();
+                }else{
+                    $("."+id).hide();
+                }
+            }
+            var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm");
+            btn.on("click",function(){
+                form.ajaxSubmit({
+                    url: btn.data('action') ? btn.data('action') : form.attr('action'), 
+                    dataType: 'json',
+                    beforeSubmit: function (arr, $form, options) {
+                        core.tips.tips("修改成功，若您更改了IP，请使用新的IP访问",'success');
+                    },
+                    success: function (data, statusText, xhr, $form) {
+                        core.tips.tips(data.info,'success');
+                        if (data.state === 'success') {
+                            core.tips.tips(data.info,'success');
+                             if (data.referer) {
+                                    window.location.href = data.referer;
+                                } else {
+                                     reloadPage(window);
+                                }
+                        } else if (data.state === 'fail') {
+                            core.tips.tips(data.info,'error');
+                            btn.removeProp('disabled').removeClass('disabled');
+                            }
+                        }
+                    });
+            });
+        </script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            jQuery.jqtab = function(tabtit,tabcon) {
+                $(tabcon).hide();
+                $(tabtit+" li:first").addClass("thistab").show();
+                $(tabcon+":first").show();
+
+                $(tabtit+" li").click(function() {
+                    $(tabtit+" li").removeClass("thistab");
+                    $(this).addClass("thistab");
+                    $(tabcon).hide();
+                    var activeTab = $(this).find("a").attr("tab");
+                    $("#"+activeTab).fadeIn();
+                    return false;
+                });
+
+            };
+            $.jqtab("#tabs",".tab_con");
+        });
+        </script>
+    </body>
+</html>
