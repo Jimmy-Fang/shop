@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -25,9 +25,10 @@
                 <table>
                     <tr class="title">
                         <td width="10%">ID</td>
-                        <td width="20%">Name</td>
+                        <td width="15%">Name</td>
                         <td width="30%">WWPN</td>
                         <td width="10%">Mode</td>
+                        <td width="10%">Status</td>
                         <td>Action</td>
                     </tr>
                     <volist name="data" id="item">
@@ -36,6 +37,7 @@
                         <td><div class="names" band-id="{$item.id}">{$item.Name}</div></td>
                         <td>{$item.wwpn}</td>
                         <td><if condition="$item['flag'] neq '1'">Target<else/>Initiator</if></td>
+                        <td><img src="__STATIC__images/{$item.status}.png" width="30px" height="30px"/></td>
                         <td>
                             <if condition="$item['flag'] neq '1'">
                                 <a href="javascript:;" data-bind="{$item.wwpn}" data-name="{$item.Name}" data-id="{$item.id}" data-flag="initiator" class="actions">模式切换</a>

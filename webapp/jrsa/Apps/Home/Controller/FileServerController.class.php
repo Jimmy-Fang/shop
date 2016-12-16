@@ -78,7 +78,7 @@ class FileServerController extends CommonController {
 		if(IS_POST){
             $id = I('post.id');
             //是否存在对应任务
-            //$job = $this->job->where(array('virId'=>$id))->find();
+            $job = $this->job->where(array('virId'=>$id))->find();
             if($job){
                 $this->error('删除失败，请先删除对应任务');
             }

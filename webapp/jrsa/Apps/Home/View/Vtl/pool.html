@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -13,6 +13,7 @@
            .button {cursor: pointer; margin: 5px 10px 5px 0;
                 font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
           }
+            .pool_info{color:red;};
         </style>
     </head>
     <body>
@@ -25,13 +26,13 @@
                 <table>
                     <tr class="title">
                         <td width="10%">Name</td>
-                        <td width="8%">Disks</td>
-                        <td width="8%">WORM</td>
-                        <td width="8%">Dedupe</td>
-                        <td width="8%">Meta</td>
-                        <td width="8%">Verify</td>
-                        <td width="8%">Export</td>
-                        <td width="8%">Replicate</td>
+                        <td width="10%">Disks</td>
+                        <td width="10%">WORM</td>
+                        <td width="10%">Dedupe</td>
+                        <td width="10%">Meta</td>
+                        <td width="10%">Verify</td>
+                        <td width="10%">Export</td>
+                        <td width="10%">Replicate</td>
                         <td>Action</td>
                     </tr>
                     <volist name="pool" id="item">
@@ -45,7 +46,13 @@
                         <td>{$item.Export}</td>
                         <td>{$item.Replicate}</td>
                         <td>
-                            <if condition="$item['Name'] neq 'Default'"><a href="javascript:;" data-bind="{$item.Name}" class="deldata">{$Think.lang.button_del}</a> </if>
+                            <!--<span class="pool_info" >详细信息</span>-->
+                            <a href="javascript:;" data-name="{$item.Name}" class="get_info">{$Think.lang.info}</a>
+                            <span style="width:50px;">|</span>
+                            <if condition="$item['Name'] neq 'Default'">
+                                <a href="javascript:;" data-bind="{$item.Name}" class="deldata">{$Think.lang.button_del}</a>
+                            </if>
+
                         </td>
                     </tr>
                     </volist>
@@ -58,7 +65,7 @@
         <script src="__JS__/common.js"></script>
         <script type="text/javascript">
         $(document).ready(function($) {
-                $(".deldata").on("click",function(){
+            $(".deldata").on("click",function(){
                     var name = $(this).attr('data-bind');
                     art.dialog({
                     content: "删除后不可恢复？",
@@ -100,6 +107,25 @@
                 });
                 });
               });
+//            $(".pool_info").click(function(){
+//                //这是要查看的池名
+//               var pool_name=$(this).attr('name');
+//                //获取池名详细信息
+//                alert('正在查找'+pool_name+'的详细信息!');
+//                $.getJSON('{:U("Vtl/getPoolInfo")}',{'pool_name':name},function(data){
+//                    console.log('获取池详细信息成功!');
+//                });
+//            });
+        $(".get_info").on("click",function(){
+            var name = $(this).attr('data-name');
+            var url = "{:U('Vtl/PoolInfo','','')}/name/"+name;
+
+            $.dialog.open(url, {
+                title: LNG.info,
+                fixed: true,
+                width: 300,
+            });
+        });
         </script>
     </body>
 </html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -31,6 +31,7 @@
          h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
          p{font-size: 18px;padding:10px;color: green;font-weight: bold;width:800px;}
          .info{background: #4265a4;}
+            .add_input{width: 100px;margin: 0 20px;height: 40px;padding: 0;text-indent: 5px;}
         </style>
     </head>
     <body>
@@ -53,16 +54,16 @@
                                 <div class="box">
                                     <input value="{$data['id']}" type="hidden" name="id"/>
                                     <input value="{$data['deviceId']}" type="hidden" name="cid"/>
-                                    <span >{$Think.lang.name}</span>
+                                    <span style="display:block;text-align:center;" >{$Think.lang.name}</span>
                                     <input type="text" id="name" name="name" value="{$data['name']}" <notempty name="data.id">readonly = "true" style="color:#a2a0a0;"</notempty> required/>
                                     <div class='line'></div>
-                                    <span >{$Think.lang.ip_address}</span>
+                                    <span style="display:block;text-align:center;" >{$Think.lang.ip_address}</span>
                                     <input type="text" id="address" name="address" value="{$data['address']}" required/>
                                     <div class='line'></div>
-                                    <span >位置</span>
+                                    <span style="display:block;text-align:center;" >位置</span>
                                     <div class="tm20"><input type="radio"  value="<empty name="data['deviceId']">-1<else />{$data['deviceId']}</empty>" name="deviceId" <empty name="data['id']">checked<else /><empty name="data['deviceId']"><else />checked</empty></empty> <notempty name="data.id"> disabled </notempty>  /><label>本机</label><input type="radio" value="0" name="deviceId" <empty name="data['id']"><else /><empty name="data['deviceId']">checked<else /></empty></empty> <notempty name="data.id"> disabled </notempty> /><label>异机</label></div>
                                     <div class='line'></div>
-                                    <span >{$Think.lang.ep_devicetype}</span>
+                                    <span style="display:block;text-align:center;" >{$Think.lang.ep_devicetype}</span>
                                     <div class="tm21">
                                         <input type="radio" value="file" name="deviceType" <notempty name="data.id"> disabled </notempty> <if condition="$data['mediaType'] eq 'file' ">checked</if> <notempty name="data['mediaType']">readonly = "true"</notempty> /><label>{$Think.lang.e_file}</label>&nbsp;
                                         <input type="radio" value="fifo" name="deviceType" <notempty name="data.id"> disabled </notempty> <if condition="$data['mediaType'] eq 'fifo' ">checked</if> <notempty name="data['mediaType']">readonly = "true"</notempty> /><label>RDX</label>&nbsp;
@@ -72,36 +73,36 @@
                                     <div class='line'></div>
                                     <div class="curt1" <empty name="data['id']">style="display:block;"<else /><empty name="data['deviceId']">style="display:none;"<else />style="display:block;"</empty></empty>>
                                         <div class="curtabfile">
-                                            <span >{$Think.lang.eq_archivedevice}</span>
+                                            <span style="display:block;text-align:center;" >{$Think.lang.eq_archivedevice}</span>
                                             <input type="text" id="filepath" class="wd250" name="archiveDevicef" value="{$cdata['archiveDevice']}" readonly required/>
                                             <div class='line'></div>
                                         </div>
                                         <div class="curtabtapes" style="display:none;">
-                                            <span >机械臂</span>
+                                            <span style="display:block;text-align:center;" >机械臂</span>
                                             <input type="text" id="changerDevice" style="width: 390px;" value="<empty name='cdata.changerDevice'><else/>{$cdata['changerDevice']}</empty>" name="changerDevice" required title='<volist name="tapelist" id="vo">{$vo}&#13;</volist>' />
                                             <label></label>
                                             <div class='line'></div>
                                         </div>
                                         <div class="curtabtapes" style="display:none;">
-                                            <span >驱动器</span>
+                                            <span style="display:block;text-align:center;" >驱动器</span>
                                             <textarea id="archiveDevicetape" name='archiveDevicetape' style="resize:none;width: 400px;height: 50px;" title='<volist name="tapelist" id="vo">{$vo}&#10;</volist>' required>{$cdata['archiveDevice']}</textarea>
                                             <label>一行一条数据</label>
                                             <div class='line'></div>
                                         </div>
                                         <div class="curtabtapes" id="tageradio" style="display:none;">
-                                            <span >类型</span>
+                                            <span style="display:block;text-align:center;" >类型</span>
                                             <input type="radio" value="runstor" name="tapetype" <if condition="$cdata['vtltype'] eq 1 ">checked</if>/><label>Runstor 磁带库</label>&nbsp;
                                             <input type="radio" value="diys" name="tapetype" <if condition="$cdata['vtltype'] neq 1 ">checked</if> /><label>其它磁带库</label>
                                             <div class='line'></div>
                                         </div>
                                         <div class="curtabtapes1" id="tapgediys" <if condition="$cdata['vtltype'] eq 1 ">style="display:none;"<else/>style="display:block;"</if>>
-                                            <span >参数</span>
+                                            <span style="display:block;text-align:center;" >参数</span>
                                             <textarea id="changerCommand" name='changerCommand' style="resize:none;width: 400px;height: 50px;" required><empty name='cdata.changerCommand'><else/>{$cdata['changerCommand']}</empty></textarea>
                                             <label></label>
                                             <div class='line'></div>
                                         </div>
                                     </div>
-                                    <span >{$Think.lang.app_desc}</span>
+                                    <span style="display:block;text-align:center;" >{$Think.lang.app_desc}</span>
                                     <textarea id="description" name='description' style="resize:none;width: 400px;height: 50px;"  placeholder="" required>{$data['description']}</textarea>
                                     <div class="clear"></div>
                             </div>
@@ -110,22 +111,22 @@
                     <li id="tab2" class="tab_con">
                         <div class="section">
                             <div class='box'>
-                                <span >介质服务器端口</span>
-                                <input type="text" id="sdport" value="<empty name='data.sdPort'>5103<else/>{$data['sdPort']}</empty>" class="wd50" name="sdPort" required />
+                                <span style="display:block;text-align:center;" >介质服务器端口</span>
+                                <input  type="text" id="sdport" value="<empty name='data.sdPort'>5103<else/>{$data['sdPort']}</empty>" class="wd50 add_input" style="padding: 0" name="sdPort" required />
                                 <label>*默认端口 5103</label>
                                 <div class='line'></div>
-                                <span >最大并发</span>
-                                <input type="text" id="maxConcurrentJobs" class="wd50" name="maxConcurrentJobs" value="<notempty name='data.maxConcurrentJobs'>{$data['maxConcurrentJobs']}<else/>4</notempty>" required/>
+                                <span style="display:block;text-align:center;" >最大并发</span>
+                                <input type="text" id="maxConcurrentJobs" class="wd50 add_input" style="padding: 0" name="maxConcurrentJobs" value="<notempty name='data.maxConcurrentJobs'>{$data['maxConcurrentJobs']}<else/>4</notempty>" required/>
                                 <div class='line'></div>
                                 <!-- ###start client### -->
-                                <span >网络最大缓存</span>
-                                <select name="maxNetworkBufferSize">
+                                <span style="display:block;text-align:center;" >网络最大缓存</span>
+                                <select name="maxNetworkBufferSize" class="add_input">
                                     <option value="32768" <if condition="$ddata['maxNetworkBufferSize'] eq '32768' ">selected</if>>32768</option>
                                     <option value="65536" <if condition="$ddata['maxNetworkBufferSize'] eq '65536' ">selected</if>>65536</option>
                                 </select>
                                 <div class='line'></div>
-                                <span >备份块大小</span>
-                                <select name="minBlockSize">
+                                <span style="display:block;text-align:center;" >备份块大小</span>
+                                <select name="minBlockSize" class="add_input">
                                     <option value="64512" <if condition="$ddata['minBlockSize'] eq '64512' ">selected</if>>default</option>
                                     <option value="131072" <if condition="$ddata['minBlockSize'] eq '131072' ">selected</if>>128k</option>
                                     <option value="262144" <if condition="$ddata['minBlockSize'] eq '262144' ">selected</if>>256k</option>
@@ -135,15 +136,15 @@
                                     <option value="4194304" <if condition="$ddata['minBlockSize'] eq '4194304' ">selected</if>>4M</option>
                                 </select>
                                 <div class='line'></div>
-                                <span >最大文件包大小</span>
-                                <input type="text" id="maxFileSize" class="wd50" name="maxFileSize" value="<notempty name='data.maxFileSize'>{$data['maxFileSize']}<else/>20</notempty>" required/><label>单位：（/G）</label>
+                                <span style="display:block;text-align:center;" >最大文件包大小</span>
+                                <input type="text" id="maxFileSize" class="wd50 add_input" style="padding:0;" name="maxFileSize" value="<notempty name='data.maxFileSize'>{$data['maxFileSize']}<else/>20</notempty>" required/><label>单位：（/G）</label>
                                 <div class='line'></div>
-                                <span >最大缓存容量</span>
-                                <input type="text" id="maxSpoolSize" class="wd50" name="maxSpoolSize" value="<notempty name='data.maxSpoolSize'>{$data['maxSpoolSize']}<else/>20</notempty>" required/><label>单位：（/G）</label>
+                                <span style="display:block;text-align:center;" >最大缓存容量</span>
+                                <input type="text" id="maxSpoolSize" class="wd50 add_input" style="padding: 0;" name="maxSpoolSize" value="<notempty name='data.maxSpoolSize'>{$data['maxSpoolSize']}<else/>20</notempty>" required/><label>单位：（/G）</label>
                                 <div class='line'></div>
                                 <!-- ###end client### -->
-                                <span >重复数据删除</span>
-                                <div class="tm20"><input type="checkbox" class="checkbox" name="allowCompression" id="allowCompression" value="1" <if condition="$data['allowCompression'] eq 1 ">checked</if>></div>
+                                <span style="display:block;text-align:center;" >重复数据删除</span>
+                                <div class="tm20"><input type="checkbox" class="checkbox" style="margin-left: 130px;width: 20px" name="allowCompression" id="allowCompression" value="1" <if condition="$data['allowCompression'] eq 1 ">checked</if>></div>
                                 <div class='line'></div>
                             </div>
                         </div>
@@ -151,24 +152,24 @@
                     <li id="tab3" class="tab_con">
                         <div class="section">
                             <div class='box'>
-                                <span >启用TLS</span>
-                                <input value="1" type="checkbox" id="TLSEnable" name="TLSEnable" class="ckbs" <if condition="$data['TLSEnable'] eq 'yes'">checked="checked" </if>/>
+                                <span style="display:block;text-align:center;" >启用TLS</span>
+                                <input value="1" type="checkbox" style="margin-left: 20px;" id="TLSEnable" name="TLSEnable" class="ckbs" <if condition="$data['TLSEnable'] eq 'yes'">checked="checked" </if>/>
                                 <div class='line'></div>
                                 <div class="tlsshow" <if condition="$data['TLSEnable'] eq 'no'">style="display: none;"</if>>
-                                    <span >只接受TLS链接</span>
-                                    <input value="1" type="checkbox" id="TLSRequire" name="TLSRequire" class="ckbs" <if condition="$data['TLSRequire'] eq 'yes'">checked="checked" </if>/>
+                                    <span style="display:block;text-align:center;" >只接受TLS链接</span>
+                                    <input value="1" style="margin-left: 20px;" type="checkbox" id="TLSRequire" name="TLSRequire" class="ckbs" <if condition="$data['TLSRequire'] eq 'yes'">checked="checked" </if>/>
                                     <div class='line'></div>
-                                    <span >证书有效性验证</span>
-                                    <input value="1" type="checkbox" id="TLSVerifyPeer" name="TLSVerifyPeer" class="ckbs" <if condition="$data['TLSVerifyPeer'] eq 'yes'">checked="checked" </if>/>
+                                    <span style="display:block;text-align:center;" >证书有效性验证</span>
+                                    <input value="1" type="checkbox"  style="margin-left: 20px;" id="TLSVerifyPeer" name="TLSVerifyPeer" class="ckbs" <if condition="$data['TLSVerifyPeer'] eq 'yes'">checked="checked" </if>/>
                                     <div class='line'></div>
-                                    <span >TLS证书</span>
-                                    <input type="text" id="TLSCertificate" name="TLSCertificate" value="{$data['TLSCertificate']}" required class="wd250"/>
+                                    <span style="display:block;text-align:center;" >TLS证书</span>
+                                    <input type="text" id="TLSCertificate"  style="margin-left: 20px;"  name="TLSCertificate" value="{$data['TLSCertificate']}" required class="wd250"/>
                                     <div class='line'></div>
-                                    <span >TLS密钥</span>
-                                    <input type="text" id="TLSKey" name="TLSKey" value="{$data['TLSKey']}" required class="wd250"/>
+                                    <span style="display:block;text-align:center;" >TLS密钥</span>
+                                    <input type="text" id="TLSKey"   style="margin-left: 20px;" name="TLSKey" value="{$data['TLSKey']}" required class="wd250"/>
                                     <div class='line'></div>
-                                    <span >TLS CA证书</span>
-                                    <input type="text" id="TLSCACertificateFile" name="TLSCACertificateFile" value="{$data['TLSCACertificateFile']}" required class="wd250"/>
+                                    <span style="display:block;text-align:center;" >TLS CA证书</span>
+                                    <input type="text" id="TLSCACertificateFile" style="margin-left: 20px;"  name="TLSCACertificateFile" value="{$data['TLSCACertificateFile']}" required class="wd250"/>
                                     <div class='line'></div>
                                 </div>
                             </div>

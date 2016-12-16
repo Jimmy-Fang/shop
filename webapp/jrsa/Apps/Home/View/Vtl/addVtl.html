@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -13,6 +13,7 @@
            .button {cursor: pointer; margin: 5px 10px 5px 0;
                 font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
           }
+            .add_input{width: 200px;height: 30px;text-indent: 5px;}
         </style>
     </head>
     <body>
@@ -26,45 +27,39 @@
                     <div class="section">
                         <div class='box'>
                                 <span >VTL Name</span>
-                                <input type="text" id="name" name="Name" value="" required/>
+                                <input type="text" id="name" name="Name" style="padding: 0;" class="add_input" value="" required/>
                                 <div class='line'></div>
                                 <empty name='data.Name'>
                                 <span >Library Vendor</span>
-                                <select name="libraryvendor" onchange="filllibraryforvendor()">
+                                <select name="libraryvendor" class="add_input" onchange="filllibraryforvendor()">
                                 </select>
                                 <div class='line'></div>
                                 <span >Library Type</span>
-                                <select name="librarytype" onchange="filldriveforlibrary();">
+                                <select name="librarytype" class="add_input" onchange="filldriveforlibrary();">
                                 </select>
                                 <div class='line'></div>
                                 </empty>
                                 <span >VDrive Type</span>
-                                <select name="drivetype0">
+                                <select name="drivetype0" class="add_input">
                                 </select>
                                 <div class='line'></div>
                                 <span >Number of VDrives</span>
-                                <select name="ndrives">
+                                <select name="ndrives" class="add_input">
                                     <?php for($i=1;$i<65;$i++){?>
                                     <option value="<?php echo $i;?>"><?php echo $i;?></option>
                                     <?php }?>
                                 </select>
                                 <div class='line'></div>
-                                <!--span>Start Address</span>
-                                <input type="text" id="dtstart" name="dtstart" value="0" class="wd50" required/>
-                                <div class='line'></div-->
+
                                 <span>Number of VSlots</span>
-                                <input type="text" id="slots" name="slots" value="24" class="wd50" required/>
+                                <input type="text" id="slots" name="slots" value="24" style="padding: 0;" class="wd50 add_input" required/>
                                 <div class='line'></div>
-                                <!--span>Slot Start Address</span>
-                                <input type="text" id="ststart" name="ststart" value="0" class="wd50" required/>
-                                <div class='line'></div-->
+
                                 <span>IE Ports</span>
-                                <input type="text" id="ieports" name="ieports" value="4" class="wd50" required/>
+                                <input type="text" id="ieports"  style="padding: 0;" name="ieports" value="4" class="add_input wd50" required/>
                                 <div class='line'></div>
-                                <!--span>IE Start Address</span>
-                                <input type="text" id="iestart" name="iestart" value="0" class="wd50" required/>
-                                <div class='line'></div-->
-                                <a href="javascript:void(0);" id="upd" data-url="{:U('Enterprise/addClient')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
+
+                                <a href="javascript:void(0);" id="upd" data-url="{:U('Enterprise/addClient')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save} VTL</a>
                         </div>
                     </div>
                 </form>

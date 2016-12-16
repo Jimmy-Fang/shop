@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -53,6 +53,7 @@
                                 <notempty name="data['h3c']"><input type="radio" value="h3c" name="types" <if condition="$data['types'] eq 'h3c'">checked</if>  /><label>H3C CAS</label></notempty>
                             </div>
                             <div class='line'></div>
+                            //默认数据集类型
                             <div class="curtabfile" <empty name="data['types']">style="display:block;"</empty><if condition="$data['types'] eq 'file'">style="display:block;"<else />style="display:none;"</if>> 
 	                            <span >{$Think.lang.eq_fileSet}</span>
                                 <textarea id="fileSet" name='fileSet' style="resize:none;width: 300px;height: 100px;"  placeholder="" required>{$data['fileSet']}</textarea>
@@ -70,6 +71,7 @@
                                 <div class="tm20"><input type="checkbox" name="enableVSS" id="enableVSS" value="yes" <if condition="$data['enableVSS'] eq 'yes' ">checked</if>><label>　仅windows2003以上版本有效</label></div>
                                 <div class='line'></div>
                             </div>
+                            // vms数据集类型
                             <notempty name="data['vms']">
                             <div class="curtabvms" <if condition="$data['types'] eq 'vms'">style="display:block;"<else />style="display:none;"</if>>
                                 <span >数据中心</span>
@@ -90,6 +92,7 @@
                                  <input type="hidden" id="vmids" value="{$data['vm']}"/>
                                 <div class='line'></div>
                             </div>
+
                             </notempty>
                             <div class="curtabdbsql" <if condition="$data['types'] eq 'dbsql'">style="display:block;"<else />style="display:none;"</if>>
                                 <span >数据库实例</span>
@@ -341,7 +344,7 @@
                         <div class="box">
                         	<div id="compression">
 	                            <span >压缩类型</span>
-	                            <select name="compression"> 
+	                            <select name="compression" style="width: 150px;height: 30px;font-size: 15px;">
 	                                <option value="" <if condition="$data['compression'] eq ''">selected</if>>不压缩</option>
 	                                <option value="gzip" <if condition="$data['compression'] eq 'gzip'">selected</if>>gzip</option>
 	                                <option value="lzo" <if condition="$data['compression'] eq 'lzo'">selected</if>>lzo</option>
@@ -376,6 +379,7 @@
             $(document).ready(function($) {
                 $(".tm20 input").click(function(){
                   var curtab=$(":radio[name='types']").filter(":checked").val();
+                    console.log(curtab);
                   $(".curtabfile,.curtabvms,.curtabdbsql,.curtabdbmysql,.curtabdbsybase,.curtabdbdb2,.curtabdbinf,.curtabdbdm,.curtabdbkingbase,.curtabdbkdb,.curtabdbbmr,.curtabdboracle,.curtabdbad,.curtabh3c").hide().filter(".curtab"+curtab).show();
                 	if(curtab == "dboracle"){
                 		$("#compression").hide();

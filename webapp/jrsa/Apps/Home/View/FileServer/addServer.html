@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -35,11 +35,11 @@
                             <label></label>
                             <div class='line'></div>
                             <span >路径</span>
-                            <input type="text" id="path" name="path" value="<empty name='data.path'><else/>{$data['path']}</empty>" class="wd250" required/>
+                            <input type="text" id="path" style="width: 200px;" name="path" value="<empty name='data.path'><else/>{$data['path']}</empty>"  required/>
                             <label>*例如 /rongan/backup</label>
                             <div class='line'></div>
                             <span >连接方式</span>
-	                        <select name="type"> 
+	                        <select name="type" style="width: 210.5px;height: 31.25px;font-size: 20px;">
 	                            <option value="0" <if condition="$data['type'] eq '0'">selected</if>>ftp</option>
 	                            <option value="1" <if condition="$data['type'] eq '1'">selected</if>>scp</option>
 	                        </select>

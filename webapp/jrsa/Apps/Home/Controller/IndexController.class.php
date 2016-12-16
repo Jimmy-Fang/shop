@@ -18,8 +18,7 @@ class IndexController extends CommonController {
     
     public function index(){
         $this->assign('langs',  $this->getLanguage());
-        echo 123;
-//        $this->display();
+        $this->display();
     }
     
     /**

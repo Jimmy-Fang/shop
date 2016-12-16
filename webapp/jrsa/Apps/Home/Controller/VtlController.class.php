@@ -11,11 +11,11 @@
 namespace Home\Controller;
 
 class VtlController extends CommonController {
-    
+//    protected $lun_arr;
     function _initialize() {
         parent::_initialize();
     }
-    
+
     public function index(){
         if(IS_POST){
             $sty = I('post.sty');
@@ -50,20 +50,21 @@ class VtlController extends CommonController {
         ));
         $this->display();
     }
-    
+
     /**
      * 存储池列表
      */
     public function pool(){
         @exec("sudo /opt/vtl/bin/spconfig -l",$result);
         $type = array('Name','Disks','WORM','Dedupe','Meta','Verify','Export','Replicate','Threshold');
+
         $this->assign(array(
             'menuid'=>'vtl_pool',
             'pool'=>  $this->_getInfo($result,$type),
         ));
         $this->display();
     }
-    
+
     /*
      * 添加编辑存储池
      */
@@ -85,7 +86,7 @@ class VtlController extends CommonController {
             }else{
                 $data['Dedupe'] = '';
             }
-             if($license['vtlReplicate']){
+            if($license['vtlReplicate']){
                 $data['Replicate'] = '-r ' . $data['Replicate'];
             }else{
                 $data['Replicate'] = '';
@@ -109,7 +110,7 @@ class VtlController extends CommonController {
         ));
         $this->display();
     }
-    
+
     public function delPool(){
         if(IS_POST){
             $name = I('post.name');
@@ -119,7 +120,7 @@ class VtlController extends CommonController {
             }
         }
     }
-    
+
     public function bd(){
         @exec("sudo /opt/vtl/bin/bdconfig  -l -c",$result);
         @exec("sudo /opt/vtl/bin/bdconfig  -l -e",$bdconfig);
@@ -128,7 +129,7 @@ class VtlController extends CommonController {
         @exec("sudo /opt/vtl/bin/spconfig -l",$pool);
         $typepool = array('Name','Disks','WORM','Dedupe','Meta','Verify','Export','Replicate','Threshold');
         $pool = $this->_getInfo($pool,$typepool);
-        
+
         $data = $this->_getInfo($result,$type);
         $edata = $this->_getInfo($bdconfig,$type);
         $this->assign(array(
@@ -139,7 +140,7 @@ class VtlController extends CommonController {
         ));
         $this->display();
     }
-    
+
     /**
      * VTL
      * 加入池和移除池操作
@@ -168,15 +169,15 @@ class VtlController extends CommonController {
                     $this->error(L('verify_license_than'));
                 }
                 $license['vtlDisk'] = _checkLicense('vtlDisk', 1);
-				
-				if($name=='Default'){
-                	@exec("sudo /opt/vtl/bin/bdconfig -a -d {$path} 2>&1",$result);
-                	$this->success($this->_floatOutput($result));
-				}
-				else{
-			    	@exec("sudo /opt/vtl/bin/bdconfig -a -d {$path} -g {$name} 2>&1",$result);
-                	$this->success($this->_floatOutput($result));
-				}
+
+                if($name=='Default'){
+                    @exec("sudo /opt/vtl/bin/bdconfig -a -d {$path} 2>&1",$result);
+                    $this->success($this->_floatOutput($result));
+                }
+                else{
+                    @exec("sudo /opt/vtl/bin/bdconfig -a -d {$path} -g {$name} 2>&1",$result);
+                    $this->success($this->_floatOutput($result));
+                }
             }else{//从池中移除
                 @exec("sudo /opt/vtl/bin/bdconfig -x -d {$path} 2>&1",$result);
                 $this->success($this->_floatOutput($result));
@@ -196,7 +197,7 @@ class VtlController extends CommonController {
         ));
         $this->display();
     }
-    
+
     /*
      * 添加编辑存储池
      */
@@ -211,7 +212,7 @@ class VtlController extends CommonController {
         ));
         $this->display();
     }
-    
+
     /**
      * VTL 信息
      * @param type $name
@@ -221,7 +222,7 @@ class VtlController extends CommonController {
             @exec("sudo /opt/vtl/bin/vtconfig -l -v $name",$result);
             $data = $this->_getVtlInfo($result);
             $data['name'] = $name;
-             $this->assign(array(
+            $this->assign(array(
                 'data'=>$data,
             ));
             $this->display();
@@ -240,8 +241,8 @@ class VtlController extends CommonController {
             }
         }
     }
-    
-     /**
+
+    /**
      * 删除Vc
      */
     public function delVc(){
@@ -254,7 +255,7 @@ class VtlController extends CommonController {
             }
         }
     }
-    
+
     /**
      * 添加Vc
      */
@@ -282,14 +283,14 @@ class VtlController extends CommonController {
         ));
         $this->display();
     }
-    
+
     public function vc(){
         $this->assign(array(
             'menuid'=>'vtl_vc',
         ));
         $this->display();
     }
-    
+
     /**
      * 更新VC中WORM值
      */
@@ -300,7 +301,7 @@ class VtlController extends CommonController {
             $this->success($this->_floatOutput($result));
         }
     }
-    
+
     /**
      * 映射
      */
@@ -314,7 +315,7 @@ class VtlController extends CommonController {
         ));
         $this->display();
     }
-    
+
     /**
      * 添加Fc
      */
@@ -340,7 +341,7 @@ class VtlController extends CommonController {
         ));
         $this->display();
     }
-    
+
     /**
      * 删除Fc
      */
@@ -358,7 +359,7 @@ class VtlController extends CommonController {
             $this->success($this->_floatOutput($result));
         }
     }
-    
+
     /**
      * 获取所有的Pool信息
      */
@@ -383,7 +384,7 @@ class VtlController extends CommonController {
         }
         return $data;
     }
-    
+
     private function _getPoolInfo($name){
         @exec("sudo /opt/vtl/bin/spconfig -l",$result);
         $type = array('Name','Disks','WORM','Dedupe','Meta','Verify','Export','Replicate','Threshold');
@@ -394,7 +395,7 @@ class VtlController extends CommonController {
             }
         }
     }
-    
+
     /**
      * 获取VTL 信息
      */
@@ -440,7 +441,7 @@ class VtlController extends CommonController {
         $result['Drive'] = $Drive;
         return $result;
     }
-    
+
     /**
      * 获取所有的Pool信息
      */
@@ -477,7 +478,7 @@ class VtlController extends CommonController {
         }
         return $data;
     }
-    
+
     private function _floatOutput($str){
         $result = '';
         if($str){
@@ -487,11 +488,11 @@ class VtlController extends CommonController {
         }
         return $result;
     }
-    
+
     /**
      * license 相关
      */
-    
+
     /**
      * 判断授权是否超出限制
      * @param type $itme
@@ -515,7 +516,7 @@ class VtlController extends CommonController {
             }
         }
     }
-    
+
     /**
      * 解析License
      * @param type $licenses
@@ -525,14 +526,21 @@ class VtlController extends CommonController {
         $licenses = $this->license->find();
         return json_decode(Encrypt::authcode($licenses['license'],'DECODE',md5('jrsa')),true);
     }
-    
+
     /**
      * 端口管理
      * @return [type] [description]
      */
     public function target(){
         $target_model = M('target');
-        $data_list    = $target_model->select(); 
+        $data_list    = $target_model->select();
+        //还要一个组装一个状态
+        //状态
+        foreach($data_list as $key=>$val){
+            $wwpn=$val['wwpn'];
+            exec("/opt/vtl/scripts/target_status $wwpn",$status);
+            $data_list[$key]['status']=$status[0];
+        }
         $this->assign(array(
             'menuid'=>'vtl_target',
             'data'=>  $data_list
@@ -546,7 +554,7 @@ class VtlController extends CommonController {
      */
     public function initiator(){
         $initiator_model = M('initiator');
-        $data_list    = $initiator_model->select(); 
+        $data_list    = $initiator_model->select();
         $this->assign(array(
             'menuid'=>'vtl_initiator',
             'data'=>  $data_list
@@ -569,13 +577,13 @@ class VtlController extends CommonController {
             unset($data['valuess']);
             unset($data['hink_tools']);
             if($data['id']){
-                $result = $initiator_model->save($data); 
+                $result = $initiator_model->save($data);
             }else{
                 $initiator_data = $initiator_model->where(array('values'=>$data['values']))->find();
                 if($initiator_data){
-                     $this->error("该initiator已被添加");
+                    $this->error("该initiator已被添加");
                 }
-                $result = $initiator_model->add($data); 
+                $result = $initiator_model->add($data);
             }
             $this->success(L('success'),U('Vtl/initiator'));
             if($result){
@@ -598,7 +606,7 @@ class VtlController extends CommonController {
                 'data'=>  $data
             ));
             $this->display();
-        }        
+        }
     }
 
     /**
@@ -619,7 +627,9 @@ class VtlController extends CommonController {
                     $result = "1";
                 }elseif($data['type'] == 'infos'){//刷新
                     @exec("sudo /opt/vtl/scripts/target_manager {$_data['wwpn']} 4",$result);
+
                     $result = implode('<br/>',$result);
+
                     $this->success($result);
                 }else{
                     if($_data['flag'] == 1){
@@ -647,7 +657,7 @@ class VtlController extends CommonController {
      */
     public function hostgroup(){
         $hostgroup_model = M('hostgroup');
-        $data_list    = $hostgroup_model->select(); 
+        $data_list    = $hostgroup_model->select();
         $this->assign(array(
             'menuid'=>'vtl_hostgroup',
             'initiator'=>$initiator,
@@ -665,28 +675,74 @@ class VtlController extends CommonController {
             @exec("sudo /opt/vtl/scripts/del_hostgroup {$name}",$vtl);
             $this->success(L('success'),U('Vtl/hostgroup'));
         }else{
-             $this->error("操作失败.");
+            $this->error("操作失败.");
         }
     }
 
+    /**
+     * 添加映射记录
+     * 修改映射记录
+     */
     public function addHostGroup(){
         $target_model    = M('target');
         $group           = M('vtlgroup');
         $initiator_model = M('initiator');
         $hostgroup_model = M('hostgroup');
-
+        //提交数据
         if(IS_POST){
             $data = I('post.');
-            $data['initiator'] = $data['initiators'];
+//            echo '<pre/>';
+            //处理VTL,把lun中id作为键值,name作为值拼成数组
+            $vtl=$data['lun'];
+            foreach($vtl as $val){
+                $arr=explode(':', $val);
+                $vtl_lun[$arr[0]]=$arr[1];
+                $vtl_id[]=$arr[0];
+            }
+            //处理拼接好的ID数组,按第一位顺序分成二维数组组
+            foreach($vtl_id as $val){
+                $num1=substr($val,0,1);
+                $vtl_id_num[$num1][]=$val;
+
+            }
+            //判断该数数组键值下有木有以键值为第一位,1为第二位,两位数,就是选了机械臂的ID
+            //如果有则可以操作,如果没有就删除这些驱动的ID不保存
+            foreach($vtl_id_num as $key=>$val){
+                    //需要的机械臂ID
+                $jiexiebi_id=$key.'1';
+                //如果没有就把这些ID从
+                if (!in_array($jiexiebi_id,$val)) {
+                        foreach($val as $v){
+                            unset($vtl_lun[$v]);
+                        }
+                }
+            }
+            //拼接数据库需要的 lun
+            $lun='';
+            foreach($vtl_lun as $val){
+                $lun.=$val.',';
+            }
+            //去掉最后一个字符串
+            $data['lun']=substr($lun, 0, -1);
+//            dump($data);
+            //组装initiator
+            $initiator='';
+            foreach($data['initiator'] as $val){
+                $initiator.=$val.',';
+            }
+            //去掉最后一个字符串
+            $data['initiator']=substr($initiator, 0, -1);
+//            dump($data);
             unset($data['initiator_data']);
             unset($data['initiators']);
-            $name = $data['names'];
-            unset($data['names']);
+//            dump($data);
+//            exit;
+            //判断有没有id,有就是修改没有就是添加
             if($data['id']){
                 $find = $hostgroup_model->where(array('id'=>$data['id']))->find();
                 if($find['initiator'] == $data['initiator'] && $find['target'] == $data['target']){
                     $result = $hostgroup_model->where(array('id'=>$data['id']))->save($data);
-                    
+
                 }else{
                     $_tmp = explode(',', $data['initiator']);
                     foreach ($_tmp as $k => $v) {
@@ -695,11 +751,12 @@ class VtlController extends CommonController {
                             $this->error("操作失败，该端口已存在相同initiator.");
                         }
                     }
-                    
+
                     $result = $hostgroup_model->where(array('id'=>$data['id']))->save($data);
                 }
                 //@exec("sudo /opt/vtl/scripts/add_hostgroup {$name}",$vtl);
             }else{
+                //添加
                 $find = $hostgroup_model->where(array('name'=>$data['name']))->find();
                 if($find){
                     $this->error("操作失败，名称重复.");
@@ -708,30 +765,40 @@ class VtlController extends CommonController {
                 if($find){
                     $this->error("操作失败，该端口已存在相同initiator.");
                 }
-                $result = $hostgroup_model->add($data); 
+                $result = $hostgroup_model->add($data);
                 //@exec("sudo /opt/vtl/scripts/add_hostgroup {$name}",$vtl);
             }
+
             if($result !== false){
                 $this->success(L('success'),U('Vtl/hostgroup'));
             }else{
                 $this->error(L('error'));
             }
         }else{
-            $target_list     = $target_model->select(); 
+            $target_list     = $target_model->select();
             $initiator_list  = $initiator_model->select();
             $data = $hostgroup_model->where(array('id'=>I('get.id')))->find();
-            $groupinitiators = '';
-            foreach ($initiator_list as $key => $value) {
-                $groupinitiators .= "{k:'{$value['values']}',v:'{$value['name']}'}|";
+            //给个标志看是否是修改
+            if($data != false){
+                $row=1;
             }
-            
-            $groupinitiators = rtrim($groupinitiators,'|');
-             $this->assign(array(
+            //$data中的lun处理成数组
+            $data['lun']=explode(',',$data['lun']);
+            //$data中额initiator处理成数组
+            $data['initiator']=json_encode(explode(',',$data['initiator']));
+            $this->assign(array(
                 'menuid'=>'vtl_hostgroup',
                 'target_list'=>$target_list,
-                'groupinitiator'=>$groupinitiators ? $groupinitiators : '0',
+                'initiator_list'=>$initiator_list,
                 'data'=>$data,
+                'row'=>$row,
+                'lun'=>json_encode($data['lun']),
+                //ztree数据
+                'lunjson'=>$this->ajaxLunList(),
+
             ));
+//            dump($data);
+//            exit;
             $this->display();
         }
     }
@@ -752,7 +819,7 @@ class VtlController extends CommonController {
                 }
                 $group->data(array('name'=>$data['name'],'types'=>$types))->add();
             }elseif($data['action'] == 'del'){//删除
-                $group->where(array('name'=>$data['name'],'types'=>$types))->delete(); 
+                $group->where(array('name'=>$data['name'],'types'=>$types))->delete();
             }
             $this->success(L('success'));
         }
@@ -769,51 +836,69 @@ class VtlController extends CommonController {
      * @return [type] [description]
      */
     public function ajaxLunList(){
+
         $lid = I('post.lun');
         $lid = explode(',', $lid);
         $grouplun = array();
         @exec("sudo /opt/vtl/scripts/get_vtl",$vtl);
-        $i = 0;
         if($vtl){
+//            echo '<pre/>';
+//            var_dump($vtl);
+//            echo '<hr/>';
             $json = "[";
+            $i = 1;
             foreach ($vtl as $k => $v) {
                 $changer = $tape = array();
                 @exec("sudo /opt/vtl/scripts/get_vtl_changer_id ". $v,$changer);
                 @exec("sudo /opt/vtl/scripts/get_vtl_tape_id ". $v,$tape);
-                $json .="{ id:111{$k}, pId:0, name:'$v',nocheck:true, open:true},";
-                $json .="{ id:1{$k}00, pId:111{$k}, name:'机械臂',nocheck:true, open:true},";
-                $json .="{ id:2{$k}00, pId:111{$k}, name:'驱动器',nocheck:true, open:true},";
+//                var_dump($changer);
+//                echo '<hr/>';
+//                var_dump($tape);
+//                echo '<hr/>';
+//                exit;
+                $json .="{ id:111{$k}, pId:0, name:'$v',nocheck:true},";
+//                $json .="{ id:1{$k}00, pId:111{$k}, name:'机械臂',nocheck:true, open:true},";
+//                $json .="{ id:2{$k}00, pId:111{$k}, name:'驱动器(请先选择机械臂)',nocheck:true, open:true},";
+
+                $j = 0;
                 foreach ($changer as $_k => $_v) {
+                    $j++;
                     $check = '';
                     $_tmp = explode(" ",$_v);
                     if(in_array($_tmp[1], $lid)){
                         $check = ',checked:true';
                     }
-                    $json .="{ id:1$i, pId:1{$k}00, name:'{$_tmp[1]}' $check},";
-                    $i++;
+                    $json .="{ id:$i$j, pId:111{$k},open:true, name:'{$_tmp[1]}' $check ,},";
                 }
+
+                $l=$j;
                 foreach ($tape as $_k => $_v) {
+                    $l++;
+
                     $check = '';
                     $_tmp = explode(" ",$_v);
                     if(in_array($_tmp[1], $lid)){
                         $check = ',checked:true';
                     }
-                    $json .="{ id:2$i, pId:2{$k}00, name:'{$_tmp[1]}' $check},";
-                    $i++;
+                    $json .="{ id:$i$l, pId:$i$j, name:'{$_tmp[1]}' $check},";
+                    $this->lun_arr[$j]=$i.$l;
                 }
+                $i++;
             }
             $json = rtrim($json,",");
             $json .="]";
-            exit($json);
+
+//            echo $json;
+            return $json;
         }else{
-            exit("error.");
+            return 'error';
         }
     }
 
     public function exportLog(){
-        @exec("sudo /opt/vtl/scripts/vtl_log"); 
-        @exec("sudo tar -zcPf /var/www/html/webapp/vtllog.tar /opt/vtl/log/",$info); 
-        @exec("sudo rm -rf /opt/vtl/log/*"); 
+        @exec("sudo /opt/vtl/scripts/vtl_log");
+        @exec("sudo tar -zcPf /var/www/html/webapp/vtllog.tar /opt/vtl/log/",$info);
+        @exec("sudo rm -rf /opt/vtl/log/*");
         $file = "/var/www/html/webapp/vtllog.tar";
         if(is_file($file)){
             header("Content-Type:application/force-download");
@@ -824,6 +909,44 @@ class VtlController extends CommonController {
         }else{
             echo "获取日志失败";
         }
+    }
+
+    public function PoolInfo()
+    {
+        $pool_name = $_GET['name'];
+       
+//        dump($arr);
+//        dump($ret);
+//        exit;
+        $fp = fopen("/opt/vtl/scripts/pool_info/$pool_name", "r");
+
+//        $fp = file_get_contents("/opt/vtl/scripts/pool_info");
+//        $data = trim(fgets($fp, 255));
+        $pool_info=array();
+        while(!feof($fp))
+//
+        {
+//
+            $data=fgets($fp,200);
+            $data =  explode(',', $data);
+            $data[0] = str_replace('\'',"",$data[0]);
+            $data[1] = str_replace('\'',"",$data[1]);
+            $pool_info[$data[0]]= $data[1];
+        }
+        fclose($fp);
+        array_pop($pool_info);
+//        dump($pool_info);
+        $this->assign('pool_info',$pool_info);
+        $this->assign('pool_name',$pool_name);
+        $this->display();
+    }
+
+    public function test()
+    {
+        $val='Default';
+        system("/usr/bin/python /opt/vtl/scripts/get_pool_detail $val",$result);
+        dump($result);
+
     }
 }
 

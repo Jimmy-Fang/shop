@@ -21,12 +21,8 @@
         </style>
     </head>
     <body>
-        <div id="body">
-            <div class="menu_left">
-                <include file="Common:enterprise" />
-            </div>
-            <div class="main" style="margin-left: 50px;">
-                <div class='h1'>欢迎使用企业级备份软件</div>
+
+            <div class="main" >
                 <form action="{:U('Enterprise/indexs')}" method="post" id="J_ajaxForm" enctype="multipart/form-data">
                     <div class="downInfo" style="color:#5c7fbd;">
                         <empty name="data['id']">您已经取得相关授权<else />机器码： <font color='red'>{$data['id']}</font>
@@ -47,34 +43,28 @@
                     </empty>
                     <div class="clear"></div>
                 </form>
-                <div class='down'>
-                    <div class="downInfo">客户端版本下载</div>
-                    <table style="width: 400px">
-                        <tr>
-                            <td class="td1">windows</td>
-                            <td class="td2"><a href="/webapp/client/windows_client.zip">windows_client.zip</a></td>
-                        </tr>
-                        <tr>
-                            <td class="td1">linux</td>
-                            <td class="td2"><a href="/webapp/client/linux_client.tar.gz">linux_client.tar.gz</a></td>
-                        </tr>
-                        <tr>
-                            <td class="td1">solaris</td>
-                            <td class="td2"><a href="/webapp/client/solaris_client.tar.gz">solaris_client.tar.gz</a></td>
-                        </tr>
-                        <tr>
-                            <td class="td1">aix</td>
-                            <td class="td2"><a href="/webapp/client/aix_client.tar.gz">aix_client.tar.gz</a></td>
-                        </tr>
-                        <!--<li style="font-size: 16px;padding:5px 20px;">windows：<a href="/webapp/client/windows_client.zip">windows_client.zip</a></li>-->
-                        <!--<li style="font-size: 16px;padding:5px 20px;">linux：<a href="/webapp/client/linux_client.tar.gz">linux_client.tar.gz</a></li>-->
-                        <!--<li style="font-size: 16px;padding:5px 20px;">solaris：<a href="/webapp/client/solaris_client.tar.gz">solaris_client.tar.gz</a></li>-->
-                        <!--<li style="font-size: 16px;padding:5px 20px;">aix：<a href="/webapp/client/aix_client.tar.gz">aix_client.tar.gz</a></li>-->
-                    </table>
-                </div>
-                <!--<div class="helpInfo">帮助菜单</div>-->
+                <!--<div class='down'>-->
+                    <!--<div class="downInfo">客户端版本下载</div>-->
+                    <!--<table style="width: 400px">-->
+                        <!--<tr>-->
+                            <!--<td class="td1">windows</td>-->
+                            <!--<td class="td2"><a href="/webapp/client/windows_client.zip">windows_client.zip</a></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="td1">linux</td>-->
+                            <!--<td class="td2"><a href="/webapp/client/linux_client.tar.gz">linux_client.tar.gz</a></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="td1">solaris</td>-->
+                            <!--<td class="td2"><a href="/webapp/client/solaris_client.tar.gz">solaris_client.tar.gz</a></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td class="td1">aix</td>-->
+                            <!--<td class="td2"><a href="/webapp/client/aix_client.tar.gz">aix_client.tar.gz</a></td>-->
+                        <!--</tr>-->
+                    <!--</table>-->
+                <!--</div>-->
             </div>
-        </div>
         <script src="__JS__/jquery.js"></script>
         <script src="__JS__/artDialog/jquery-artDialog.js"></script>
         <script src="__JS__/ajaxForm.js"></script>

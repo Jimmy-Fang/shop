@@ -141,7 +141,11 @@ class ServerController extends CommonController {
     public function clientInfo($name=""){
         if($name){
             @exec("sudo sh  /opt/rongan/scripts/showclient {$name}",$clientStatus); //客户端状态
+//            echo shell_exec("id -a");
+
             $serverInfo = getServerInfo($clientStatus);
+//            dump($clientStatus);
+//            exit;
              //已经完成的任务
             $count = 0;
             $terminatedJob = array();

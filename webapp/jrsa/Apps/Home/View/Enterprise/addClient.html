@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -52,42 +52,37 @@
                             <div class="section">
                                 <div class='box'>
                                     <input value="{$data['id']}" type="hidden" name="id"/>
-                                    <span >{$Think.lang.name}</span>
+                                     <span style="display:block;text-align:center;">{$Think.lang.name}</span>
                                     <input type="text" id="name" name="name" value="{$data['name']}" <notempty name="data.id">style="color:#a2a0a0;" disabled="disabled"</notempty> required/>
                                     <div class='line'></div>
-                                    <span >{$Think.lang.ip_address}</span>
+                                     <span style="display:block;text-align:center;">{$Think.lang.ip_address}</span>
                                     <input type="text" id="address" name="address" value="{$data['address']}" required/>
                                     <div class='line'></div>
-                                    <span >{$Think.lang.ep_devicetype}</span>
-                                    <select name="class"> 
+                                     <span style="display:block;text-align:center;">{$Think.lang.ep_devicetype}</span>
+                                    <select name="class" style="width: 100px;height: 30.75px">
                                         <option value="Windows" <if condition="$data['class'] eq 'Windows'">selected</if>>Windows</option>
                                         <option value="Linux" <if condition="$data['class'] eq 'Linux'">selected</if>>Linux</option>
                                         <option value="Unix" <if condition="$data['class'] eq 'Unix'">selected</if>>Unix</option>
                                     </select>
                                     <div class='line'></div>
-                                    <span >客户端分组</span>
-                                     <select name="gid" id='gid'>
+                                     <span style="display:block;text-align:center;">客户端分组</span>
+                                     <select name="gid" id='gid' style="width: 100px;height: 30.75px;margin-right: 10px;">
                                          <volist name="group" id="item">
                                              <option value="{$item.id}" <if condition="$item['id'] eq $data['gid']">selected</if>>{$item.name}</option>
                                          </volist>>
                                     </select>
                                     <font><b><a href='javascript:;' id="groupAction">管理分组</a></b></font>
                                     <div class='line'></div>
-                                    <!--span >{$Think.lang.eq_fileretention}</span>
-                                    <input type="text" id="fileRetention" name="fileRetention" value="<notempty name='data.fileRetention'>{$data['fileRetention']}<else/>30</notempty>" class="wd50" required/><label>　(/{$Think.lang.day})</label>
-                                    <div class='line'></div>
-                                    <span >{$Think.lang.eq_jobretention}</span>
-                                    <input type="text" id="jobRetention" name="jobRetention" value="<notempty name='data.jobRetention'>{$data['jobRetention']}<else/>30</notempty>" class="wd50" required/><label>　(/{$Think.lang.day})</label>
-                                    <div class='line'></div-->
-                                    <span >{$Think.lang.eq_priority}</span>
-                                        <select name="priority"> 
+
+                                     <span style="display:block;text-align:center;">{$Think.lang.eq_priority}</span>
+                                        <select name="priority" style="width: 100px;height: 30.75px">
                                             <option value="5" <if condition="$data['priority'] eq '5'">selected</if>>中</option>
                                             <option value="0" <if condition="$data['priority'] eq '0'">selected</if>>高</option>
                                             <option value="10" <if condition="$data['priority'] eq '10'">selected</if>>低</option>
                                         </select>
                                     <div class='line'></div>
                                     <div class='line'></div>
-                                    <span >{$Think.lang.app_desc}</span>
+                                     <span style="display:block;text-align:center;">{$Think.lang.app_desc}</span>
                                     <textarea id="description" name='description' style="resize:none;width: 400px;height: 100px;"  placeholder="" required>{$data['description']}</textarea>
                                     <div class='line'></div>
                                 </div>
@@ -96,29 +91,29 @@
                     <li id="tab2" class="tab_con">
                         <div class="section">
                             <div class='box'>
-                                <span >客户端激活</span>
+                                 <span style="display:block;text-align:center;">客户端激活</span>
                                 <input value="1" type="checkbox" name="enabled" class="ckbs" <if condition="$data['enabled'] eq 'no'"><else/>checked="checked" </if>/>
                                 <div class='line'></div>
-                                <span >客户端端口</span>
-                                <input type="text" id="fdport" value="<empty name='data.fdPort'>5102<else/>{$data['fdPort']}</empty>" class="wd50" name="fdPort" required />
+                                 <span style="display:block;text-align:center;">客户端端口</span>
+                                <input type="text" id="fdport"  style="width: 100px;margin-right: 10px;;" value="<empty name='data.fdPort'>5102<else/>{$data['fdPort']}</empty>" class="wd50" name="fdPort" required />
                                 <label>*默认端口 5102</label>
                                 <div class='line'></div>
-                                <span >最大并发</span>
-                                <input type="text" id="maxConcurrentJobs" name="maxConcurrentJobs" value="<notempty name='data.maxConcurrentJobs'>{$data['maxConcurrentJobs']}<else/>4</notempty>"  class="wd50"  required/>
+                                 <span style="display:block;text-align:center;">最大并发</span>
+                                <input type="text" id="maxConcurrentJobs" style="width: 100px;"  name="maxConcurrentJobs" value="<notempty name='data.maxConcurrentJobs'>{$data['maxConcurrentJobs']}<else/>4</notempty>"  class="wd50"  required/>
                                 <div class='line'></div>
-                                <span >容量限额</span>
-                                <input type="text" id="hardQuota" name="hardQuota" value="<notempty name='data.hardQuota'>{$data['hardQuota']}<else/>0</notempty>" class="wd50" required/><label>注：单位(/G) 0为不限制</label>
+                                 <span style="display:block;text-align:center;">容量限额</span>
+                                <input type="text" id="hardQuota" style="width: 100px;margin-right: 10px;"  name="hardQuota" value="<notempty name='data.hardQuota'>{$data['hardQuota']}<else/>0</notempty>" class="wd50" required/><label>注：单位(/G) 0为不限制</label>
                                 <div class='line'></div>
-                                <span >{$Think.lang.eq_protocol}</span>
-                                 <select name="protocol"> 
+                                 <span style="display:block;text-align:center;">{$Think.lang.eq_protocol}</span>
+                                 <select name="protocol"  style="width: 110px;height: 30.75px;">
                                     <option value="Native" <if condition="$data['protocol'] eq 'Native'">selected</if>>{$Think.lang.standard}{$Think.lang.agreement}</option>
                                     <notempty name="ndmp"><option value="NDMP" <if condition="$data['protocol'] eq 'NDMP'">selected</if>>NDMP{$Think.lang.agreement}</option></notempty>
                                 </select>
                                 <div class='line'></div>
-                                <span >NAT支持</span>
+                                 <span style="display:block;text-align:center;">NAT支持</span>
                                     <input value="1" type="checkbox" name="passive" class="ckbs" <if condition="$data['passive'] eq 'yes'">checked="checked" </if>/>
                                 <div class='line'></div>
-                                <span >{$Think.lang.eq_maxbandwidthperjob}</span>
+                                 <span style="display:block;text-align:center;">{$Think.lang.eq_maxbandwidthperjob}</span>
                                 <div class="tm20">
                                     <div class="frists"<empty name='data.maxBandwidthPerJob'><else/><if condition="$data['maxBandwidthPerJob'] neq '0'">style="float:left;"</if></empty>><input type="checkbox" name="maxBandwidthPerJob" id="cmaxBandwidthPerJob" value="0" class="ckbs" <notempty name='data.maxBandwidthPerJob'><if condition="$data['maxBandwidthPerJob'] eq '0'">checked</if><else/>checked</notempty>><label>不限速</label></div>
                                     <div class="ckmpj" <notempty name='data.maxBandwidthPerJob'><if condition="$data['maxBandwidthPerJob'] eq '0'">style="display:none;"</if><else/>style="display:none;"</notempty>><input type="text" id="maxBandwidthPerJob" name="maxBandwidthPerJob" class="wd50" value="{$data['maxBandwidthPerJob']}"/><label>　单位:(/MB)</label></div>
@@ -129,27 +124,27 @@
                     <li id="tab3" class="tab_con">
                         <div class="section">
                             <div class='box'>
-                                <span >启用TLS</span>
+                                 <span style="display:block;text-align:center;margin-right: 10px;">启用TLS</span>
                                 <input value="1" type="checkbox" id="TLSEnable" name="TLSEnable" class="ckbs" <if condition="$data['TLSEnable'] eq 'yes'">checked="checked" </if>/>
                                 <div class='line'></div>
                                 <div class="tlsshow" <if condition="$data['TLSEnable'] eq 'no'">style="display: none;"</if>>
-                                    <span >只接受TLS链接</span>
+                                     <span style="display:block;text-align:center;margin-right: 10px;">只接受TLS链接</span>
                                     <input value="1" type="checkbox" id="TLSRequire" name="TLSRequire" class="ckbs" <if condition="$data['TLSRequire'] eq 'yes'">checked="checked" </if>/>
                                     <div class='line'></div>
-                                    <span >证书有效性验证</span>
+                                     <span style="display:block;text-align:center;margin-right: 10px;">证书有效性验证</span>
                                     <input value="1" type="checkbox" id="TLSVerifyPeer" name="TLSVerifyPeer" class="ckbs" <if condition="$data['TLSVerifyPeer'] eq 'yes'">checked="checked" </if>/>
                                     <div class='line'></div>
-                                    <span >TLS证书</span>
+                                     <span style="display:block;text-align:center;margin-right: 10px;">TLS证书</span>
                                     <input type="text" id="TLSCertificate" name="TLSCertificate" value="{$data['TLSCertificate']}" required class="wd250"/>
                                     <div class='line'></div>
-                                    <span >TLS密钥</span>
+                                     <span style="display:block;text-align:center;margin-right: 10px;">TLS密钥</span>
                                     <input type="text" id="TLSKey" name="TLSKey" value="{$data['TLSKey']}" required class="wd250"/>
                                     <div class='line'></div>
-                                    <span >TLS CA证书</span>
+                                     <span style="display:block;text-align:center;margin-right: 10px;">TLS CA证书</span>
                                     <input type="text" id="TLSCACertificateFile" name="TLSCACertificateFile" value="{$data['TLSCACertificateFile']}" required class="wd250"/>
                                     <div class='line'></div>
-                                    <span >加密算法</span>
-                                    <select name="algorithm"> 
+                                     <span style="display:block;text-align:center;">加密算法</span>
+                                    <select name="algorithm" style="width: 100px;height: 30.75px;margin-left: 10px;">
                                         <option value="aes128" <if condition="$data['algorithm'] eq 'aes128'">selected</if>>aes128</option>
                                         <option value="aes256" <if condition="$data['algorithm'] eq 'aes256'">selected</if>>aes256</option>
                                         <option value="camellia128" <if condition="$data['algorithm'] eq 'camellia128'">selected</if>>camellia128</option>

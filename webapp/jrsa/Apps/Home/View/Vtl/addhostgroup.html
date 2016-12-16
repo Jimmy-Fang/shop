@@ -1,311 +1,242 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
-        <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
-        <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
-        <link href="__CSS__/menu.css" rel="stylesheet" />
-        <link href="__JS__/ztree/style/zTreeStyle.css" rel="stylesheet" />
-        <include file="Common:base" />
-        <style>
-            #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
-            .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
-            .button {cursor: pointer; margin: 5px 10px 5px 0;
-                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
-            }.info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
-            .wdinput label{width: 80px;margin-right: 0px; }
-            #body table{margin: 10px;width: 96%;}
-            .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 1px;font-weight: 400;padding: 1px 10px;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s;color: #fff;height: 25px;}
-            .cinfo{background: #4265a4;}
-            #tabbox{overflow:hidden; margin:0 auto;}
-            .bodys .main .section {border-top: 0px;padding: 10px;}
-            .tab_conbox{border: 1px solid #999;border-top: none;}
-            .tab_con{ display:none;}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html" menu="menubody">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="__CSS__/font-awesome/style.css" rel="stylesheet"/>
+    <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
+    <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
+    <link href="__CSS__/menu.css" rel="stylesheet" />
+    <link href="__CSS__/bootstrap.css" rel="stylesheet" />
+    <link href="__JS__/ztree/style/zTreeStyle.css" rel="stylesheet" />
+    <link href="__JS__/layer/skin/layer.css" rel="stylesheet" />
+    <include file="Common:base" />
+    <style>
+        #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
+        .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+        .button {cursor: pointer; margin: 5px 10px 5px 0;
+            font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+        }.info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
+        .wdinput label{width: 80px;margin-right: 0px; }
+        #body table{margin: 10px;width: 96%;}
+        .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 1px;font-weight: 400;padding: 1px 10px;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s;color: #fff;height: 25px;}
+        .cinfo{background: #4265a4;}
+        #tabbox{overflow:hidden; margin:0 auto;}
+        .bodys .main .section {border-top: 0px;padding: 10px;}
+        .tab_conbox{border: 1px solid #999;border-top: none;}
+        .tab_con{ display:none;}
 
-            .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
-            .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
-            .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
-            .tabs li a:hover {background: #ccc;}    
-            .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+        .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+        .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+        .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
+        .tabs li a:hover {background: #ccc;}
+        .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
 
-            .tab_con {padding:12px;font-size: 14px; line-height:175%;}
-            h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
-            p{font-size: 18px;padding:10px;color: green;font-weight: bold;width:800px;}
-            .info{background: #4265a4;}
+        .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+        h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
+        p{font-size: 18px;padding:10px;color: green;font-weight: bold;width:800px;}
+        .info{background: #4265a4;}
 
-            .wraper {position: relative;float: left;}
-            .lists {width: 200px;height: 200px;overflow: auto;position: absolute;border: 1px solid #617775;display: none;float: left;/*margin-left: 110px;*/background: none repeat scroll 0 0 #FFFFFF;}
-            .lists ul li{padding-left: 10px;padding-top: 2px;padding-bottom: 2px;border-top: 1px solid #999; }
-            .bodys .main .section .box span{line-height: 20px;}
-            .testContainer {width:600px;height:200px;border:1px solid red;}
-            ul{list-style:none outside none;}
-            font{line-height: 33px;    margin: 0 10px;}
-            .fm110{margin-left: 110px; float: left;}
-            .lunul li{width: 260px;float: left;}
-            .lists li span{width: 140px;}
-            .lefts{padding-left: 110px;}
-        </style>
-    </head>
-    <body>
-        <div class="bodys">
-            <div class="menu_left">
-                <include file="Common:vtl" />
-            </div>
-            <div class="main">
-                <form action="{:U('Vtl/addhostgroup')}" method="post" id="J_ajaxForm">
-                    <div class='h1'><i class="font-icon icon-desktop"></i><notempty name="data['id']">{$Think.lang.ep_client_upd}<else />映射记录</notempty ></div>
-                    <div id="tabbox">
-                    <div class="section">
-                        <div class='box'>
-                            <input value="{$data['id']}" type="hidden" name="id"/>
-                            <input value="{$data['name']}" type="hidden" name="names"/>
-                            <span >Name</span>
-                            <input type="text" id="name" name="name" value="{$data['name']}" <notempty name="data.id">style="color:#a2a0a0;" disabled="disabled"</notempty> required/>
-                            <div class='line'></div>
-                            <span >Target</span>
-                            <select name="target"> 
-                                <volist name="target_list" id="item">
-                                    <option value="{$item.wwpn}" <if condition="$item['wwpn'] eq $data['target']">selected</if>>{$item.Name}</option>
+        .wraper {position: relative;float: left;}
+        .lists {width: 200px;height: 200px;overflow: auto;position: absolute;border: 1px solid #617775;display: none;float: left;/*margin-left: 110px;*/background: none repeat scroll 0 0 #FFFFFF;}
+        .lists ul li{padding-left: 10px;padding-top: 2px;padding-bottom: 2px;border-top: 1px solid #999; }
+        .bodys .main .section .box span{line-height: 20px;}
+        .testContainer {width:600px;height:200px;border:1px solid red;}
+        ul{list-style:none outside none;}
+        font{line-height: 33px;    margin: 0 10px;}
+        .fm110{margin-left: 110px; float: left;}
+        .lunul li{width: 260px;float: left;}
+        .lists li span{width: 140px;}
+        .lefts{padding-left: 110px;}
+        .qudong_li{width: 200px;pointer-events: none;  cursor: default;  opacity: 0.6;}
+        .add_input{width: 200px;height: 30px}
+        .check_initiator{height: 20px;width:20px;}
+    </style>
+</head>
+<body>
+<div class="bodys">
+    <div class="menu_left">
+        <include file="Common:vtl" />
+    </div>
+    <div class="main">
+        <form   action="{:U('Vtl/addHostGroup')}" method="post" id="add_form" >
+            <div class='h1'><i class="font-icon icon-desktop"></i><notempty name="data['id']">{$Think.lang.ep_client_upd}<else />映射记录</notempty ></div>
+            <div id="tabbox">
+                <div class="section">
+                    <div class='box'>
+                        <input value="{$data['id']}" type="hidden" name="id"/>
+                        <span >Name</span>
+                        <div style="float: left">
+
+                            <input type="text" id="name" class="add_input" name="name" value="{$data['name']}"/>
+                        </div>
+                        <div id="name_span" style="color: red"></div>
+                        <div class='line'></div>
+                        <div class='line' style="clear: both;height: 10px;"></div>
+
+                        <span >Target</span>
+                        <select name="target" class="add_input" >
+                            <volist name="target_list" id="item">
+                                <option value="{$item.wwpn}" style="width: 200px;height:40px;" <if condition="$item['wwpn'] eq $data['target']">selected</if>>{$item.Name}</option>
+                            </volist>
+                        </select>
+                        <div class='line'></div>
+                        <span >Initiator</span>
+                        <input id="initiator_data" type="hidden" name="initiator_data" value="{$groupinitiator}" />
+                        <div class='line'></div>
+                        <div style="line-height: 30px;font-size: 18px;">
+                            <div style="float: left;">
+
+                                <volist name="initiator_list" id="item">
+                                    <input type="checkbox" name="initiator[]" style="margin-top: 0;" class="check_initiator" value="{$item.values}"  <if condition="$item['values'] eq $data['initiator']">checked</if>> {$item.name}</input>
+                                    &nbsp;
                                 </volist>
-                            </select>
-                            <div class='line'></div>
-                            <span >Initiator</span>
-                            <input id="initiator_data" type="hidden" name="initiator_data" value="{$groupinitiator}" />
-                            <div class='line'></div>
-                            <div style="height: 30px;">
-                                <input id="initiator" style="width: 180px;" value="{$data['initiator']}" type="text" name="initiator" readonly />
-                                <input id="initiators" type="hidden" name="initiators" value="{$data['initiator']}" />
                             </div>
-                            <div class='line'></div>
-                            <span >VTL</span>
-                            <div class='line'></div>
+                            <div id="initiator_span" style="color: red;float: left;"></div>
                         </div>
-                        <div class="lefts">
-                            <ul id="lunTree" class="ztree"></ul>
-                            <label id="treeMsg"></label>
-                            <input type="hidden" id="lun" name="lun" value="{$data['lun']}"/>
-                        </div>
+
+                        <div class='line' style="clear: both"></div>
                     </div>
-                <a href="javascript:void(0);" id="upd" data-url="{:U('Vtl/addhostgroup')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
-                </form>
+                    <span >VTL</span>
+                    <span id="vtl_span" style="color: red;margin-left: 82px;"></span>
+                    <div class="lefts">
+                        <ul id="lunTree" class="ztree"></ul>
+                        <label id="treeMsg"></label>
+                        <div id="luns"></div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <script src="__JS__/jquery.js"></script>
-        <script src="__JS__/artDialog/jquery-artDialog.js"></script>
-        <script src="__JS__/ajaxForm.js"></script>
-        <script src="__JS__/common.js"></script>
-        <script src="__JS__/jquery-droplist-vtl.js"></script>
-        <script src="__JS__/ztree/js/ztree.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function(){
-                var initdata = $("#initiator_data").val();
-                $("#initiator").MultDropList({ data: initdata,selected: "{$data['initiator']}"});
-                $("#groupLun").on("click",function(){
-                    var id = $(this).attr('data-id');
-                    var url = "{:U('Vtl/group',array('types'=>2))}";
-                    $.dialog.open(url, {
-                        title: "LUN管理",
-                        fixed: true,
-                        width: 600,
-                        height: 400,
-                        close:function(){
-                            onloadGrop(2,'lun');
-                        }
-                    });
+            <button type="submit" style="margin-left: 122px;background: cornflowerblue" class="btn btn-primary">提交映射记录</button>
+        </form>
+    </div>
+</div>
+<script src="__JS__/jquery.js"></script>
+<script src="__JS__/common.js"></script>
+<script src="__JS__/ztree2/jquery.ztree.core.js"></script>
+<script src="__JS__/ztree2/jquery.ztree.excheck.min.js"></script>
+<script src="__JS__/layer/layer.js"></script>
+
+<script type="text/javascript">
+
+    //提交前验证
+
+    $("#add_form").bind("submit", function(){
+        //验证名字
+        var name = Trim($('#name').val());
+        if(!name){
+            $('#name_span').text('*请填写名称!');
+            core.tips.tips(LNG.not_null,'info');
+            return false;
+        }else{
+            $('#name_span').text('');
+        }
+        //验证是否选择initiator
+        var checks= $('.check_initiator');
+        var checked_num=0;
+        //获得选中的initiator个数
+        $(checks).each(function(i,v){
+            if(v.checked == true){
+                checked_num+=1;
+            }
+        });
+        if(checked_num == 0){
+            $('#initiator_span').text('*请选择initiator!');
+            core.tips.tips(LNG.not_null,'info');
+            return false;
+        }else{
+            $('#initiator_span').text('');
+        }
+        var luns =$('#luns input:eq(1)').val();
+
+        if(luns == undefined){
+            core.tips.tips(LNG.not_null,'info');
+            $('#vtl_span').text('*请选择机械臂及驱动!');
+            return false;
+        }else{
+            $('#vtl_span').text('');
+        }
+        return true;
+
+    });
+    //获得
+    var initiator = {$data.initiator};
+
+    $(document).ready(function(){
+
+        //回显initiator
+        $('.check_initiator').each(function (i,v) {
+                var checkbox = v;
+                var val = $(v).val();
+
+                $(initiator).each(function(i,v){
+
+                    if(val == v){
+                        checkbox.checked=true;
+                    }
                 });
             });
-            var btn = $(".J_ajax_submit_btn"),form = $("#J_ajaxForm");
-            btn.on("click",function(){
-                var treeObj = $.fn.zTree.getZTreeObj("lunTree");
-                var nodes = treeObj.getCheckedNodes(true);
-                var names = '';
-                for(var i = 0;i<nodes.length;i++){
-                    tmpname = nodes[i].name +'';
-                    names += tmpname + ',';
-                }
-                names=names.substring(0,names.length-1);
-                if(names == ''){
-                    core.tips.tips('请选择LUN.','info');
-                    return false;
-                }
-                $("#lun").val(names);
-                if($("#name").val() =="" || $("#initiators").val() ==""){
-                    core.tips.tips(LNG.not_null,'info');
-                }else if(!checkName($("#name").val())){
-                    core.tips.tips(LNG.verify_name_cross,'info');
-                }else{
-                    form.ajaxSubmit({
-                    url: btn.data('action') ? btn.data('action') : form.attr('action'), 
-                    dataType: 'json',
-                    type:'post',
-                    beforeSubmit: function (arr, $form, options) {
-                        var text = btn.text();
-                        //按钮文案、状态修改
-                        btn.text(text + '中...').prop('disabled', true).addClass('disabled');
-                    },
-                    success: function (data, statusText, xhr, $form) {
-                        var text = btn.text();
-                        //按钮文案、状态修改
-                        btn.removeClass('disabled').text(text.replace('中...', ''));
-                        if (data.state === 'success') {
-                            core.tips.tips(data.info,'success');
-                             if (data.referer) {
-                                    window.location.href = data.referer;
-                                } else {
-                                     reloadPage(window);
-                                }
-                        } else if (data.state === 'fail') {
-                            core.tips.tips(data.info,'error');
-                            btn.removeProp('disabled').removeClass('disabled');
-                            }
-                        }
-                    });
-                }
-            });
-            var lun = $("#lun").val();
-            var setting = {
-                async: {
-                    enable: true,
-                    url:"{:U('Vtl/ajaxLunList')}",
-                    autoParam:["id"],
-                    otherParam:{"lun":lun},
-                    type: "post"
-                },
-                data: {
-                    simpleData: {
-                        enable:true,
-                        idKey: "id",
-                        pIdKey: "pId",
-                        rootPId: ""
-                    }
-                },
-                check: {
-                    enable: true,
-                    //nocheckInherit: true
-                },
-                callback: {
-                    beforeAsync: beforeAsync,
-                    onAsyncSuccess: onAsyncSuccess,
-                    onAsyncError: onAsyncError
-                }
-            };
-            function beforeAsync() {
-                curAsyncCount++;
-                $("#treeMsg").html("数据加载中，请稍后..");$("#treeMsg").html("");
-            }
-            
-            function onAsyncSuccess(event, treeId, treeNode, msg) {
-                curAsyncCount--;
-                //$("#h3cvirtual").removeAttr('disabled');
-            }
+    });
 
-            function onAsyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
-                curAsyncCount--;
-                alert("数据加载中，请稍后..");
-                if (curAsyncCount <= 0) {
-                    curStatus = "";
-                    if (treeNode!=null) asyncForAll = true;
-                }
-            }
-            var curStatus = "init", curAsyncCount = 0, asyncForAll = false,
-            goAsync = false;
-            function expandAll() {
-                if (!check()) {
-                    return;
-                }
-                var zTree = $.fn.zTree.getZTreeObj("lunTree");
-                if (asyncForAll) {
-                    zTree.expandAll(true);
-                } else {
-                    expandNodes(zTree.getNodes());
-                    if (!goAsync) {
-                        curStatus = "";
-                    }
-                }
-            }
-            
-            function expandNodes(nodes) {
-                if (!nodes) return;
-                curStatus = "expand";
-                var zTree = $.fn.zTree.getZTreeObj("lunTree");
-                for (var i=0, l=nodes.length; i<l; i++) {
-                    zTree.expandNode(nodes[i], true, false, false);
-                    if (nodes[i].isParent && nodes[i].zAsync) {
-                        expandNodes(nodes[i].children);
-                    } else {
-                        goAsync = true;
-                    }
-                }
-            }
+    //ztree分类模块
+    var setting = {
+        data: {
+            simpleData: {
+                enable: true,
+                //修改父类ID显示方式
+                pIdKey: 'pId',
+            },
+        },
+        check: {
+            enable: true,
+            chkStyle: "checkbox",
+            chkboxType: { "Y": "p", "N": "p" },
+        },
+        callback: {
+            onCheck: zTreeOnCheck,
 
-            function asyncAll() {
-                if (!check()) {
-                    return;
-                }
-                var zTree = $.fn.zTree.getZTreeObj("lunTree");
-                if (asyncForAll) {
-                } else {
-                    asyncNodes(zTree.getNodes());
-                    if (!goAsync) {
-                        curStatus = "";
-                    }
-                }
-            }
-            function asyncNodes(nodes) {
-                if (!nodes) return;
-                curStatus = "async";
-                var zTree = $.fn.zTree.getZTreeObj("lunTree");
-                for (var i=0, l=nodes.length; i<l; i++) {
-                    if (nodes[i].isParent && nodes[i].zAsync) {
-                        asyncNodes(nodes[i].children);
-                    } else {
-                        goAsync = true;
-                        zTree.reAsyncChildNodes(nodes[i], "refresh", true);
-                    }
-                }
-            }
-            
-            function check() {
-                if (curAsyncCount > 0) {
-                    return false;
-                }
-                return true;
-            }
-            
-            function _initSett(id){
-                $("#lunTree").empty();
-                var setting = {
-                    async: {
-                        enable: true,
-                        url:"{:U('Vtl/ajaxLunList')}",
-                        autoParam:["id"],
-                        type: "post"
-                    },
-                    data: {
-                        simpleData: {
-                            enable:true,
-                            idKey: "id",
-                            pIdKey: "pId",
-                            rootPId: ""
-                        }
-                    },
-                    check: {
-                        enable: true,
-                        //nocheckInherit: true
-                    },
-                    callback: {
-                        beforeAsync: beforeAsync,
-                        onAsyncSuccess: onAsyncSuccess,
-                        onAsyncError: onAsyncError
-                    }
-                };
-                $.fn.zTree.init($("#lunTree"), setting);
-            }
-            $(document).ready(function(){
-                $.fn.zTree.init($("#lunTree"), setting);
-                asyncAll();
+        }
+
+    };
+    function zTreeOnCheck(event, treeId, treeNode) {
+        var nodes = ztree_obj.getCheckedNodes(true);
+        var html = '';
+        var box = $('#luns');
+        box.empty();
+        $(nodes).each(function (i, v) {
+//            console.log(v);
+             html+= '<input type="hidden"  name="lun[]" value="'+ v.id+':'+ v.name+'"/>';
+
+        });
+
+        box.html(html);
+
+    };
+    //所有节点数据
+    var zNodes = {$lunjson};
+    var ztree_obj;
+    $(document).ready(function(){
+        ztree_obj = $.fn.zTree.init($("#lunTree"), setting, zNodes);
+
+//        //判断是否需要回显数据
+        <present name='row'>
+        //如果是修改则展开全部
+            var data_lun={$lun};
+            $(data_lun).each(function(i,v){
+                var node=ztree_obj.getNodeByParam('name',v);
+                //选中
+                ztree_obj.checkNode(node,true,true,true);
+                //展开
+                ztree_obj.expandNode(node,true,true,true);
+
             });
-        </script>
-    </body>
+        </present>
+
+    });
+    /**
+     *去除字符串空格
+     * */
+    function Trim(str) {
+        return str.replace(/(^\s*)|(\s*$)/g, "");
+    }
+</script>
+</body>
 </html>

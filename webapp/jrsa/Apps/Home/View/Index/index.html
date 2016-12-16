@@ -26,8 +26,8 @@
             <div class="fileContiner fileList_icon">
                     <div class="file systemBox menuDefault" title="{$Think.lang.setting}"
                     data-app='{ "type":"1","width":"960","height":"500","open":"1","content":"{:U("License/index")}","icon":"__STATIC__/images/app/setting.png" }'>
-                            <div class="ico" filetype="1" style="background-image:url(__STATIC__/images/app/setting.png)"></div>
-                            <div class="titleBox" ><span>{$Think.lang.setting}</span></div>
+							<div class="ico" filetype="1" style="background-image:url(__STATIC__/images/app/setting.png)"></div>
+							<div class="titleBox" ><span>{$Think.lang.setting}</span></div>
                     </div>
                     <!--div class="file systemBox menuDefault" title="{$Think.lang.setting}"
                     data-app='{ "type":"1","width":"960","height":"500","open":"1","content":"{:U("Storage/nfs")}","icon":"__STATIC__/images/app/storage.png" }'>
@@ -38,7 +38,9 @@
     </div><!-- html5拖拽上传list -->
 <script src="__JS__/seajs/sea.js"></script>
 <script type="text/javascript">
+	//获取系统提示
 	var LNG = <?php echo strtolower(json_encode(L()));?>;
+	//获取配置信息
 	var G = {
 		is_root 	: <?php echo UID;?>,
 		web_root 	: "<?php echo WEB_ROOT?>",
@@ -53,6 +55,8 @@
 		
 		json_data   : ""
 	};
+//	console.log(G);
+
 	seajs.config({
 		base: "__JS__/",
 		preload: ["jquery"]

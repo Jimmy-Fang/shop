@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -9,9 +9,9 @@
         <include file="Common:base" />
         <style>
             #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; padding: 5px 30px;}
-          .info{font-size: 18px;border-top: 1px solid #999;padding:10px;}
+          .info{font-size: 18px;padding:10px;}
            .button {cursor: pointer; margin: 5px 10px 5px 0;
-                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
+                font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 35px;margin-top: 20px;
           }
         </style>
     </head>
@@ -20,10 +20,10 @@
             <div class="menu_left">
                 <include file="Common:configmenu" />
             </div>
-            <div class="main">
+            <div class="main" style="border: 0;">
                 <form action="{:U('License/reg')}" method="post" id="J_ajaxForm">
                     <div class='h1'><i class="font-icon icon-unlock-alt"></i>{$Think.lang.license_add}</div>
-                    <div class="info">{$Think.lang.license_code}：<textarea id="License" name='License' style="resize:none;width: 400px;height: 180px;"  placeholder="" required></textarea></div>
+                    <div class="info">{$Think.lang.license_code}：<br/><textarea id="License" name='License' style="resize:none;width: 400px;height: 180px;"  placeholder="" required></textarea></div>
                     <div class="clear"></div>
                     <input type="button" value="导入" class="button J_ajax_submit_btn"/>
                 </form>

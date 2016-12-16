@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -6,8 +6,10 @@
         <link href="__CSS__/bootstrap.css" rel="stylesheet"/>
         <link href="__CSS__/skin/metro/app_setting.css" rel="stylesheet" />
         <link href="__CSS__/menu.css" rel="stylesheet" />
+        <link href="__CSS__/bootstrap.css" rel="stylesheet" />
         <include file="Common:base" />
         <style>
+            *{font-family: "微软雅黑", "Microsoft Yahei", "STXihei", arial, sans-serif}
             .info{font-size: 18px;border-top: 1px solid #999;padding:10px;}
             .info label{color: red;}
               #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
@@ -23,11 +25,10 @@
          .tab_conbox{border: 1px solid #999;border-top: none;}
          .tab_con{ display:none;}
 
-         .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
-         .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
-         .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
-         .tabs li a:hover {background: #ccc;}    
-         .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+         .tabs{height: 31px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}  .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+            .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;text-decoration: none;}
+            .tabs li a:hover {background: #ccc;}
+            .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
 
          .tab_con {padding:12px;font-size: 14px; line-height:175%;}
          h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
@@ -45,9 +46,9 @@
                     <div class='h1'><i class="font-icon icon-ellipsis-horizontal"></i>{$Think.lang.config_ip}</div>
                     <php>if(strtolower(PHP_OS) == 'linux' || strtolower(PHP_OS) == 'unix'){</php>
                     <div id="tabbox">
-                        <ul class="tabs" id="tabs">
+                        <ul class="tabs"  id="tabs">
                             <volist name="eth_array" id="item">
-                                <li><a href="javascript:;" tab="tab{$i}">{$item.sname}</a></li>
+                                <li ><a style="font-size: 22px;" href="javascript:;" tab="tab{$i}">{$item.sname}</a></li>
                             </volist>
                         </ul>
                         <ul class="tab_conbox">
@@ -62,7 +63,7 @@
                                                 </div>
                                                 <div class='line'></div>
                                                 <span >地址协议</span>
-                                                <select name="bootproto-{$item.sname}" id="bootproto-{$item.sname}" onchange="infotools(this);"> 
+                                                <select style="width: 200px;height: 40px;font-size: 18px;" name="bootproto-{$item.sname}" id="bootproto-{$item.sname}" onchange="infotools(this);">
                                                     <option value="static" <if condition="$item['bootproto'] eq 'static' ">selected</if>>静态协议</option>
                                                     <option value="dhcp" <if condition="$item['bootproto'] eq 'dhcp' ">selected</if>>dhcp协议</option>
                                                 </select>

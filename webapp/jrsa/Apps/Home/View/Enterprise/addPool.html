@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -13,6 +13,7 @@
            .button {cursor: pointer; margin: 5px 10px 5px 0;
                 font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
           }
+            .add_input{width: 150px;height: 30px;padding: 0;margin: 0 10px;text-indent: 5px;}
         </style>
     </head>
     <body>
@@ -26,46 +27,43 @@
                     <div class="section">
                         <div class='box'>
                                 <input value="{$data['id']}" type="hidden" name="id"/>
-                                <span >{$Think.lang.name}</span>
-                                <input type="text" id="name" name="name" value="{$data['name']}"<notempty name="data.id">readonly="true" style="color:#a2a0a0;"</notempty> required/>
+                                <span style="display:block;text-align:center;">{$Think.lang.name}</span>
+                                <input type="text" id="name" style="padding: 0;" class="add_input" name="name" value="{$data['name']}"<notempty name="data.id">readonly="true" style="color:#a2a0a0;"</notempty> required/>
                                 <div class='line'></div>
-                                <span >{$Think.lang.device}</span>
-                                <div class="tm20"><input type="radio" value="1" name="types" <empty name="data['id']">checked<else />disabled <empty name="data['types']"><else />checked</empty></empty>  /><label>磁盘</label><input type="radio" value="0" name="types" <empty name="data['id']"><else />disabled <empty name="data['types']">checked<else /></empty></empty> /><label>磁带</label></div>
+                                <span style="display:block;text-align:center;">{$Think.lang.device}</span>
+                                <div class="tm20">
+                                    <input type="radio" id="radio_1" style="margin-left: 10px;width:15px;height: 15px;" value="1" name="types" <empty name="data['id']">checked<else />disabled <empty name="data['types']"><else />checked</empty></empty>  /><label for="radio_1">磁盘</label>
+                                    <input type="radio" id="radio_2" style="margin-left: 10px;width:15px;height: 15px;" value="0" name="types" <empty name="data['id']"><else />disabled <empty name="data['types']">checked<else /></empty></empty> /><label for="radio_2">磁带</label>
+                                </div>
                                 <div class='line'></div>
-                                <span >{$Think.lang.eq_storageid}</span>
-                                <select name="atorageId" id="atorageId">
+                                <span style="display:block;text-align:center;">{$Think.lang.eq_storageid}</span>
+                                <select name="atorageId" id="atorageId"  class="add_input">
                                     <volist name="storage" id="s">
                                         <option value="{$s.id}" <if condition="$data['atorageId'] eq $s.id ">selected</if>>{$s.name}</option>
                                     </volist>
                                 </select>
                                 <div class='line'></div>
-                                <!--span >{$Think.lang.ep_devicetype}</span>
-                                <select name="poolType"> 
-                                    <option value="poolType" <if condition="$data['poolType'] eq 'poolType'">selected</if>>Archive</option>
-                                    <option value="Cloned" <if condition="$data['poolType'] eq 'Cloned'">selected</if>>Cloned</option>
-                                    <option value="Migration" <if condition="$data['poolType'] eq 'Migration'">selected</if>>Migration</option>
-                                    <option value="Copy" <if condition="$data['poolType'] eq 'Copy'">selected</if>>Copy</option>
-                                    <option value="Save" <if condition="$data['poolType'] eq 'Save'">selected</if>>Save</option>
-                                </select>
-                                <div class='line'></div-->
+                                
                                 <div class="curt1" <empty name="data['id']">style="display:block;"<else /><empty name="data['types']">style="display:none;"<else />style="display:block;"</empty></empty>>
-                                    <span >{$Think.lang.eq_volumes}</span>
-                                    <input type="text" id="maxVolumes" name="maxVolumes" value="{$data['maxVolumes']}" class="wd50" required/>
+                                    <span style="display:block;text-align:center;">{$Think.lang.eq_volumes}</span>
+                                    <input type="text" id="maxVolumes" name="maxVolumes" value="{$data['maxVolumes']}" class="wd50 add_input" style="padding: 0;" required/>
                                     <div class='line'></div>
-                                    <span >{$Think.lang.eq_volumebytes}</span>
-                                    <input type="text" id="maxVolumeBytes" name="maxVolumeBytes" value="<notempty name='data.maxVolumeBytes'>{$data['maxVolumeBytes']}<else/>100</notempty>" class="wd50" <notempty name="data.id">style="color:#a2a0a0;" readonly="true"</notempty> required/><label>(/GB)</label>
+                                    <span style="display:block;text-align:center;">{$Think.lang.eq_volumebytes}</span>
+                                    <input type="text" id="maxVolumeBytes" name="maxVolumeBytes" value="<notempty name='data.maxVolumeBytes'>{$data['maxVolumeBytes']}<else/>100</notempty>" class="wd50 add_input" style="padding: 0;"<notempty name="data.id">style="color:#a2a0a0;" readonly="true"</notempty> required/><label>(/GB)</label>
                                     <div class='line'></div>
                                 </div>
-                                <span >{$Think.lang.eq_volumeretention}</span>
-                                <input type="text" id="volumeRetention" name="volumeRetention" value="<notempty name='data.volumeRetention'>{$data['volumeRetention']}<else/>35</notempty>" class="wd50" required/><label>(/{$Think.lang.day})</label>
+                                <span style="display:block;text-align:center;">{$Think.lang.eq_volumeretention}</span>
+                                <input type="text" id="volumeRetention" name="volumeRetention" value="<notempty name='data.volumeRetention'>{$data['volumeRetention']}<else/>35</notempty>" class="wd50 add_input" style="padding: 0;"required/><label>(/{$Think.lang.day})</label>
                                 <div class='line'></div>
-                                <span >任务保留周期</span>
-                                <input type="text" id="fileRetention" name="fileRetention" value="<notempty name='data.fileRetention'>{$data['fileRetention']}<else/>30</notempty>" class="wd50" required/><label>(/{$Think.lang.day})</label>
+                                <span style="display:block;text-align:center;">任务保留周期</span>
+                                <input type="text" id="fileRetention" name="fileRetention" value="<notempty name='data.fileRetention'>{$data['fileRetention']}<else/>30</notempty>" class="wd50 add_input" style="padding:0;" required/><label>(/{$Think.lang.day})</label>
                                 <div class='line'></div>
-                                <span >回收最旧卷</span>
-                                <div class="tm20"><input type="radio" value="yes" name="recycleOldestVolume" <if condition="$data['recycleOldestVolume'] eq 'yes'">checked</if>/><label>开启</label><input type="radio" value="no" name="recycleOldestVolume" <if condition="$data['recycleOldestVolume'] neq 'yes'">checked</if> /><label>关闭</label></div>
+                                <span style="display:block;text-align:center;">回收最旧卷</span>
+                                <div class="tm20">
+                                    <input type="radio" id="radio_3" style="margin-left: 10px;width:15px;height: 15px;"  value="yes" name="recycleOldestVolume" <if condition="$data['recycleOldestVolume'] eq 'yes'">checked</if>/><label for="radio_3">开启</label>
+                                    <input type="radio"  id="radio_4" style="margin-left: 10px;width:15px;height: 15px;"  value="no" name="recycleOldestVolume" <if condition="$data['recycleOldestVolume'] neq 'yes'">checked</if> /><label for="radio_4">关闭</label></div>
                                 <div class='line'></div>
-                                <span >{$Think.lang.app_desc}</span>
+                                <span style="display:block;text-align:center;">{$Think.lang.app_desc}</span>
                                 <textarea id="description" name='description' style="resize:none;width: 400px;height: 120px;"  placeholder="" required>{$data['description']}</textarea>
                                 <div class="clear"></div>
                                 <a href="javascript:void(0);" id="upd" data-url="{:U('Enterprise/addPool')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>

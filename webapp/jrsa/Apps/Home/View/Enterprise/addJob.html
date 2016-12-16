@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -51,42 +51,35 @@
                             <div class="section">
                                 <div class='box'>
                                         <input value="{$data['id']}" type="hidden" name="id"/>
-                                        <span >{$Think.lang.name}</span>
-                                        <input type="text" id="name" name="name" value="{$data['name']}" <notempty name="data.id">style="color:#a2a0a0;" disabled="disabled"</notempty> required/>
+                                        <span style="display:block;text-align:center;">{$Think.lang.name}</span>
+                                        <input type="text" id="name" name="name"  style="width: 200px;height: 30px;padding: 0;text-indent: 5px;" value="{$data['name']}" <notempty name="data.id">style="color:#a2a0a0;" disabled="disabled"</notempty> required/>
                                         <div class='line'></div>
-                                        <!--span >{$Think.lang.ep_devicetype}</span>
-                                        <select name="type"> 
-                                            <option value="Backup" <if condition="$data['protocol'] eq 'Backup'">selected</if>>Backup</option>
-                                            <option value="Restore" <if condition="$data['protocol'] eq 'Restore'">selected</if>>Restore</option>
-                                            <option value="Verify" <if condition="$data['protocol'] eq 'Verify'">selected</if>>Verify</option>
-                                            <option value="Admin" <if condition="$data['protocol'] eq 'Admin'">selected</if>>Admin</option>
-                                        </select>
-                                        <div class='line'></div-->
-                                        <span >{$Think.lang.ep_clients}</span>
-                                         <select name="clientId"> 
+
+                                        <span style="display:block;text-align:center;">{$Think.lang.ep_clients}</span>
+                                         <select name="clientId" style="width: 200px;height: 30px;padding: 0;text-indent: 5px;">
                                              <volist name="client" id="p">
                                                 <option value="{$p.id}" <if condition="$data['clientId'] eq $p.id ">selected</if>>{$p.name}</option>
                                             </volist>
                                         </select>
                                         <div class='line'></div>
                                         <div class="curtab0">
-                                            <span >{$Think.lang.eq_fileset}</span>
-                                            <input type="hidden" id="fileSetId" class="wd250" name="fileSetId" value="{$data['fileSetId']}"/>
-                                            <input type="text" id="fileSetName" class="wd250" name="fileSetName" value="{$data['fileSetName']}" required/>
+                                            <span style="display:block;text-align:center;">{$Think.lang.eq_fileset}</span>
+                                            <input type="hidden" id="fileSetId"  class="wd250" name="fileSetId" value="{$data['fileSetId']}"/>
+                                            <input type="text" id="fileSetName" style="width: 200px;height: 30px;padding: 0;text-indent: 5px;" class="wd250" name="fileSetName" value="{$data['fileSetName']}" required/>
                                             <div class='line'></div>
                                         </div>
-                                        <span >{$Think.lang.eq_schedule}</span>
+                                        <span style="display:block;text-align:center;">{$Think.lang.eq_schedule}</span>
                                         <input type="hidden" id="scheduleId" class="wd250" name="scheduleId" value="{$data['scheduleId']}"/>
-                                        <input type="text" id="scheduleName" class="wd250" name="scheduleName" value="{$data['scheduleName']}" readonly required/>
+                                        <input type="text" id="scheduleName" class="wd250" style="width: 200px;height: 30px;padding: 0;text-indent: 5px;" name="scheduleName" value="{$data['scheduleName']}" readonly required/>
                                         <div class='line'></div>
-                                        <span >{$Think.lang.eq_poolid}</span>
-                                        <select name="poolId">
+                                        <span style="display:block;text-align:center;">{$Think.lang.eq_poolid}</span>
+                                        <select name="poolId" style="width: 200px;height: 30px;padding: 0;text-indent: 5px;">
                                             <volist name="pool" id="p">
                                                 <option value="{$p.id}" <if condition="$data['poolId'] eq $p.id ">selected</if>>{$p.name}</option>
                                             </volist>
                                         </select>
                                         <div class='line'></div>
-                                        <span >{$Think.lang.app_desc}</span>
+                                        <span style="display:block;text-align:center;">{$Think.lang.app_desc}</span>
                                         <textarea id="description" name='description' style="resize:none;width: 400px;height: 70px;"  placeholder="" required>{$data['description']}</textarea>
                                         <div class='line'></div>
                                 </div>
@@ -95,35 +88,35 @@
                     <li id="tab2" class="tab_con">
                         <div class="section">
                             <div class='box'>
-                                <span >{$Think.lang.eq_protocol}</span>
-                                 <select name="protocol"> 
+                                <span style="display:block;text-align:center;">{$Think.lang.eq_protocol}</span>
+                                 <select name="protocol" style="width: 100px;height: 30px;padding: 0;text-indent: 5px;">
                                     <option value="Native" <if condition="$data['protocol'] eq 'Native'">selected</if>>{$Think.lang.standard}{$Think.lang.agreement}</option>
                                     <notempty name="ndmp"><option value="NDMP" <if condition="$data['protocol'] eq 'NDMP'">selected</if>>NDMP{$Think.lang.agreement}</option></notempty>
                                 </select>
                                 <div class='line'></div>
-                                <span >带宽限制</span>
-                                <input type="text" id="maxBandwidth" name="maxBandwidth" value="<notempty name='data.maxBandwidth'>{$data['maxBandwidth']}<else/>0</notempty>" required class="wd50" /><label>　单位:(MB/S)</label>
+                                <span style="display:block;text-align:center;">带宽限制</span>
+                                <input type="text" id="maxBandwidth" style="width: 100px;height: 30px;padding: 0;text-indent: 5px;"  name="maxBandwidth" value="<notempty name='data.maxBandwidth'>{$data['maxBandwidth']}<else/>0</notempty>" required class="wd50" /><label>　单位:(MB/S)</label>
                                 <div class='line'></div>
-                                <span >失败重启</span>
+                                <span style="display:block;text-align:center;">失败重启</span>
                                 <div class="tm20" id="resc"><input type="radio" value="yes" name="rescheduleOnError" <if condition="$data['rescheduleOnError'] eq 'yes'">checked</if>/><label>开启</label><input type="radio" value="no" name="rescheduleOnError" <if condition="$data['rescheduleOnError'] neq 'yes'">checked</if> /><label>关闭</label></div>
                                 <div class='line'></div>
                                 <div class="tmyes" <if condition="$data['rescheduleOnError'] neq 'yes'">style="display:none;"</if>>
-                                    <span >重启次数</span>
+                                    <span style="display:block;text-align:center;">重启次数</span>
                                     <input type="text" id="rescheduleTimes" name="rescheduleTimes" value="<notempty name='data.rescheduleTimes'>{$data['rescheduleTimes']}<else/>3</notempty>" class="wd50"required/>
                                     <div class='line'></div>
-                                    <span >重启间隔</span>
+                                    <span style="display:block;text-align:center;">重启间隔</span>
                                     <input type="text" id="rescheduleInterval" name="rescheduleInterval" value="<notempty name='data.rescheduleInterval'>{$data['rescheduleInterval']}<else/>30</notempty>" class="wd50" required/><label>　单位:(/分钟)</label>
                                     <div class='line'></div>
                                 </div>
-                                <span >数据缓存</span>
+                                <span style="display:block;text-align:center;">数据缓存</span>
                                 <div class="tm20" id="spoold"><input type="radio" value="yes" name="spoolData" <if condition="$data['spoolData'] eq 'yes'">checked</if>/><label>开启</label><input type="radio" value="no" name="spoolData" <if condition="$data['spoolData'] neq 'yes'">checked</if> /><label>关闭</label></div>
                                 <div class='line'></div>
                                 <div class="spoolyes" <if condition="$data['spoolData'] neq 'yes'">style="display:none;"</if>>
-                                    <span >缓存容量</span>
+                                    <span style="display:block;text-align:center;">缓存容量</span>
                                     <input type="text" id="spoolSize" name="spoolSize" value="<notempty name='data.spoolSize'>{$data['spoolSize']}<else/>20</notempty>" class="wd50"required/><label>　单位:(/GB)</label>
                                     <div class='line'></div>
                                 </div>
-                                <span >文件属性缓存</span>
+                                <span style="display:block;text-align:center;">文件属性缓存</span>
                                 <div class="tm20"><input type="radio" value="yes" name="spoolAttributes" <if condition="$data['spoolAttributes'] eq 'yes'">checked</if>/><label>开启</label><input type="radio" value="no" name="spoolAttributes" <if condition="$data['spoolAttributes'] neq 'yes'">checked</if> /><label>关闭</label></div>
                                 <div class='line'></div>
                             </div>

@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -44,6 +44,8 @@
             .lunul li{width: 260px;float: left;}
             .lists li span{width: 140px;}
             .lefts{padding-left: 110px;}
+            .add_input{width: 200px;}
+            .add_span{line-height: 40px}
         </style>
     </head>
     <body>
@@ -57,17 +59,20 @@
                     <div class="section">
                         <div class='box'>
                             <input type="hidden" name="id" value="{$data['id']}" />
-                            <span >Name</span>
-                            <input type="text" id="name" name="name" value="{$data['name']}" class="wd150"  />
+                            <span class="add_span">Name</span>
+                            <input type="text" id="name" name="name" value="{$data['name']}" class="wd150 add_input"  />
                             <div class='line'></div>
-                            <span >Initiator地址</span>
+                            <span class="add_span">Initiator地址</span>
                             <input id="values_data" type="hidden" name="values_data" value="{$values_data}" />
                             <div class='line'></div>
                             <div style="height: 30px;">
-                                <input id="values" style="width: 180px;" value="{$data['values']}" type="text" name="values" <notempty name="data.id">style="color:#a2a0a0;" readonly</notempty> />
+                                <input id="values" class="add_input" value="{$data['values']}" type="text" name="values" <notempty name="data.id">style="color:#a2a0a0;" readonly</notempty> />
                                 <input id="valuess" type="hidden" name="valuess" value="" />
-                                <label>　地址格式：21:00:00:24:ff:5b:63:8c</label>
+
                             </div>
+                            <div class='line'></div>
+                            <span class="add_span">地址格式</span>
+                            <label>21:00:00:24:ff:5b:63:8c</label>
                             <div class='line'></div>
                             <a href="javascript:void(0);" id="upd" data-url="{:U('Vtl/addinitiator')}" class="save button J_ajax_submit_btn">{$Think.lang.button_save}</a>
                         </div>

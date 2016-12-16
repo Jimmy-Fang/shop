@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -24,13 +24,15 @@
          .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
          .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
          .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
-         .tabs li a:hover {background: #ccc;}    
+         .tabs li a:hover {background: #ccc;}
          .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
 
          .tab_con {padding:12px;font-size: 14px; line-height:175%;}
          h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
          p{font-size: 18px;padding:10px;color: green;font-weight: bold;width:800px;}
          .info{background: #4265a4;}
+        input {width: 150px}
+            .dir_span{text-align:center;display: block}
         </style>
     </head>
     <body>
@@ -50,34 +52,39 @@
                             <li id="tab1" class="tab_con">
                                 <div class="section">
                                     <div class='box'>
-                                        <span >{$Think.lang.name}</span>
-                                        <input type="text" id="name" name="name" value="<empty name='data.name'>servervault<else/>{$data['name']}</empty>" class="wd250" required/>
-                                        <label>*请不要随意修改服务器名称，以免导致系统异常</label>
+
+                                        <span class="dir_span">{$Think.lang.name}</span>
+                                        <input style="width:150px;margin: 0 20px;" type="text" id="name" name="name" value="<empty name='data.name'>servervault<else/>{$data['name']}</empty>" class="wd250" required/>
+                                        <label style="color: red;">*请不要随意修改服务器名称</label>
                                         <div class='line'></div>
-                                        <span >{$Think.lang.ep_max_concurrent}</span>
-                                        <input type="text" id="maxConcurrentJobs" value="{$data['maxConcurrentJobs']}" class="wd50" name="maxConcurrentJobs" required />
+
+
+                                        <div class='line'></div>
+                                        <span  class="dir_span">{$Think.lang.ep_max_concurrent}</span>
+                                        <input style="width: 150px;margin: 0 20px;" type="text" id="maxConcurrentJobs" value="{$data['maxConcurrentJobs']}" class="wd50" name="maxConcurrentJobs" required />
                                         <label>*(1-20)</label>
                                         <div class='line'></div>
-                                        <span >端口</span>
-                                        <input type="text" id="dirPort" value="<empty name='data.dirPort'>5101<else/>{$data['dirPort']}</empty>" class="wd50" name="dirPort" required />
+                                        <span  class="dir_span">端口</span>
+                                        <input  style="width: 150px;margin: 0 20px;" type="text" id="dirPort" value="<empty name='data.dirPort'>5101<else/>{$data['dirPort']}</empty>" class="wd50" name="dirPort" required />
                                         <label>*默认端口 5101</label>
                                         <div class='line'></div>
-                                        <span >服务器连接超时</span>
-                                        <input type="text" id="fdConnTimeout" value="<empty name='data.fdConnTimeout'>20<else/>{$data['fdConnTimeout']}</empty>" class="wd50" name="fdConnTimeout" required />
+                                        <span  class="dir_span">服务器连接超时</span>
+                                        <input  style="width: 150px;margin: 0 20px;" type="text" id="fdConnTimeout" value="<empty name='data.fdConnTimeout'>20<else/>{$data['fdConnTimeout']}</empty>" class="wd50" name="fdConnTimeout" required />
                                         <label>*秒</label>
                                         <div class='line'></div>
-                                        <span >客户端连接超时</span>
-                                        <input type="text" id="sdConnTimeout" value="<empty name='data.sdConnTimeout'>20<else/>{$data['sdConnTimeout']}</empty>" class="wd50" name="sdConnTimeout" required />
+                                        <span  class="dir_span">客户端连接超时</span>
+                                        <input  style="width: 150px;margin: 0 20px;" type="text" id="sdConnTimeout" value="<empty name='data.sdConnTimeout'>20<else/>{$data['sdConnTimeout']}</empty>" class="wd50" name="sdConnTimeout" required />
                                         <label>*秒</label>
                                         <div class='line'></div>
-                                        <span >备份速度优化</span>
-                                        <input value="1" type="checkbox" name="optimizeForSpeed" class="ckbs" <if condition="$data['optimizeForSpeed'] eq 'yes'">checked="checked" </if>/>
+                                        <span  class="dir_span">备份速度优化</span>
+                                        <input  style="margin: 0 20px;" value="1" type="checkbox" name="optimizeForSpeed" class="ckbs" <if condition="$data['optimizeForSpeed'] eq 'yes'">checked="checked" </if>/>
                                         <div class='line'></div>
-                                        <span >启用审计</span>
-                                        <input value="1" type="checkbox" name="auditing" class="ckbs" <if condition="$data['auditing'] eq 'yes'">checked="checked" </if>/>
+                                        <span  class="dir_span">启用审计</span>
+                                        <input  style="margin: 0 20px;" value="1" type="checkbox" name="auditing" class="ckbs" <if condition="$data['auditing'] eq 'yes'">checked="checked" </if>/>
                                         <div class='line'></div>
-                                        <span >{$Think.lang.app_desc}</span>
-                                        <textarea id="description" name='description' style="resize:none;width: 400px;height: 80px;"  placeholder="" required>{$data['description']}</textarea>
+                                        <span  class="dir_span">{$Think.lang.app_desc}</span>
+
+                                        <textarea  id="description" name='description' style="resize:none;width: 400px;height: 80px;margin-left: 20px;"  placeholder="" required>{$data['description']}</textarea>
                                         <div class="clear"></div>
                                     </div>
                                 </div>

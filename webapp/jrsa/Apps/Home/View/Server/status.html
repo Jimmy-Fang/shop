@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -33,7 +33,12 @@
                 <include file="Common:enterprise" />
             </div>
             <div class="main">
-                <div class='h1'><i class="font-icon icon-qrcode"></i>{$Think.lang.sys_server_status}<a href="{:U('Server/exportLog')}" class="adds">导出日志</a></div>
+                <div class='h1'>
+                    <i class="font-icon icon-qrcode"></i>{$Think.lang.sys_server_status}
+                    <a href="{:U('Server/exportLog')}" class="adds" style="margin-left: 10px;"><img src="__IMG__/exportLog.gif" alt="导出日志" title="导出日志"  style="width: 32px;height: 32px;"></a>
+
+                    <a href="javascript:;" class="importConfigFile adds"><img src="__IMG__/importConfigFile.gif" alt="导入授权文件" title="导入授权文件" style="width: 32px;height: 32px;"></a>
+                </div>
                 <div class="bt10"></div>
                 <h4>备份服务器：</h4><div class='<notempty name="dir">greenico<else />redico</notempty>'><i class="font-icon <notempty name="dir">icon-ok-sign<else />icon-minus-sign</notempty>"></i></div>
                 <div class="fleft">{$dirInfo}</div>
@@ -136,8 +141,20 @@
                                 }
                            });
                          }
-                        },"json")
+                        },"json");
               }
+          $(document).ready(function($) {
+              $(".importConfigFile").on("click",function(){
+                  var url = "{:U('Enterprise/importConfigFile')}";
+
+                  $.dialog.open(url, {
+                      title: LNG.info,
+                      fixed: true,
+                      width: 280,
+                      height: 200
+                  });
+              });
+          });
         </script>
     </body>
 </html>
