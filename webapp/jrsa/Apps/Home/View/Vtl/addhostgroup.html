@@ -87,9 +87,14 @@
                             <div style="float: left;">
 
                                 <volist name="initiator_list" id="item">
+                                    <div>
+
                                     <input type="checkbox" name="initiator[]" style="margin-top: 0;" class="check_initiator" value="{$item.values}"  <if condition="$item['values'] eq $data['initiator']">checked</if>> {$item.name}</input>
                                     &nbsp;
+                                    </div>
+
                                 </volist>
+
                             </div>
                             <div id="initiator_span" style="color: red;float: left;"></div>
                         </div>

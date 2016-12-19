@@ -21,7 +21,11 @@
                 <include file="Common:enterprise" />
             </div>
             <div class="main">
-                <div class='h1'><i class="font-icon icon-qrcode"></i>{$Think.lang.ep_pool}<a href="{:U('Enterprise/addPool')}" class="adds">{$Think.lang.ep_pool_add}</a></div>
+                <div class='h1'><i class="font-icon icon-qrcode"></i>{$Think.lang.ep_pool}<a href="{:U('Enterprise/addPool')}" class="adds">
+
+                    <img src="__IMG__/add_file.png"  alt="{$Think.lang.ep_pool_add}" title="{$Think.lang.ep_pool_add}" style="width: 30px;height: 30px;margin-bottom: 5px;">
+
+                </a></div>
                 <table>
                     <tr class="title">
                         <td width="15%">{$Think.lang.name}</td>

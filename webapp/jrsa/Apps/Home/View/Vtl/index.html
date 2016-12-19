@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
          <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -23,7 +23,6 @@
           .redico{font-weight: 400;color: red;padding: 10px 0 10px 10px;font-size: 26px;float:left;}
           .greenico{font-weight: 400;color: green;padding: 10px 0 10px 10px;font-size: 26px;float:left;}
           .fleft{float: left;padding: 15px 0 0 0;}
-          a:hover{background:  #ccc;}
           .bt10{border-top: 1px solid #ddd;padding: 0 0 10px 0;}
         </style>
     </head>
@@ -33,7 +32,12 @@
                 <include file="Common:vtl" />
             </div>
             <div class="main">
-                <div class='h1'><i class="font-icon icon-qrcode"></i>{$Think.lang.sys_server_status}<a href="{:U('Vtl/exportLog')}" class="adds">导出日志</a></div>
+                <div class='h1'><i class="font-icon icon-qrcode"></i>{$Think.lang.sys_server_status}
+                    <a href="{:U('Vtl/exportLog')}" class="adds">
+                        <img src="__IMG__/exportLog.png" style="width: 30px;height: 30px;margin-bottom: 5px;" alt="导出日志" title="导出日志">
+
+                    </a>
+                </div>
                 <div class="bt10"></div>
                 <h4> &nbsp;VTL&nbsp;&nbsp; 服务器：</h4><div class="<notempty name='vtl'>greenico<else />redico</notempty>"><i class="font-icon <notempty name='vtl'>icon-ok-sign<else />icon-minus-sign</notempty>"></i></div>
                 <div class="fleft">{$dirInfo}</div>

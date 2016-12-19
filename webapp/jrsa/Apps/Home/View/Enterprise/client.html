@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  menu="menubody">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -48,7 +48,12 @@
                 <include file="Common:enterprise" />
             </div>
             <div class="main">
-                <div class='h1'><i class="font-icon icon-qrcode"></i>{$Think.lang.ep_client}<a href="{:U('Enterprise/addClient')}" class="adds">{$Think.lang.ep_client_add}</a></div>
+                <div class='h1'>
+                    <i class="font-icon icon-qrcode"></i>{$Think.lang.ep_client}
+                    <a href="{:U('Enterprise/addClient')}" class="adds">
+                        <img src="__IMG__/add_file.png"  alt="{$Think.lang.ep_client_add}" title="{$Think.lang.ep_client_add}" style="width: 30px;height: 30px;margin-bottom: 5px;">
+
+                    </a></div>
                 <table>
                     <tr class="title">
                         <td width="7%">{$Think.lang.id}</td>

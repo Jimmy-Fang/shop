@@ -21,7 +21,12 @@
                 <include file="Common:enterprise" />
             </div>
             <div class="main">
-                <div class='h1'><i class="font-icon icon-building"></i>{$Think.lang.ep_medium}<a href="{:U('Enterprise/addMedium')}" class="adds">{$Think.lang.ep_medium_add}</a></div>
+                <div class='h1'><i class="font-icon icon-building"></i>{$Think.lang.ep_medium}
+                    <a href="{:U('Enterprise/addMedium')}" class="adds">
+                        <img src="__IMG__/add_file.png"  alt="{$Think.lang.ep_medium_add}" title="{$Think.lang.ep_medium_add}" style="width: 30px;height: 30px;margin-bottom: 5px;">
+
+                    </a>
+                </div>
                 <table>
                     <tr class="title">
                         <td width="20%">{$Think.lang.name}</td>

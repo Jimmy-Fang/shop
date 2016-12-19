@@ -10,13 +10,14 @@
         <link rel="stylesheet" type="text/css" href="__CSS__/jcDate.css" />
         <include file="Common:base" />
         <style>
+            *{font-family: 微软雅黑;}
             #body input,#body input:focus { outline: none; box-shadow: none; border: 1px solid #bbb; }
           .info{font-size: 14px;border-top: 1px solid #999;padding:10px;}
            .button {cursor: pointer; margin: 5px 10px 5px 0;
                 font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
           }
           #body table{margin: 10px;width: 96%;}
-          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 1px;font-weight: 400;padding: 1px 10px;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s;color: #fff;height: 40px;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 1px;font-weight: 400;padding: 1px 10px;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s;color: #fff;height: 30px;}
           .cinfo{background: #4265a4;}
           #tabbox{overflow:hidden; margin:0 auto;}
         .tab_conbox{border: 1px solid #999;border-top: none;}
@@ -25,7 +26,7 @@
         .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
         .tabs li{height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
         .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;color:#000;}
-        .tabs li a:hover {background: #ccc;}    
+        .tabs li a:hover {background: #ccc;}
         .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
 
         .tab_con {padding:12px;font-size: 14px; line-height:175%;}
@@ -81,8 +82,8 @@
                     <ul class="tab_conbox">
                         <li id="tab1" class="tab_con">
                         <form action="{:U('Server/job')}" method="post" id="J_ajaxForm">
-                            <h4>
-                                任务名称：<select name="client" id="jobname" class="h4_select">
+                            <div  style="margin:2px 0">
+                            任务名称：<select name="client" id="jobname" class="h4_select">
                                     <option value="">-请选择-</option>
                                     <volist name="tername" id="item">
                                         <option value="{$item.Name}">{$item.Name}</option>
@@ -94,26 +95,24 @@
                                         <option value="{$item.ClientId}">{$item.Name}</option>
                                     </volist>
                                 </select>
-                                </h4>
-                            <h4>
                                 &nbsp;备  份  池  ：<select name="pool" id="pool" class="h4_select">
                                     <option value="0">-请选择-</option>
                                     <volist name="pool" id="item">
                                         <option value="{$item.PoolId}">{$item.Name}</option>
                                     </volist>
                                 </select>
-                                任务状态：<select name="status" id="status" class="h4_select">
+                            </div>
+                            <div>
+                            任务状态：<select name="status" id="status" class="h4_select">
                                     <option value="0">-请选择-</option>
                                     <option value="T">成功</option>
                                     <option value="1">其他</option>
                                 </select>
-                                </h4>
-                            <h4>
-                                开始时间：<input type="text" name="starttime" id="starttime" style="padding: 0" class="jcDate" readonly/>
-                                结束时间：<input type="text" name="endtime" id="endtime"  style="padding: 0" class="jcDate" readonly/>
+                                开始时间 ：<input type="text" name="starttime" id="starttime" style="padding: 0;width: 170px;height: 27.5px;" class="jcDate" readonly/>
+                                结束时间：<input type="text" name="endtime" id="endtime"  style="padding: 0;width: 170px;height: 27.5px;" class="jcDate" readonly/>
                                 &nbsp;&nbsp;<a href="javascript:;" class="buttons cinfo search J_ajax_submit_btn" style="height:25px;">搜索任务</a>
-                            </h4>
-                            </form>
+                            </div>
+                        </form>
                             <table id="yetjob" class="table-striped">
                                 <tr class="title">
                                     <td width="5%">ID</td>
@@ -189,7 +188,7 @@
                                     </td>
                                     <td>{$item.EndTime}</td>
                                     <td><a href="javascript:;" class="buttons cinfo del" data-id="{$item.JobId}">删除</a>
-                                        <if condition="$item.Type eq 'B' or $item.Type eq 'C'"><a href="javascript:;" class="buttons cinfo restore" 
+                                        <if condition="$item.Type eq 'B' or $item.Type eq 'C'"><a href="javascript:;" class="buttons cinfo restore"
                                             data-client="<volist name='client' id='t'><if condition="$t.ClientId eq $item['ClientId']">{$t.Name}</if></volist>" data-id="{$item.JobId}">恢复</a></if></td>
                                 </tr>
                                 </volist>
@@ -253,7 +252,7 @@
         <script src="__JS__/jQuery-jcDate.js"></script>
         <script type="text/javascript">
           $(document).ready(function($) {
-               $("input.jcDate").jcDate({					       
+               $("input.jcDate").jcDate({
                     IcoClass : "jcDateIco",
                     Event : "click",
                     Speed : 100,
@@ -303,7 +302,7 @@
                 });
                 //删除
                 $(document).on("click",".del",function(){
-                    var id = $(this).attr("data-id"); 
+                    var id = $(this).attr("data-id");
                     var tr = $(this);
                     art.dialog({
                         content: LNG.member_remove_tips,
@@ -319,13 +318,13 @@
                         },
                         okVal:LNG.if_remove,
                         cancelVal: LNG.close,
-                        cancel: true 
+                        cancel: true
                     });
                 });
                 //恢复
                 $(document).on("click",".restore",function(){
-                    var id = $(this).attr("data-id"); 
-                    var client = $(this).attr("data-client"); 
+                    var id = $(this).attr("data-id");
+                    var client = $(this).attr("data-client");
                     $.dialog({
                         content: '<font>目标客户端：</font>'
                                 +'<select name="reclient" id="reclient" style="width:150px;">'
@@ -362,7 +361,7 @@
                         cancel: true
                     });
                 });
-                
+
                 //取消任务
                 $(".cancel").on('click',function(){
                     var id = $(this).attr('data-id');
@@ -379,7 +378,7 @@
                             },
                             okVal:LNG.confirm,
                             cancelVal: LNG.close,
-                            cancel: true 
+                            cancel: true
                         });
                   });
               });
@@ -407,7 +406,7 @@
                         result += "#FAAD03";
                     }
                     result +="'>"+values+"</font>";
-                  return result;   
+                  return result;
               }
         </script>
         <script type="text/javascript">

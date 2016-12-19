@@ -22,7 +22,12 @@
                 <include file="Common:vtl" />
             </div>
             <div class="main">
-                <div class='h1'><i class="font-icon icon-building"></i>存储池<a href="{:U('Vtl/addPool')}" class="adds">添加存储池</a></div>
+                <div class='h1'>
+                    <i class="font-icon icon-building"></i>存储池
+                    <a href="{:U('Vtl/addPool')}" class="adds">
+                        <img src="__IMG__/add_file.png" style="width: 30px;height: 30px;margin-bottom: 5px;" alt="添加存储池" title="添加存储池">
+                    </a>
+                </div>
                 <table>
                     <tr class="title">
                         <td width="10%">Name</td>
@@ -63,6 +68,7 @@
         <script src="__JS__/artDialog/jquery-artDialog.js"></script>
         <script src="__JS__/ajaxForm.js"></script>
         <script src="__JS__/common.js"></script>
+        <script src="__JS__/layer/layer.js"></script>
         <script type="text/javascript">
         $(document).ready(function($) {
             $(".deldata").on("click",function(){

@@ -911,42 +911,42 @@ class VtlController extends CommonController {
         }
     }
 
+//    public function PoolInfo()
+//    {
+//        $pool_name = $_GET['name'];
+//
+//        $fp = fopen("/opt/vtl/scripts/pool_info/$pool_name", "r");
+//
+//        $pool_info=array();
+//        while(!feof($fp))
+//        {
+//            $data=fgets($fp,200);
+//            $data =  explode(',', $data);
+//            $data[0] = str_replace('\'',"",$data[0]);
+//            $data[1] = str_replace('\'',"",$data[1]);
+//            $pool_info[$data[0]]= $data[1];
+//        }
+//        fclose($fp);
+//        array_pop($pool_info);
+//        $this->assign('pool_info',$pool_info);
+//        $this->assign('pool_name',$pool_name);
+//        $this->display();
+//    }
+
     public function PoolInfo()
     {
-        $pool_name = $_GET['name'];
-       
-//        dump($arr);
-//        dump($ret);
-//        exit;
-        $fp = fopen("/opt/vtl/scripts/pool_info/$pool_name", "r");
-
-//        $fp = file_get_contents("/opt/vtl/scripts/pool_info");
-//        $data = trim(fgets($fp, 255));
-        $pool_info=array();
-        while(!feof($fp))
-//
+        $pool_name=$_GET['name'];
+        exec("/usr/bin/python /opt/vtl/scripts/get_pool_detail $pool_name",$result);
+        foreach($result as $val)
         {
-//
-            $data=fgets($fp,200);
-            $data =  explode(',', $data);
+            $data =  explode(',', $val);
             $data[0] = str_replace('\'',"",$data[0]);
             $data[1] = str_replace('\'',"",$data[1]);
             $pool_info[$data[0]]= $data[1];
         }
-        fclose($fp);
-        array_pop($pool_info);
-//        dump($pool_info);
         $this->assign('pool_info',$pool_info);
         $this->assign('pool_name',$pool_name);
         $this->display();
-    }
-
-    public function test()
-    {
-        $val='Default';
-        system("/usr/bin/python /opt/vtl/scripts/get_pool_detail $val",$result);
-        dump($result);
-
     }
 }
 
