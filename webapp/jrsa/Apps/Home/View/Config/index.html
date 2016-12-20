@@ -34,6 +34,8 @@
          h4{font-size: 14px;float: left;line-height: 25px;padding: 0 0 0 10px;}
          p{font-size: 18px;padding:10px;color: green;font-weight: bold;width:800px;}
          .info{background: #4265a4;}
+        .cof_radio{width: 15px;height: 15px;}
+        .cof_input{height: 30px;text-indent: 5px;line-height: 30px;width: 180px;font-size: 16px;}
         </style>
     </head>
     <body>
@@ -48,7 +50,7 @@
                     <div id="tabbox">
                         <ul class="tabs"  id="tabs">
                             <volist name="eth_array" id="item">
-                                <li ><a style="font-size: 22px;" href="javascript:;" tab="tab{$i}">{$item.sname}</a></li>
+                                <li ><a style="font-size: 18px;" href="javascript:;" tab="tab{$i}">{$item.sname}</a></li>
                             </volist>
                         </ul>
                         <ul class="tab_conbox">
@@ -57,29 +59,29 @@
                                     <div class="section" style="padding:10px;">
                                         <div class='box'>
                                                 <span >自动加载</span>
-                                                <div class="tm20">
-                                                    <input type="radio" value="yes" name="onboot-{$item.sname}" <if condition="$item.onboot eq 'yes'">checked</if>/><label>开启</label>
-                                                    <input type="radio" value="no" name="onboot-{$item.sname}" <if condition="$item.onboot neq 'yes'">checked</if> /><label>关闭</label>
+                                                <div class="tm20" style="line-height: 29px;">
+                                                    <input type="radio" class="cof_radio" value="yes" name="onboot-{$item.sname}" <if condition="$item.onboot eq 'yes'">checked</if>/><label>&nbsp; 开 启</label>
+                                                    <input type="radio" class="cof_radio" value="no" name="onboot-{$item.sname}" <if condition="$item.onboot neq 'yes'">checked</if> /><label>&nbsp;  关 闭</label>
                                                 </div>
                                                 <div class='line'></div>
                                                 <span >地址协议</span>
-                                                <select style="width: 200px;height: 40px;font-size: 18px;" name="bootproto-{$item.sname}" id="bootproto-{$item.sname}" onchange="infotools(this);">
+                                                <select class="cof_input" name="bootproto-{$item.sname}" id="bootproto-{$item.sname}" onchange="infotools(this);">
                                                     <option value="static" <if condition="$item['bootproto'] eq 'static' ">selected</if>>静态协议</option>
                                                     <option value="dhcp" <if condition="$item['bootproto'] eq 'dhcp' ">selected</if>>dhcp协议</option>
                                                 </select>
                                                 <div class='line'></div>
                                                 <div class="bootproto-{$item.sname}" <if condition="$item['bootproto'] neq 'static'">style="display:none;"</if>>
                                                     <span >{$Think.lang.ip_address}</span>
-                                                    <input type="text" id="ipaddr-{$item.sname}"value="{$item.ipaddr}" name="ipaddr-{$item.sname}" required/>
+                                                    <input type="text" class="cof_input" id="ipaddr-{$item.sname}"value="{$item.ipaddr}" name="ipaddr-{$item.sname}" required/>
                                                     <div class='line'></div>
                                                     <span >{$Think.lang.ip_mask}</span>
-                                                    <input type="text" id="netmask-{$item.sname}" value="{$item.netmask}" name="netmask-{$item.sname}" required/>
+                                                    <input type="text" class="cof_input"  id="netmask-{$item.sname}" value="{$item.netmask}" name="netmask-{$item.sname}" required/>
                                                     <div class='line'></div>
                                                     <span >{$Think.lang.ip_gateway}</span>
-                                                    <input type="text" id="gateway-{$item.sname}" value="{$item.gateway}" name="gateway-{$item.sname}" required/>
+                                                    <input type="text"  class="cof_input" id="gateway-{$item.sname}" value="{$item.gateway}" name="gateway-{$item.sname}" required/>
                                                     <div class='line'></div>
                                                     <span >{$Think.lang.ip_dns}</span>
-                                                    <input type="text" id="dns1-{$item.sname}" value="{$item.dns1}" name="dns1-{$item.sname}" required/>
+                                                    <input type="text"  class="cof_input" id="dns1-{$item.sname}" value="{$item.dns1}" name="dns1-{$item.sname}" required/>
                                                 </div>
                                         </div>
                                     </div>

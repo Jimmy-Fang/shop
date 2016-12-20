@@ -1,6 +1,4 @@
 <?php
-echo 123;
-exit;
 /**
  * 
  * Jrsn Backup Management System

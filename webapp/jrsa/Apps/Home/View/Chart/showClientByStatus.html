@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<foreach name="client_rows" item="client_row">
+    <table>
+        <tr>
+            <td>{$client_row.name}</td>
+            <td><img src="__IMG__/{$client_row.status}.png" alt=""></td>
+            <td></td>
+        </tr>
+    </table>
+</foreach>
+<script>
+
+</script>
+</body>
+</html>

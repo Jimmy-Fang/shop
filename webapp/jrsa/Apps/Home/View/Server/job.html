@@ -17,7 +17,7 @@
                 font-weight: 400;font-size: 14px;display: inline-block;text-align: center;background: #4265a4;color: #fff;margin-left: 395px;margin-top: 20px;
           }
           #body table{margin: 10px;width: 96%;}
-          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 1px;font-weight: 400;padding: 1px 10px;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s;color: #fff;height: 30px;}
+          .buttons{text-decoration: none;cursor: pointer;text-shadow: none;border: none;box-shadow: none;border-radius: 0;margin: 1px;font-weight: 400;padding: 1px 10px;font-size: 13px;display: inline-block;text-align: center;-webkit-transition: all 0.218s;-moz-transition: all 0.218s;-o-transition: all 0.218s;-ms-transition: all 0.218s;transition: all 0.218s;color: #fff;height: 25px;line-height: 25px;}
           .cinfo{background: #4265a4;}
           #tabbox{overflow:hidden; margin:0 auto;}
         .tab_conbox{border: 1px solid #999;border-top: none;}
@@ -187,9 +187,16 @@
                                         </volist>
                                     </td>
                                     <td>{$item.EndTime}</td>
-                                    <td><a href="javascript:;" class="buttons cinfo del" data-id="{$item.JobId}">删除</a>
-                                        <if condition="$item.Type eq 'B' or $item.Type eq 'C'"><a href="javascript:;" class="buttons cinfo restore"
-                                            data-client="<volist name='client' id='t'><if condition="$t.ClientId eq $item['ClientId']">{$t.Name}</if></volist>" data-id="{$item.JobId}">恢复</a></if></td>
+                                    <td>
+                                        <a href="javascript:;" class="buttons cinfo del" data-id="{$item.JobId}">删除</a>
+                                        <if condition="$item.Type eq 'B' or $item.Type eq 'C'">
+                                            <a href="javascript:;" class="buttons cinfo restore" data-client="<volist name='client' id='t'><if condition="$t.ClientId eq $item['ClientId']">{$t.Name}</if></volist>" data-id="{$item.JobId}">恢复</a>
+                                            <a href="javascript:;" class="buttons cinfo re_backup" data-id="{$item.JobId}">重新备份</a>
+
+                                         </if>
+                                        <!--<a href="javascript:;" class="buttons cinfo re_backup" data-id="{$item.JobId}">重新备份</a>-->
+
+                                </td>
                                 </tr>
                                 </volist>
                                 <tr align="center">
@@ -428,6 +435,25 @@
             };
             $.jqtab("#tabs",".tab_con");
         });
+            //重新备份
+            $(".re_backup").click(function(){
+                var id = $(this).attr('data-id');
+                var tr = $(this);
+                art.dialog({
+                    content: "是否要重新备份?",
+                    ok: function () {
+                        this.close();
+                        $.post("{:U('Server/reBackup')}",{id:id},function(data){
+                            core.tips.tips('重新备份操作成功!');
+                        },"json")
+                        return false;
+                    },
+                    okVal:'确认',
+                    cancelVal: LNG.close,
+                    cancel: true
+                });
+
+            });
         </script>
     </body>
 </html>

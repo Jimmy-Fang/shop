@@ -35,6 +35,7 @@ class DbcopyController extends CommonController {
      * 默认欢迎页面
      */
     public function index(){
+
         $dbmaster = $this->dbmaster;
         $dbslave = $this->dbslave;
         $status['mconn'] = oracleConnect($dbmaster);
@@ -54,6 +55,8 @@ class DbcopyController extends CommonController {
             'slave'=>$dbslave,
             'status'=>$status,
         ));
+
+
         $this->display();
     }
     

@@ -678,5 +678,14 @@ class ServerController extends CommonController {
             echo "获取日志失败";
         }
     }
+
+    /**
+     * 重新备份
+     */
+    public function reBackup(){
+        $job_id= $_POST['id'];
+        @exec("sudo /opt/rongan/scripts/rerun_job $job_id",$result);
+//        dump($result);
+    }
 }
 
